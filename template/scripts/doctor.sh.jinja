@@ -72,6 +72,10 @@ if ! grep -q 'Language And Tooling Contract' AGENTS.md; then
   fail "AGENTS.md is missing the language and tooling contract"
 fi
 
+if ! grep -q 'Documentation Map' AGENTS.md; then
+  fail "AGENTS.md is missing the documentation map"
+fi
+
 if ! grep -q 'Implementation Language Contract' docs/architecture/stack-profile.md; then
   fail "stack profile is missing the implementation language contract"
 fi

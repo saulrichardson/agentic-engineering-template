@@ -408,6 +408,78 @@ Before substantial work, read these files:
 If the repository has implementation code, inspect the code before changing it.
 Do not assume the docs are more current than the source.
 
+## Documentation Map
+
+Use this map when you need a specific kind of guidance:
+
+- `AGENTS.md`: root operating contract, read order, stack guardrails, and
+  required coding-agent behavior.
+- `README.md`: project overview, current documentation set, basic repository
+  workflow, and template update instructions.
+- `docs/project-profile.md`: project-local facts, selected stack, language
+  allowlist, users, tenant model, sensitive data, approvals, external systems,
+  irreversible actions, critical invariants, non-goals, and open questions.
+- `docs/engineering/agent-execution-protocol.md`: work loop, change
+  classification, risk taxonomy, gates, verification meaning, and report shape.
+- `docs/engineering/definition-of-done.md`: completion criteria for behavior,
+  boundaries, documentation, tests, and risk-specific work.
+- `docs/engineering/doctrine.md`: stable first-principles engineering doctrine
+  for state, authority, side effects, persistence, workflows, nondeterminism,
+  and observability.
+- `docs/engineering/agentic-runtime.md`: extra rules for products that contain
+  runtime LLMs, retrieval, planning, tool proposals, or product agents.
+- `docs/engineering/feature-development.md`: feature-planning checklist from
+  intent through domain concepts, authority, persistence, effects,
+  observability, and tests.
+- `docs/engineering/deployment-readiness.md`: deployment gate for environment,
+  migrations, secrets, observability, rollback, and operational readiness.
+- `docs/engineering/formal-methods.md`: when to use lightweight specs, Dafny,
+  TLA+, Lean, model-based tests, or property tests for critical invariants.
+- `docs/architecture/system-map.md`: development-time path, runtime path,
+  runtime-agent path, layer responsibilities, common domain objects, and design
+  smells.
+- `docs/architecture/stack-profile.md`: selected implementation languages,
+  toolchain allowlist, reference stack defaults, substitution rules, and when to
+  add a new layer.
+- `docs/contracts/README.md`: index for durable system contracts that other
+  code, agents, workflows, tools, policies, or prompts depend on.
+- `docs/contracts/state-machines.md`: lifecycle states, events, guards,
+  terminal states, transition ownership, and test expectations.
+- `docs/contracts/tool-registry.md`: registered tool and side-effect
+  capabilities, including inputs, outputs, policy, approval, timeout,
+  idempotency, audit event, and failure states.
+- `docs/contracts/llm-outputs.md`: allowed runtime LLM output variants,
+  validators, refusal behavior, malformed-output behavior, and trace events.
+- `docs/contracts/workflow-events.md`: workflow event names, retry semantics,
+  idempotency behavior, and failure handling.
+- `docs/contracts/policy-inputs.md`: authority dimensions, policy decision
+  inputs, allow/deny results, and policy audit events.
+- `docs/contracts/telemetry-events.md`: trace, metric, log, and audit event
+  names needed to reconstruct important behavior.
+- `docs/security/threat-model.md`: development-time and runtime-agent threat
+  questions, required controls, open threats, and review triggers.
+- `docs/adr/README.md`: when to write architecture decision records and what
+  kinds of decisions require durable explanation.
+- `docs/adr/0001-adopt-agentic-engineering-doctrine.md`: initial decision that
+  adopts this doctrine and records the starting stack profile.
+- `docs/templates/adr.md`: template for architecture, stack, toolchain, policy,
+  persistence, workflow, or security decisions.
+- `docs/templates/feature-brief.md`: template for meaningful feature planning
+  before implementation.
+- `docs/templates/agent-task.md`: template for assigning bounded work to a
+  coding agent, including boundaries, system map, tooling, and verification.
+- `docs/templates/threat-model.md`: template for feature- or system-specific
+  threat modeling.
+- `docs/templates/tool-capability.md`: template for a new tool or side-effect
+  capability before registration.
+- `docs/templates/state-machine.md`: template for defining lifecycle states,
+  events, guards, invalid transitions, and tests.
+- `scripts/doctor.sh`: local documentation health check for generated projects.
+
+If you cannot find the rule in the map, inspect nearby code and record any new
+durable convention in `docs/project-profile.md`, an ADR, or the relevant
+contract file.
+
 ## Project Stack Defaults
 
 - frontend: Elm
