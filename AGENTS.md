@@ -34,10 +34,21 @@ records, and project-local customization points.
 
 ## Verification
 
-After editing the template, run:
+After editing the template, generate a temporary project and run its local
+doctor check:
 
 ```bash
-scripts/smoke.sh
+rm -rf /tmp/agentic-template-check
+copier copy . /tmp/agentic-template-check \
+  --force \
+  --vcs-ref=HEAD \
+  --data project_name="Template Check" \
+  --data project_slug="template-check" \
+  --data project_description="Temporary generated project for template validation." \
+  --data primary_domain="Template validation" \
+  --data cloud_target="Undecided"
+
+/tmp/agentic-template-check/scripts/doctor.sh
 ```
 
 Then inspect the generated files for accidental template leakage.

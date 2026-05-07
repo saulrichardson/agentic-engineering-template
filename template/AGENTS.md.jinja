@@ -47,10 +47,8 @@ Do not assume the docs are more current than the source.
 - vector storage: {{ vector_store }}
 - policy engine: {{ policy_engine }}
 - cloud target: {{ cloud_target }}
-{% if include_formal_methods %}
 - formal methods: Dafny for critical modules; TLA+ or Lean when deeper
   specification is justified
-{% endif %}
 
 These choices are defaults, not dogma. If the project substitutes a technology,
 the replacement must preserve the same boundary: typed inputs, explicit

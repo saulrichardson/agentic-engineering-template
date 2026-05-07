@@ -16,9 +16,8 @@ owned by this project and should evolve through project-local ADRs.
 - `docs/architecture/system-map.md`: user-intent-to-side-effect system map
 - `docs/architecture/stack-profile.md`: stack defaults and substitution rules
 - `docs/engineering/feature-development.md`: feature development guide
-{% if include_deployment_docs %}
 - `docs/engineering/deployment-readiness.md`: deployment readiness gate
-{% endif %}
+- `docs/engineering/formal-methods.md`: formal methods guidance for critical invariants
 - `docs/adr/`: architecture decision records
 - `docs/templates/`: reusable planning templates
 - `scripts/doctor.sh`: local documentation/template health check
@@ -46,9 +45,7 @@ framework layers before a real boundary exists.
 - vector storage: {{ vector_store }}
 - policy engine: {{ policy_engine }}
 - cloud target: {{ cloud_target }}
-{% if include_formal_methods %}
 - formal methods: Dafny for critical modules; TLA+ or Lean when justified
-{% endif %}
 
 These are starting choices. Record meaningful deviations in
 `docs/project-profile.md` or a new ADR under `docs/adr/`.

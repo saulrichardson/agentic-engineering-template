@@ -24,16 +24,16 @@ From a local checkout:
 copier copy /Users/saulrichardson/projects/agentic-engineering-template /path/to/new-project
 ```
 
-From GitHub after this template is pushed:
+From GitHub:
 
 ```bash
-copier copy gh:YOUR_ORG/agentic-engineering-template /path/to/new-project
+copier copy gh:saulrichardson/agentic-engineering-template /path/to/new-project
 ```
 
 For non-interactive generation:
 
 ```bash
-copier copy gh:YOUR_ORG/agentic-engineering-template /path/to/new-project \
+copier copy gh:saulrichardson/agentic-engineering-template /path/to/new-project \
   --data project_name="New Project" \
   --data project_slug="new-project" \
   --data project_description="Short project description." \
@@ -77,14 +77,21 @@ the repository root are for maintaining this template.
 
 ## Validate The Template
 
-Run both default and minimal generation smoke tests:
+Generate a temporary project and run its local doctor check:
 
 ```bash
-scripts/smoke.sh
-```
+rm -rf /tmp/agentic-template-check
+copier copy . /tmp/agentic-template-check \
+  --force \
+  --vcs-ref=HEAD \
+  --data project_name="Template Check" \
+  --data project_slug="template-check" \
+  --data project_description="Temporary generated project for template validation." \
+  --data primary_domain="Template validation" \
+  --data cloud_target="Undecided"
 
-The smoke test creates temporary generated projects, then runs each generated
-project's `scripts/doctor.sh`.
+/tmp/agentic-template-check/scripts/doctor.sh
+```
 
 ## Versioning
 

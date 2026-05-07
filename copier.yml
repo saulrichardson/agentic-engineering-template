@@ -94,13 +94,3 @@ cloud_target:
     Undecided: Undecided
     Other: Other
   default: Undecided
-
-include_formal_methods:
-  type: bool
-  help: Include Dafny/TLA+/Lean guidance in the project stack profile.
-  default: true
-
-include_deployment_docs:
-  type: bool
-  help: Include deployment readiness guidance.
-  default: true

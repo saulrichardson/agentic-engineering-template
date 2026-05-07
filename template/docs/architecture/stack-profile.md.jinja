@@ -17,9 +17,9 @@ Only typed, verified, policy-checked, durable workflows may execute actions.
 | --- | --- | --- | --- |
 | Frontend | {{ frontend }} | Elm | Explicit UI state, controlled commands, strong compiler feedback |
 | Backend domain core | {{ backend }} | Haskell | Pure domain logic, strong types, clear effect boundaries |
-{% if include_formal_methods %}| Critical verification | Dafny where justified | Dafny | Machine-checked specs and invariants for high-risk logic |
+| Critical verification | Dafny where justified | Dafny | Machine-checked specs and invariants for high-risk logic |
 | System modeling | TLA+ or Lean where justified | TLA+ or Lean | Concurrency, workflow, and invariant reasoning before implementation |
-{% endif %}| Workflow runtime | {{ workflow_runtime }} | Temporal | Durable execution, retries, long-running processes, human-in-the-loop flows |
+| Workflow runtime | {{ workflow_runtime }} | Temporal | Durable execution, retries, long-running processes, human-in-the-loop flows |
 | Durable database | {{ database }} | PostgreSQL | Transactions, constraints, locks, mature relational modeling |
 | Vector storage | {{ vector_store }} | PostgreSQL with pgvector first | Retrieval near metadata, permissions, and transactions |
 | Dedicated vector search | Qdrant when needed | Qdrant when needed | Use when vector search becomes a separate scaling domain |

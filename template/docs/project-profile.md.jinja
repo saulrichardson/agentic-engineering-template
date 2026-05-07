@@ -26,12 +26,7 @@ updated.
 - vector storage: {{ vector_store }}
 - policy engine: {{ policy_engine }}
 - cloud target: {{ cloud_target }}
-{% if include_formal_methods %}
 - formal methods: included for critical invariants and workflow specs
-{% else %}
-- formal methods: not included by default; add an ADR before introducing
-  verification tooling
-{% endif %}
 
 ## Local Doctrine Overrides
 
