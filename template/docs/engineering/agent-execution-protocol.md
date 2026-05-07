@@ -23,8 +23,8 @@ Do not treat a task as "write code until tests pass."
 4. State the plan
    List files or modules to change, tests to run, non-goals, and the main risk.
    Keep this short for low-risk work. Be explicit for high-risk work. Confirm
-   that implementation files use the project-selected language/toolchain for
-   each affected boundary.
+   that implementation files follow the preferred stack or record why a
+   substitute tool better preserves the project goals.
 
 5. Implement narrowly
    Make the smallest change that preserves the boundary model. Do not widen
@@ -56,7 +56,7 @@ than one class.
 | Side effect | External API, email, file, cloud resource, payment, queue, command execution | policy, idempotency, timeout, audit |
 | Runtime agent | Prompt, LLM schema, retrieval, tool proposal, model behavior | schema/refusal/injection/denial tests |
 | Infrastructure | Deployment, secrets, build, networking, observability | reproducibility and rollback/mitigation check |
-| Toolchain | New language, package manager, framework, runtime, database, queue, or cloud service | project-profile update, ADR, CI/deploy plan |
+| Toolchain | New language, package manager, framework, runtime, database, queue, or cloud service | project-profile update or ADR, CI/deploy plan |
 
 ## Change Risk Taxonomy
 
@@ -85,8 +85,8 @@ High-risk changes:
 - tool capability or side-effect behavior
 - authentication, tenant, or ownership boundary
 - observability changes for critical flows
-- introducing a new package manager, framework, runtime, or implementation
-  language
+- substituting a package manager, framework, runtime, or implementation language
+  for the preferred stack
 
 Critical-risk changes:
 
@@ -98,8 +98,8 @@ Critical-risk changes:
 - approval bypass or approval weakening
 - production data deletion
 - cloud resource mutation with user or cost impact
-- adding a broad general-purpose language/runtime path without a clear owner,
-  CI check, and deployment boundary
+- adding a broad general-purpose runtime path without a clear owner, CI check,
+  and deployment boundary
 
 ## Gates By Risk
 

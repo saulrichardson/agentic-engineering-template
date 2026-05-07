@@ -238,10 +238,11 @@ Generated projects should use the docs in this order:
 `docs/project-profile.md` is where the project records its local facts,
 constraints, stack choices, and deviations. ADRs are where the project records
 decisions that future agents might otherwise accidentally undo.
-`docs/architecture/stack-profile.md` records the implementation language and
-toolchain allowlist. Coding agents should not add Python, TypeScript, Rust, Go,
-a new package manager, or another runtime unless that boundary is selected in
-the project profile or justified by an ADR.
+`docs/architecture/stack-profile.md` records preferred implementation languages
+and toolchain guidance. Coding agents should start there, then choose the next
+best option when the preferred stack is insufficient, as long as the substitute
+preserves the project principles and is recorded in the project profile or an
+ADR.
 
 ## What Gets Generated
 
@@ -417,7 +418,7 @@ Use this map when you need a specific kind of guidance:
 - `README.md`: project overview, current documentation set, basic repository
   workflow, and template update instructions.
 - `docs/project-profile.md`: project-local facts, selected stack, language
-  allowlist, users, tenant model, sensitive data, approvals, external systems,
+  preferences, users, tenant model, sensitive data, approvals, external systems,
   irreversible actions, critical invariants, non-goals, and open questions.
 - `docs/engineering/agent-execution-protocol.md`: work loop, change
   classification, risk taxonomy, gates, verification meaning, and report shape.
@@ -438,8 +439,8 @@ Use this map when you need a specific kind of guidance:
 - `docs/architecture/system-map.md`: development-time path, runtime path,
   runtime-agent path, layer responsibilities, common domain objects, and design
   smells.
-- `docs/architecture/stack-profile.md`: selected implementation languages,
-  toolchain allowlist, reference stack defaults, substitution rules, and when to
+- `docs/architecture/stack-profile.md`: preferred implementation languages,
+  toolchain guidance, reference stack defaults, substitution rules, and when to
   add a new layer.
 - `docs/contracts/README.md`: index for durable system contracts that other
   code, agents, workflows, tools, policies, or prompts depend on.
@@ -497,17 +498,17 @@ the replacement must preserve the same boundary: typed inputs, explicit
 authority, durable state, recoverable workflows, constrained side effects, and
 observable execution.
 
-Do not introduce a reference-stack component unless this project has selected it
-or the feature requires the boundary that component protects.
+Prefer project-selected components. Add a reference-stack component only when
+this project has selected it or the feature needs the boundary that component
+protects.
 
-## Language And Tooling Contract
+## Language And Tooling Guidance
 
-Coding agents must use this project's selected languages and tools for
-production implementation. Do not introduce a new general-purpose language,
-framework, runtime, package manager, database, queue, workflow engine, policy
-engine, or cloud service just because it is convenient.
+Coding agents should start from this project's selected languages and tools for
+production implementation. The stack exists to preserve the doctrine's
+boundaries, not to win an argument about tools.
 
-Current implementation allowlist:
+Preferred implementation stack:
 
 - frontend and UI: Elm
 - backend domain core: Haskell
@@ -520,11 +521,16 @@ Current implementation allowlist:
 - local repository automation: POSIX shell first, unless the project profile or
   an ADR explicitly selects another scripting language
 
-Python, TypeScript, Rust, Go, or any other language is not automatically allowed
-for production code just because it is fast to generate. Before adding a
-language or major tool not listed here, update `docs/project-profile.md` and
-write an ADR that names the boundary, owner, package manager, CI checks,
-deployment path, and why the existing stack is insufficient.
+If the preferred stack is not enough for the task, choose the next best option
+that accomplishes the goal while preserving the project principles: typed
+boundaries, explicit authority, durable state, recoverable workflows,
+constrained side effects, reproducible builds, observable execution, and
+auditable decisions.
+
+When a feature needs a language or major tool not listed here, record the choice
+in `docs/project-profile.md` or an ADR. Name the boundary it owns, why the
+preferred stack is insufficient, how it is tested and deployed, and how it
+preserves the doctrine.
 
 If a selected stack entry says `Other / undecided` or `None yet`, choose and
 record the local tool before implementing that layer.
@@ -825,10 +831,10 @@ updated.
 - cloud target: Undecided
 - formal methods: included for critical invariants and workflow specs
 
-## Implementation Language Allowlist
+## Preferred Implementation Stack
 
-Coding agents should treat this as the project-local language and tool allowlist
-for production code.
+Coding agents should treat this as the project-local preferred language and tool
+profile for production code.
 
 - frontend and UI code: Elm
 - backend/domain code: Haskell
@@ -840,10 +846,10 @@ for production code.
 - formal/specification work: Dafny; TLA+ or Lean where justified
 - repository automation: POSIX shell first
 
-Languages or major tools not listed here require an ADR before production use.
-That includes Python, TypeScript, Rust, Go, a new package manager, a new
-framework, or a new runtime unless already selected above for the relevant
-boundary.
+If the preferred stack is insufficient, choose the next best option that
+accomplishes the goal while preserving the doctrine. Record the choice here or
+in an ADR, including the boundary it owns, why the preferred stack was not
+enough, test and deployment expectations, and the maintenance owner.
 
 ## Local Doctrine Overrides
 
@@ -948,8 +954,8 @@ Do not treat a task as "write code until tests pass."
 4. State the plan
    List files or modules to change, tests to run, non-goals, and the main risk.
    Keep this short for low-risk work. Be explicit for high-risk work. Confirm
-   that implementation files use the project-selected language/toolchain for
-   each affected boundary.
+   that implementation files follow the preferred stack or record why a
+   substitute tool better preserves the project goals.
 
 5. Implement narrowly
    Make the smallest change that preserves the boundary model. Do not widen
@@ -981,7 +987,7 @@ than one class.
 | Side effect | External API, email, file, cloud resource, payment, queue, command execution | policy, idempotency, timeout, audit |
 | Runtime agent | Prompt, LLM schema, retrieval, tool proposal, model behavior | schema/refusal/injection/denial tests |
 | Infrastructure | Deployment, secrets, build, networking, observability | reproducibility and rollback/mitigation check |
-| Toolchain | New language, package manager, framework, runtime, database, queue, or cloud service | project-profile update, ADR, CI/deploy plan |
+| Toolchain | New language, package manager, framework, runtime, database, queue, or cloud service | project-profile update or ADR, CI/deploy plan |
 
 ## Change Risk Taxonomy
 
@@ -1010,8 +1016,8 @@ High-risk changes:
 - tool capability or side-effect behavior
 - authentication, tenant, or ownership boundary
 - observability changes for critical flows
-- introducing a new package manager, framework, runtime, or implementation
-  language
+- substituting a package manager, framework, runtime, or implementation language
+  for the preferred stack
 
 Critical-risk changes:
 
@@ -1023,8 +1029,8 @@ Critical-risk changes:
 - approval bypass or approval weakening
 - production data deletion
 - cloud resource mutation with user or cost impact
-- adding a broad general-purpose language/runtime path without a clear owner,
-  CI check, and deployment boundary
+- adding a broad general-purpose runtime path without a clear owner, CI check,
+  and deployment boundary
 
 ## Gates By Risk
 
@@ -1116,7 +1122,8 @@ Every completed change should satisfy:
 - the intended user or domain behavior is implemented
 - affected boundaries are identified
 - unrelated scope is left alone
-- implementation languages and tools match the project profile or an ADR
+- implementation languages and tools follow the project profile, or a
+  substitution is recorded with its boundary and rationale
 - generated or temporary artifacts are not committed accidentally
 - verification has been run or the reason it could not run is stated
 - the final report names changes, verification, and residual risk
@@ -1835,12 +1842,13 @@ tests, durable persistence, controlled side effects, and observable execution.
 | Observability | OpenTelemetry | OpenTelemetry | Vendor-neutral traces, metrics, logs, and correlation |
 | Cloud | Undecided | AWS or equivalent | Use replaceable infrastructure with least privilege and reproducibility |
 
-## Implementation Language Contract
+## Implementation Language Guidance
 
-The selected stack is an implementation allowlist for coding agents, not a list
-of casual suggestions.
+The selected stack is the preferred starting point for coding agents. It should
+guide implementation choices without blocking a better local decision when the
+preferred stack is insufficient for the task.
 
-Current allowlist:
+Preferred implementation stack:
 
 - frontend and UI code: Elm
 - backend/domain code: Haskell
@@ -1853,9 +1861,8 @@ Current allowlist:
 - repository automation: POSIX shell first, unless this profile or an ADR
   selects another scripting language
 
-Do not add Python, TypeScript, Rust, Go, a new package manager, a new framework,
-or a new runtime for production implementation unless the project has explicitly
-selected it for that boundary.
+If the preferred stack does not fit, choose the next best option that preserves
+the same project goals and engineering boundaries.
 
 Before adding a new language or major tool, record:
 
@@ -1898,8 +1905,9 @@ intent -> typed command -> policy -> state transition -> workflow -> side effect
 
 Keep this model even if the project uses different tools.
 
-Do not introduce a reference-stack component unless the current project has
-selected it or the feature requires the boundary that component protects.
+Prefer project-selected components. Add a reference-stack component only when
+the current project has selected it or the feature needs the boundary that
+component protects.
 
 ## When To Add A Layer
 
@@ -1912,7 +1920,7 @@ Add a layer when it protects a real boundary:
 - add a dedicated vector database when retrieval has independent scale needs
 - add infrastructure automation when manual setup would become unreproducible
 
-Do not add tools only because the reference stack lists them.
+Avoid adding tools only because the reference stack lists them.
 
 ## Early Vertical Slice
 
@@ -3015,12 +3023,14 @@ What should the agent not change?
 
 ## Language And Tooling
 
-What project-selected language or toolchain should this work use?
+What preferred language or toolchain should this work use? If a substitute is
+needed, record why it better serves the task while preserving the doctrine.
 
 - implementation language:
 - package manager:
 - test command:
-- disallowed tools or runtimes:
+- substitute tools or runtimes:
+- rationale for substitution:
 
 ## System Map
 

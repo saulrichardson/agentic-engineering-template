@@ -57,7 +57,7 @@ Use this map when you need a specific kind of guidance:
 - `README.md`: project overview, current documentation set, basic repository
   workflow, and template update instructions.
 - `docs/project-profile.md`: project-local facts, selected stack, language
-  allowlist, users, tenant model, sensitive data, approvals, external systems,
+  preferences, users, tenant model, sensitive data, approvals, external systems,
   irreversible actions, critical invariants, non-goals, and open questions.
 - `docs/engineering/agent-execution-protocol.md`: work loop, change
   classification, risk taxonomy, gates, verification meaning, and report shape.
@@ -78,8 +78,8 @@ Use this map when you need a specific kind of guidance:
 - `docs/architecture/system-map.md`: development-time path, runtime path,
   runtime-agent path, layer responsibilities, common domain objects, and design
   smells.
-- `docs/architecture/stack-profile.md`: selected implementation languages,
-  toolchain allowlist, reference stack defaults, substitution rules, and when to
+- `docs/architecture/stack-profile.md`: preferred implementation languages,
+  toolchain guidance, reference stack defaults, substitution rules, and when to
   add a new layer.
 - `docs/contracts/README.md`: index for durable system contracts that other
   code, agents, workflows, tools, policies, or prompts depend on.
@@ -137,17 +137,17 @@ the replacement must preserve the same boundary: typed inputs, explicit
 authority, durable state, recoverable workflows, constrained side effects, and
 observable execution.
 
-Do not introduce a reference-stack component unless this project has selected it
-or the feature requires the boundary that component protects.
+Prefer project-selected components. Add a reference-stack component only when
+this project has selected it or the feature needs the boundary that component
+protects.
 
-## Language And Tooling Contract
+## Language And Tooling Guidance
 
-Coding agents must use this project's selected languages and tools for
-production implementation. Do not introduce a new general-purpose language,
-framework, runtime, package manager, database, queue, workflow engine, policy
-engine, or cloud service just because it is convenient.
+Coding agents should start from this project's selected languages and tools for
+production implementation. The stack exists to preserve the doctrine's
+boundaries, not to win an argument about tools.
 
-Current implementation allowlist:
+Preferred implementation stack:
 
 - frontend and UI: {{ frontend }}
 - backend domain core: {{ backend }}
@@ -160,11 +160,16 @@ Current implementation allowlist:
 - local repository automation: POSIX shell first, unless the project profile or
   an ADR explicitly selects another scripting language
 
-Python, TypeScript, Rust, Go, or any other language is not automatically allowed
-for production code just because it is fast to generate. Before adding a
-language or major tool not listed here, update `docs/project-profile.md` and
-write an ADR that names the boundary, owner, package manager, CI checks,
-deployment path, and why the existing stack is insufficient.
+If the preferred stack is not enough for the task, choose the next best option
+that accomplishes the goal while preserving the project principles: typed
+boundaries, explicit authority, durable state, recoverable workflows,
+constrained side effects, reproducible builds, observable execution, and
+auditable decisions.
+
+When a feature needs a language or major tool not listed here, record the choice
+in `docs/project-profile.md` or an ADR. Name the boundary it owns, why the
+preferred stack is insufficient, how it is tested and deployed, and how it
+preserves the doctrine.
 
 If a selected stack entry says `Other / undecided` or `None yet`, choose and
 record the local tool before implementing that layer.

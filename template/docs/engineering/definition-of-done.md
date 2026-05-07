@@ -10,7 +10,8 @@ Every completed change should satisfy:
 - the intended user or domain behavior is implemented
 - affected boundaries are identified
 - unrelated scope is left alone
-- implementation languages and tools match the project profile or an ADR
+- implementation languages and tools follow the project profile, or a
+  substitution is recorded with its boundary and rationale
 - generated or temporary artifacts are not committed accidentally
 - verification has been run or the reason it could not run is stated
 - the final report names changes, verification, and residual risk

@@ -33,12 +33,13 @@ tests, durable persistence, controlled side effects, and observable execution.
 | Observability | OpenTelemetry | OpenTelemetry | Vendor-neutral traces, metrics, logs, and correlation |
 | Cloud | {{ cloud_target }} | AWS or equivalent | Use replaceable infrastructure with least privilege and reproducibility |
 
-## Implementation Language Contract
+## Implementation Language Guidance
 
-The selected stack is an implementation allowlist for coding agents, not a list
-of casual suggestions.
+The selected stack is the preferred starting point for coding agents. It should
+guide implementation choices without blocking a better local decision when the
+preferred stack is insufficient for the task.
 
-Current allowlist:
+Preferred implementation stack:
 
 - frontend and UI code: {{ frontend }}
 - backend/domain code: {{ backend }}
@@ -51,9 +52,8 @@ Current allowlist:
 - repository automation: POSIX shell first, unless this profile or an ADR
   selects another scripting language
 
-Do not add Python, TypeScript, Rust, Go, a new package manager, a new framework,
-or a new runtime for production implementation unless the project has explicitly
-selected it for that boundary.
+If the preferred stack does not fit, choose the next best option that preserves
+the same project goals and engineering boundaries.
 
 Before adding a new language or major tool, record:
 
@@ -96,8 +96,9 @@ intent -> typed command -> policy -> state transition -> workflow -> side effect
 
 Keep this model even if the project uses different tools.
 
-Do not introduce a reference-stack component unless the current project has
-selected it or the feature requires the boundary that component protects.
+Prefer project-selected components. Add a reference-stack component only when
+the current project has selected it or the feature needs the boundary that
+component protects.
 
 ## When To Add A Layer
 
@@ -110,7 +111,7 @@ Add a layer when it protects a real boundary:
 - add a dedicated vector database when retrieval has independent scale needs
 - add infrastructure automation when manual setup would become unreproducible
 
-Do not add tools only because the reference stack lists them.
+Avoid adding tools only because the reference stack lists them.
 
 ## Early Vertical Slice
 

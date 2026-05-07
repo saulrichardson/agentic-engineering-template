@@ -44,10 +44,10 @@ updated.
 - cloud target: {{ cloud_target }}
 - formal methods: included for critical invariants and workflow specs
 
-## Implementation Language Allowlist
+## Preferred Implementation Stack
 
-Coding agents should treat this as the project-local language and tool allowlist
-for production code.
+Coding agents should treat this as the project-local preferred language and tool
+profile for production code.
 
 - frontend and UI code: {{ frontend }}
 - backend/domain code: {{ backend }}
@@ -59,10 +59,10 @@ for production code.
 - formal/specification work: Dafny; TLA+ or Lean where justified
 - repository automation: POSIX shell first
 
-Languages or major tools not listed here require an ADR before production use.
-That includes Python, TypeScript, Rust, Go, a new package manager, a new
-framework, or a new runtime unless already selected above for the relevant
-boundary.
+If the preferred stack is insufficient, choose the next best option that
+accomplishes the goal while preserving the doctrine. Record the choice here or
+in an ADR, including the boundary it owns, why the preferred stack was not
+enough, test and deployment expectations, and the maintenance owner.
 
 ## Local Doctrine Overrides
 

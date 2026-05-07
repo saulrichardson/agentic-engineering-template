@@ -20,12 +20,14 @@ What should the agent not change?
 
 ## Language And Tooling
 
-What project-selected language or toolchain should this work use?
+What preferred language or toolchain should this work use? If a substitute is
+needed, record why it better serves the task while preserving the doctrine.
 
 - implementation language:
 - package manager:
 - test command:
-- disallowed tools or runtimes:
+- substitute tools or runtimes:
+- rationale for substitution:
 
 ## System Map
 
