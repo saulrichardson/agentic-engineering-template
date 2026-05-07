@@ -341,6 +341,24 @@ copier copy . /tmp/agentic-template-check \
 /tmp/agentic-template-check/scripts/doctor.sh
 ```
 
+### Single-File Reader Artifact
+
+To create one pass-around Markdown artifact from the repository docs:
+
+```bash
+scripts/assemble-single-artifact.sh
+```
+
+By default, this writes:
+
+```text
+AGENTIC_ENGINEERING_DOCTRINE.md
+```
+
+The script renders a temporary reference project first, then assembles the
+reader artifact from normal Markdown files rather than `.jinja` template source.
+It places technical setup and Copier mechanics at the end.
+
 ### Versioning
 
 Tag template releases:
