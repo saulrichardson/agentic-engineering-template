@@ -26,6 +26,8 @@ records, and project-local customization points.
 - Prefer variables in `copier.yml` over hard-coded project identity.
 - Keep `AGENTS.md.jinja` short enough that future agents read it.
 - Put reusable doctrine in `docs/engineering/`.
+- Put operational contracts in `docs/contracts/`.
+- Put threat-model guidance in `docs/security/` and templates in `docs/templates/`.
 - Put architectural maps and stack defaults in `docs/architecture/`.
 - Put project-local specialization in `docs/project-profile.md`.
 - Use ADRs for decisions that future agents might reasonably question.

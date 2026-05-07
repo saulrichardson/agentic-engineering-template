@@ -117,6 +117,12 @@ visible from the start:
 - What requires approval?
 - What must be observable later?
 
+The template also gives coding agents a procedural layer so they do not have to
+infer process from philosophy alone. Generated projects include an execution
+protocol, risk taxonomy, definition of done, contract catalog, threat model, and
+tool registry. Those artifacts force agents to classify the change, name the
+boundaries touched, select verification by risk, and report residual risk.
+
 ## The Core Mental Model
 
 The generated project docs are organized around one mental model:
@@ -164,12 +170,15 @@ Generated projects should use the docs in this order:
 
 1. `AGENTS.md`
 2. `docs/project-profile.md`
-3. `docs/engineering/doctrine.md`
-4. `docs/architecture/system-map.md`
-5. `docs/architecture/stack-profile.md`
-6. `docs/engineering/feature-development.md`
-7. Relevant ADRs in `docs/adr/`
-8. Relevant templates in `docs/templates/`
+3. `docs/engineering/agent-execution-protocol.md`
+4. `docs/engineering/definition-of-done.md`
+5. `docs/engineering/doctrine.md`
+6. `docs/architecture/system-map.md`
+7. `docs/architecture/stack-profile.md`
+8. Relevant contracts in `docs/contracts/`
+9. Relevant threat model in `docs/security/`
+10. Relevant ADRs in `docs/adr/`
+11. Relevant templates in `docs/templates/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` is where the project records its local facts,
@@ -189,6 +198,8 @@ docs/
   README.md
   project-profile.md
   engineering/
+    agent-execution-protocol.md
+    definition-of-done.md
     doctrine.md
     feature-development.md
     deployment-readiness.md
@@ -196,6 +207,16 @@ docs/
   architecture/
     system-map.md
     stack-profile.md
+  contracts/
+    README.md
+    state-machines.md
+    tool-registry.md
+    llm-outputs.md
+    workflow-events.md
+    policy-inputs.md
+    telemetry-events.md
+  security/
+    threat-model.md
   adr/
     README.md
     0001-adopt-agentic-engineering-doctrine.md
@@ -203,6 +224,9 @@ docs/
     adr.md
     feature-brief.md
     agent-task.md
+    threat-model.md
+    tool-capability.md
+    state-machine.md
 scripts/
   doctor.sh
 ```
@@ -247,6 +271,9 @@ Good template changes include:
 - clearer first-principles explanations
 - better feature planning questions
 - better ADR prompts
+- better risk taxonomy and agent execution gates
+- better contract catalog structure
+- better threat model prompts
 - sharper policy, workflow, or tool-boundary guidance
 - improved generated project profile structure
 - corrections to the default stack profile
@@ -304,10 +331,13 @@ Before substantial work, read these files:
 
 1. `AGENTS.md`
 2. `docs/project-profile.md`
-3. `docs/engineering/doctrine.md`
-4. `docs/architecture/system-map.md`
-5. `docs/architecture/stack-profile.md`
-6. The relevant feature brief, ADR, or local module documentation
+3. `docs/engineering/agent-execution-protocol.md`
+4. `docs/engineering/definition-of-done.md`
+5. `docs/engineering/doctrine.md`
+6. `docs/architecture/system-map.md`
+7. `docs/architecture/stack-profile.md`
+8. Relevant contract docs in `docs/contracts/`
+9. Relevant threat model, feature brief, ADR, or local module documentation
 
 If the repository has implementation code, inspect the code before changing it.
 Do not assume the docs are more current than the source.
@@ -329,6 +359,9 @@ the replacement must preserve the same boundary: typed inputs, explicit
 authority, durable state, recoverable workflows, constrained side effects, and
 observable execution.
 
+Do not introduce a reference-stack component unless this project has selected it
+or the feature requires the boundary that component protects.
+
 ## Operating Model
 
 For every feature or fix, locate the work on this path:
@@ -348,6 +381,23 @@ deployment / infrastructure
 ```
 
 Most defects are caused by skipping or scattering one of these layers.
+
+## Agent Execution Protocol
+
+For every nontrivial change:
+
+1. Orient: read the required docs, nearby code, and relevant contracts.
+2. Classify the change: docs-only, UI, domain, API, persistence, policy,
+   workflow, LLM, tool, retrieval, infrastructure, or mixed.
+3. Identify affected boundaries: name the layers touched.
+4. State the plan: files, risks, verification, and non-goals.
+5. Implement narrowly: do not widen scope without recording why.
+6. Verify: run the narrowest checks that prove the change.
+7. Report: summarize changes, boundaries, verification, residual risk, and
+   follow-up work.
+
+Use `docs/engineering/agent-execution-protocol.md` for the full risk taxonomy
+and gates.
 
 ## Non-Negotiable Boundaries
 
@@ -451,6 +501,32 @@ Tests should focus on behavior and invariants:
 When changing production behavior, run the narrowest verification that proves the
 change and broaden only when the blast radius requires it.
 
+Verification depends on risk:
+
+- docs-only: consistency review and path/link check
+- pure domain: unit or property tests
+- state machine: valid and invalid transition tests
+- workflow: retry, idempotency, timeout, and compensation tests
+- database: migration and constraint tests
+- policy: allow and deny tests
+- LLM boundary: schema, refusal, and malformed-output tests
+- tool capability: policy, approval, timeout, idempotency, and audit tests
+- critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent specs
+
+## Definition Of Done
+
+A change is done only when:
+
+- intended user or domain behavior is implemented
+- affected boundaries are identified
+- state transitions are explicit where relevant
+- policy checks exist where relevant
+- durable facts are persisted with constraints where relevant
+- side effects are controlled and observable where relevant
+- tests or checks cover important success and failure paths
+- telemetry and audit behavior are considered
+- contracts, docs, or ADRs are updated if architecture changed
+
 ## Documentation Discipline
 
 Documentation should clarify decisions, not freeze implementation details too
@@ -460,6 +536,8 @@ early. Use:
 - `docs/engineering/doctrine.md` for stable engineering principles
 - `docs/architecture/system-map.md` for the system boundary model
 - `docs/architecture/stack-profile.md` for stack choices and substitution rules
+- `docs/contracts/` for state, tool, LLM, policy, workflow, and telemetry contracts
+- `docs/security/threat-model.md` for agentic threat modeling
 - `docs/adr/` for durable architectural decisions
 - `docs/templates/feature-brief.md` before building meaningful features
 
@@ -482,11 +560,15 @@ This directory contains the reusable doctrine and project-local decisions for
 
 1. `../AGENTS.md`
 2. `project-profile.md`
-3. `engineering/doctrine.md`
-4. `architecture/system-map.md`
-5. `architecture/stack-profile.md`
-6. Relevant ADRs in `adr/`
-7. Relevant templates in `templates/`
+3. `engineering/agent-execution-protocol.md`
+4. `engineering/definition-of-done.md`
+5. `engineering/doctrine.md`
+6. `architecture/system-map.md`
+7. `architecture/stack-profile.md`
+8. Relevant contracts in `contracts/`
+9. Relevant threat model in `security/`
+10. Relevant ADRs in `adr/`
+11. Relevant templates in `templates/`
 
 ## Ownership Model
 
@@ -522,6 +604,22 @@ updated.
 
 - primary domain: Reusable agentic software
 
+## Primary Users
+
+- <user or actor>
+
+## Tenant Model
+
+- tenant boundary:
+- ownership model:
+- cross-tenant access rule:
+
+## Data Sensitivity
+
+- sensitive data classes:
+- data that must never enter prompts:
+- retention constraints:
+
 ## Selected Stack
 
 - frontend: Elm
@@ -547,6 +645,27 @@ None yet.
 Use this section for constraints such as regulatory requirements, data residency,
 tenant model, critical user workflows, third-party systems, or deployment limits.
 
+## Approval Model
+
+- actions requiring approval:
+- approval actor:
+- approval expiration:
+- denial behavior:
+
+## External Systems
+
+| System | Purpose | Data shared | Side effects | Owner |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
+
+## Irreversible Actions
+
+- <action>
+
+## Critical Invariants
+
+- <invariant>
+
 ## First Vertical Slice
 
 Define the first runnable product slice here before adding application code:
@@ -555,6 +674,25 @@ Define the first runnable product slice here before adding application code:
 frontend intent -> API command -> domain transition -> durable record -> observable result
 ```
 
+Reference agentic slice:
+
+```text
+user submits intent
+system creates UserIntent and AgentRun
+workflow starts
+LLM returns typed PlanProposal
+system validates plan
+policy allows or denies proposed action
+ToolProposal is recorded if allowed
+tool execution waits for capability and approval rules
+audit event and trace are emitted
+user sees result
+```
+
+## Known Non-Goals
+
+- <non-goal>
+
 ## Open Questions
 
 - What is the first user-facing workflow?
@@ -562,6 +700,222 @@ frontend intent -> API command -> domain transition -> durable record -> observa
 - What actions require human approval?
 - What external systems can the application touch?
 - What must be auditable from day one?
+
+
+---
+
+## Agent Execution Protocol
+
+_Source: `generated-project/docs/engineering/agent-execution-protocol.md`_
+
+# Agent Execution Protocol
+
+This protocol turns the engineering doctrine into a concrete work loop for
+coding agents. Use it for every nontrivial change.
+
+## Work Loop
+
+1. Orient
+   Read `AGENTS.md`, `docs/project-profile.md`, relevant ADRs, nearby code, and
+   the contract docs for affected boundaries.
+
+2. Classify the change
+   Use the risk taxonomy below. A change may touch more than one class.
+
+3. Identify affected boundaries
+   Name the affected layers: frontend, API, domain, policy, state, persistence,
+   workflow, LLM, tool, retrieval, side effect, observability, infrastructure.
+
+4. State the plan
+   List files or modules to change, tests to run, non-goals, and the main risk.
+   Keep this short for low-risk work. Be explicit for high-risk work.
+
+5. Implement narrowly
+   Make the smallest change that preserves the boundary model. Do not widen
+   scope without recording why.
+
+6. Verify
+   Run the narrowest checks that prove the change. Broaden verification when the
+   blast radius crosses shared contracts, persistence, policy, workflows, tools,
+   or user-visible behavior.
+
+7. Report
+   Summarize what changed, boundaries touched, verification performed, residual
+   risks, and follow-up work.
+
+## Change Risk Taxonomy
+
+Low-risk changes:
+
+- documentation edits
+- copy changes
+- local refactors with no behavior change
+- tests that do not alter production code
+
+Medium-risk changes:
+
+- frontend state or validation
+- API response shape
+- pure domain validation
+- noncritical data transformation
+- new tests for existing behavior
+
+High-risk changes:
+
+- database migration or constraint change
+- policy or authorization change
+- workflow state or retry behavior
+- LLM input/output schema
+- retrieval permissions or document scope
+- tool capability or side-effect behavior
+- authentication, tenant, or ownership boundary
+- observability changes for critical flows
+
+Critical-risk changes:
+
+- payment or financial movement
+- irreversible external action
+- secret handling
+- broad tool exposure such as shell, SQL, arbitrary HTTP, or arbitrary email
+- cross-tenant data access
+- approval bypass or approval weakening
+- production data deletion
+- cloud resource mutation with user or cost impact
+
+## Gates By Risk
+
+Low risk:
+
+- keep the change narrow
+- run a relevant local check when practical
+- report what changed
+
+Medium risk:
+
+- identify affected boundaries
+- run focused tests or checks
+- update docs if behavior or contracts changed
+
+High risk:
+
+- create or update a feature brief or ADR
+- update the relevant contract catalog entry
+- test success and denial/failure paths
+- confirm observability or audit behavior
+- define rollback, mitigation, or compensation where relevant
+
+Critical risk:
+
+- require an explicit approval model
+- require a threat model
+- require denial and failure-path tests
+- require auditability before execution
+- require rollback, mitigation, or compensation notes
+- do not expose broad capabilities without a written ADR
+
+## What Verification Means
+
+Verification is risk-dependent. It does not always mean formal methods, and it
+does not mean no verification for small changes.
+
+Use the smallest proof that fits the risk:
+
+- docs-only: consistency review and link/path check
+- pure function: unit tests or property tests
+- state machine: transition tests, invalid-transition tests, terminal-state tests
+- workflow: retry, timeout, idempotency, cancellation, and compensation tests
+- database: migration, rollback/mitigation, constraint, and duplicate-event tests
+- policy: allow/deny tests with representative actors, tenants, and capabilities
+- LLM boundary: schema validation, refusal, malformed-output, and prompt-injection tests
+- retrieval: permission-scope tests and source traceability checks
+- tool capability: policy, approval, timeout, idempotency, audit, and failure tests
+- critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent spec work
+
+## Report Format
+
+Use this shape for final reports when work is nontrivial:
+
+```text
+Changed:
+- <short list>
+
+Boundaries touched:
+- <frontend/API/domain/policy/state/persistence/workflow/tool/etc.>
+
+Verification:
+- <commands or checks run>
+
+Residual risk:
+- <remaining risk or "none known">
+
+Follow-up:
+- <only if useful>
+```
+
+
+---
+
+## Definition Of Done
+
+_Source: `generated-project/docs/engineering/definition-of-done.md`_
+
+# Definition Of Done
+
+A change is done only when the implementation, contracts, verification, and
+documentation match the risk of the change.
+
+## Baseline
+
+Every completed change should satisfy:
+
+- the intended user or domain behavior is implemented
+- affected boundaries are identified
+- unrelated scope is left alone
+- generated or temporary artifacts are not committed accidentally
+- verification has been run or the reason it could not run is stated
+- the final report names changes, verification, and residual risk
+
+## Boundary Checks
+
+When relevant, a completed change should also satisfy:
+
+- frontend state represents loading, failure, stale, unauthorized, and success states
+- API boundaries parse and validate typed requests
+- domain rules live in domain code, not scattered handlers or prompts
+- state transitions are explicit and invalid transitions are rejected
+- policy checks exist before authority-sensitive actions
+- durable facts are persisted with constraints where practical
+- workflows own long-running, retryable, or externally dependent work
+- side effects are controlled, idempotent where possible, and auditable
+- LLM outputs are typed, validated, and treated as untrusted data
+- tool capabilities are narrow and registered in `docs/contracts/tool-registry.md`
+- retrieval respects authorization and source traceability
+- telemetry or audit events can reconstruct important behavior
+
+## Documentation Done
+
+Update docs when a change modifies:
+
+- architecture or stack choices
+- state machines
+- policy inputs or authorization behavior
+- LLM schemas
+- tool capabilities
+- workflow events
+- telemetry events
+- database invariants
+- threat model assumptions
+- deployment or operational risk
+
+Use ADRs for decisions future agents might reasonably question.
+
+## Test Done
+
+Tests should prove the important behavior, not only the happy path.
+
+For high-risk and critical-risk changes, include failure or denial tests. For
+critical-risk changes, include a rollback, mitigation, approval, or compensation
+story before calling the work done.
 
 
 ---
@@ -973,6 +1327,9 @@ intent -> typed command -> policy -> state transition -> workflow -> side effect
 
 Keep this model even if the project uses different tools.
 
+Do not introduce a reference-stack component unless the current project has
+selected it or the feature requires the boundary that component protects.
+
 ## When To Add A Layer
 
 Add a layer when it protects a real boundary:
@@ -1325,6 +1682,434 @@ If formal methods are introduced, add an ADR that explains:
 
 ---
 
+## Contract Catalog
+
+_Source: `generated-project/docs/contracts/README.md`_
+
+# Contract Catalog
+
+This directory is the durable home for system contracts that should not be
+buried only in prompts, source comments, route handlers, or tribal knowledge.
+
+Contracts are the named boundaries other code relies on:
+
+- state machines
+- LLM output variants and schemas
+- tool capabilities
+- workflow events
+- policy inputs
+- telemetry and audit events
+- database invariants
+
+When a change adds or changes a contract, update this catalog in the same change
+or explain why the contract is documented elsewhere.
+
+## Files
+
+- `state-machines.md`: lifecycle states, events, guards, and terminal states
+- `tool-registry.md`: tool capability registry and side-effect rules
+- `llm-outputs.md`: allowed LLM output shapes and validation expectations
+- `workflow-events.md`: workflow events, retry semantics, and idempotency notes
+- `policy-inputs.md`: policy decision inputs and authority model
+- `telemetry-events.md`: trace, log, metric, and audit event names
+
+## Contract Rule
+
+If another module, workflow, tool, policy, prompt, or external integration must
+depend on a shape or lifecycle, it is a contract. Name it here.
+
+
+---
+
+## State Machine Contracts
+
+_Source: `generated-project/docs/contracts/state-machines.md`_
+
+# State Machine Contracts
+
+Use this file to record important lifecycles. Do not let important statuses
+become strings assigned from arbitrary code.
+
+## Required Fields
+
+For each state machine, record:
+
+- owner module
+- states
+- events
+- valid transitions
+- invalid transitions
+- guards
+- terminal states
+- audit events
+- retry or cancellation behavior
+
+## Agent Run Reference
+
+This is a reference shape. Rename or replace it when the project defines its
+real domain objects.
+
+States:
+
+- `created`
+- `context_gathering`
+- `planning`
+- `awaiting_approval`
+- `executing`
+- `waiting_external_result`
+- `completed`
+- `failed`
+- `cancelled`
+
+Events:
+
+- `UserIntentAccepted`
+- `ContextGathered`
+- `PlanProposed`
+- `ApprovalRequested`
+- `ApprovalGranted`
+- `ApprovalDenied`
+- `ToolInvocationStarted`
+- `ToolInvocationSucceeded`
+- `ToolInvocationFailed`
+- `ExternalResultReceived`
+- `AgentRunCompleted`
+- `AgentRunFailed`
+- `AgentRunCancelled`
+
+Rules:
+
+- no tool may execute directly from `planning`
+- approval-required actions must pass through `awaiting_approval`
+- terminal states are `completed`, `failed`, and `cancelled`
+- duplicate events must not create duplicate side effects
+
+## Tool Invocation Reference
+
+States:
+
+- `proposed`
+- `policy_checked`
+- `approval_required`
+- `approved`
+- `executing`
+- `succeeded`
+- `failed`
+- `rejected`
+- `compensated`
+
+Rules:
+
+- `proposed` cannot move to `executing` without policy check
+- approval-required tools cannot move to `executing` without approval
+- `succeeded`, `rejected`, and `compensated` are terminal unless an ADR says otherwise
+
+## Project State Machines
+
+Add project-specific state machines below.
+
+
+---
+
+## Tool Capability Registry
+
+_Source: `generated-project/docs/contracts/tool-registry.md`_
+
+# Tool Capability Registry
+
+Every agent-facing tool must be registered here before it is exposed to an LLM,
+agent runtime, workflow, or MCP gateway.
+
+Broad tools require an ADR. Examples include arbitrary SQL, shell execution,
+arbitrary HTTP, arbitrary file write, and arbitrary email send.
+
+## Registry
+
+| Tool name | Purpose | Input type | Output type | Allowed actors | Policy rule | Approval | Side effect | Idempotency key | Timeout | Audit event | Failure states |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `searchAuthorizedDocuments` | Retrieve authorized context | `DocumentSearchInput` | `RetrievedContext[]` | workflow | `can_retrieve_document` | no | read only | request id | 10s | `document_retrieval_performed` | failed, denied |
+| `createDraftEmail` | Create draft content without sending | `DraftEmailInput` | `DraftEmail` | workflow | `can_create_draft` | no | draft only | draft id | 10s | `draft_email_created` | failed, denied |
+
+## Required Tool Fields
+
+For each tool, define:
+
+- purpose
+- typed input
+- typed output
+- allowed actors
+- policy rule
+- approval requirement
+- side effect
+- idempotency behavior
+- timeout
+- audit event
+- failure states
+
+## Tool Rules
+
+- tools must be narrow capabilities
+- tool outputs are untrusted input
+- tool errors must have typed failure states
+- high-risk tools require approval or ADR-backed justification
+- critical-risk tools require a threat model
+
+
+---
+
+## LLM Output Contracts
+
+_Source: `generated-project/docs/contracts/llm-outputs.md`_
+
+# LLM Output Contracts
+
+LLM output is data, not authority. Every LLM response used by the system must
+map to an allowed output type and pass validation before it affects state,
+policy, workflows, tools, or persistence.
+
+## Allowed Output Variants
+
+- `AnswerDraft`
+- `ClarifyingQuestion`
+- `PlanProposal`
+- `ToolProposal`
+- `Classification`
+- `Extraction`
+- `Summary`
+- `Refusal`
+
+## Required Fields Per LLM Boundary
+
+For each LLM boundary, record:
+
+- caller
+- model or provider class
+- input type
+- output type
+- allowed variants
+- schema validator
+- refusal behavior
+- malformed-output behavior
+- prompt-injection handling
+- retention policy
+- trace or audit event
+
+## Boundary Registry
+
+| Boundary | Input type | Output type | Allowed variants | Validator | Failure behavior | Trace event |
+| --- | --- | --- | --- | --- | --- | --- |
+| Reference planning call | `UserIntentContext` | `AgentPlanResult` | `PlanProposal`, `ClarifyingQuestion`, `Refusal` | schema validator | reject and ask clarification | `llm_plan_completed` |
+
+## Rules
+
+- malformed output is rejected safely
+- model refusal is a valid output, not an exception
+- retrieved context cannot override policy
+- prompts must not contain secrets
+- tool calls are proposals until policy, state, and approval checks pass
+
+
+---
+
+## Workflow Event Contracts
+
+_Source: `generated-project/docs/contracts/workflow-events.md`_
+
+# Workflow Event Contracts
+
+Durable workflows should expose meaningful events. These event names are part of
+the system contract because retries, idempotency, telemetry, and support tools
+depend on them.
+
+## Required Fields
+
+For each workflow event, record:
+
+- workflow name
+- event name
+- payload type
+- idempotency key
+- retry behavior
+- side effects triggered
+- audit or telemetry event
+- failure states
+
+## Reference Workflow Events
+
+| Workflow | Event | Payload | Idempotency key | Side effect | Failure behavior |
+| --- | --- | --- | --- | --- | --- |
+| `AgentRunWorkflow` | `UserIntentAccepted` | `UserIntent` | intent id | create run | reject duplicate |
+| `AgentRunWorkflow` | `PlanProposed` | `PlanProposal` | llm call id | none | reject malformed |
+| `AgentRunWorkflow` | `ToolProposalRecorded` | `ToolProposal` | proposal id | none | reject unauthorized |
+| `AgentRunWorkflow` | `ToolInvocationSucceeded` | `ToolResult` | invocation id | record result | retry-safe |
+
+## Rules
+
+- workflows should record decisions before side effects
+- external callbacks need idempotency keys
+- retries must not produce duplicate side effects
+- approval waiting states must be visible
+- cancellation behavior must be explicit
+
+
+---
+
+## Policy Input Contracts
+
+_Source: `generated-project/docs/contracts/policy-inputs.md`_
+
+# Policy Input Contracts
+
+Policy must be explicit and testable outside prompt text. This file records the
+inputs policy decisions rely on.
+
+## Authority Dimensions
+
+- authenticated actor
+- tenant or organization scope
+- user role or membership
+- agent delegation scope
+- workflow identity
+- tool capability
+- resource ownership
+- data sensitivity
+- approval state
+- environment
+
+## Policy Decision Registry
+
+| Decision | Input fields | Allowed result | Denied result | Audit event |
+| --- | --- | --- | --- | --- |
+| `can_start_agent_run` | actor, tenant, intent type | allow | deny | `policy_agent_run_checked` |
+| `can_retrieve_document` | actor, tenant, document labels, task scope | allow | deny | `policy_retrieval_checked` |
+| `can_execute_tool` | actor, workflow, tool, approval state | allow | deny | `policy_tool_execution_checked` |
+
+## Rules
+
+- default deny where practical
+- frontend visibility is not authorization
+- LLM output is not a policy input unless explicitly modeled as untrusted data
+- policy decisions should be logged without leaking secrets
+- approval is separate from authorization
+
+
+---
+
+## Telemetry And Audit Event Contracts
+
+_Source: `generated-project/docs/contracts/telemetry-events.md`_
+
+# Telemetry And Audit Event Contracts
+
+Telemetry should make important behavior reconstructable without leaking secrets
+or private data.
+
+## Correlation IDs
+
+Carry these IDs when relevant:
+
+- request id
+- user id
+- tenant id
+- agent run id
+- workflow id
+- LLM call id
+- tool proposal id
+- tool invocation id
+- approval id
+- state transition id
+- audit event id
+
+## Event Registry
+
+| Event | Type | Required fields | Sensitive fields excluded | Purpose |
+| --- | --- | --- | --- | --- |
+| `user_intent_received` | audit | user id, tenant id, intent id | raw secrets | record user request |
+| `llm_call_completed` | trace | model, call id, output variant | prompt secrets | reconstruct model boundary |
+| `policy_decision_recorded` | audit | decision, actor, resource, result | secret values | explain allow/deny |
+| `tool_invocation_recorded` | audit | tool, invocation id, result | raw credentials | reconstruct side effect |
+| `state_transition_applied` | audit | object id, from, to, event | private payloads | explain lifecycle |
+
+## Rules
+
+- log structured facts, not prompt dumps by default
+- never log secrets
+- redact sensitive content intentionally
+- audit high-risk state changes and side effects
+- traces should connect user intent, LLM calls, policy, tools, workflows, and persistence
+
+
+---
+
+## Threat Model
+
+_Source: `generated-project/docs/security/threat-model.md`_
+
+# Threat Model
+
+This project should maintain a live threat model for agentic risks. Start here
+before adding broad retrieval, new tool classes, approval changes, external side
+effects, tenant-sensitive data access, or secret handling.
+
+## Scope
+
+- project:
+- primary users:
+- tenant model:
+- sensitive data:
+- external systems:
+- irreversible actions:
+
+## Agentic Questions
+
+- What can the LLM see?
+- What can the LLM propose?
+- What can the LLM never see?
+- What tools exist?
+- What tools are broad or high risk?
+- What data can retrieval access?
+- What actions require approval?
+- What happens if retrieved text contains prompt injection?
+- What happens if a tool result is malicious?
+- What secrets exist?
+- What tenant boundary exists?
+- What is the worst unauthorized action?
+- How would that action be detected after the fact?
+
+## Required Controls
+
+- secrets are not exposed to prompts
+- tools are capability-scoped
+- retrieved documents are authorized before use
+- tool results are treated as untrusted input
+- approval-required actions cannot execute without approval
+- policy decisions are auditable
+- cross-tenant access is denied by default
+- high-risk side effects are idempotent or compensated where possible
+
+## Open Threats
+
+| Threat | Impact | Likelihood | Control | Owner | Status |
+| --- | --- | --- | --- | --- | --- |
+| Prompt injection in retrieved document | unauthorized proposal or exfiltration attempt | medium | treat context as untrusted; policy gate tools | project maintainers | open |
+
+## Review Triggers
+
+Review this threat model when adding or changing:
+
+- LLM boundaries
+- retrieval scope
+- tool capabilities
+- policy rules
+- approval flows
+- tenant model
+- data sensitivity
+- external side effects
+- secrets handling
+
+
+---
+
 ## ADR Guide
 
 _Source: `generated-project/docs/adr/README.md`_
@@ -1631,6 +2416,181 @@ Where does this task sit?
 
 ---
 
+## Threat Model Template
+
+_Source: `generated-project/docs/templates/threat-model.md`_
+
+# Threat Model: <scope>
+
+- status: draft
+- owner:
+- date: YYYY-MM-DD
+
+## Scope
+
+- feature or system:
+- users:
+- tenant boundary:
+- sensitive data:
+- external systems:
+- side effects:
+
+## LLM Exposure
+
+- what can the LLM see?
+- what can the LLM propose?
+- what is never sent to the LLM?
+- what output schemas are allowed?
+
+## Retrieval
+
+- data sources:
+- authorization rule:
+- sensitive labels:
+- prompt-injection handling:
+- source traceability:
+
+## Tools
+
+| Tool | Capability | Side effect | Approval | Policy rule | Audit event |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
+
+## Threats
+
+| Threat | Impact | Likelihood | Control | Detection | Residual risk |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
+
+## Worst Unauthorized Action
+
+Describe the worst plausible unauthorized action and how the system prevents,
+detects, and mitigates it.
+
+## Required Tests
+
+- denial path:
+- malformed LLM output:
+- prompt injection:
+- unauthorized retrieval:
+- approval required:
+- idempotency or compensation:
+
+
+---
+
+## Tool Capability Template
+
+_Source: `generated-project/docs/templates/tool-capability.md`_
+
+# Tool Capability: <tool name>
+
+- status: draft
+- owner:
+- date: YYYY-MM-DD
+
+## Purpose
+
+What narrow capability does this tool expose?
+
+## Contract
+
+- tool name:
+- input type:
+- output type:
+- allowed actors:
+- policy rule:
+- approval requirement:
+- timeout:
+- idempotency key:
+- audit event:
+- failure states:
+
+## Side Effects
+
+What can this tool change outside memory?
+
+## Security Notes
+
+- secrets exposed to tool:
+- secrets exposed to LLM:
+- tenant scope:
+- prompt-injection risk:
+- malicious-result handling:
+
+## Verification
+
+- allow test:
+- deny test:
+- malformed input test:
+- timeout test:
+- idempotency test:
+- audit test:
+
+## Registry Update
+
+Add this tool to `docs/contracts/tool-registry.md` before exposing it.
+
+
+---
+
+## State Machine Template
+
+_Source: `generated-project/docs/templates/state-machine.md`_
+
+# State Machine: <name>
+
+- status: draft
+- owner:
+- date: YYYY-MM-DD
+
+## Purpose
+
+What lifecycle does this state machine protect?
+
+## States
+
+- `created`
+
+## Events
+
+- `EventName`
+
+## Transitions
+
+| From | Event | Guard | To | Audit event |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
+
+## Invalid Transitions
+
+- <invalid transition>
+
+## Terminal States
+
+- <terminal state>
+
+## Retry, Cancellation, And Compensation
+
+- retry behavior:
+- cancellation behavior:
+- compensation behavior:
+
+## Invariants
+
+- <invariant that must always hold>
+
+## Tests
+
+- valid transition:
+- invalid transition:
+- terminal state:
+- duplicate event:
+- concurrency/idempotency:
+
+
+---
+
 ## Template Maintainer Guide
 
 _Source: `AGENTS.md`_
@@ -1663,6 +2623,8 @@ records, and project-local customization points.
 - Prefer variables in `copier.yml` over hard-coded project identity.
 - Keep `AGENTS.md.jinja` short enough that future agents read it.
 - Put reusable doctrine in `docs/engineering/`.
+- Put operational contracts in `docs/contracts/`.
+- Put threat-model guidance in `docs/security/` and templates in `docs/templates/`.
 - Put architectural maps and stack defaults in `docs/architecture/`.
 - Put project-local specialization in `docs/project-profile.md`.
 - Use ADRs for decisions that future agents might reasonably question.

@@ -92,6 +92,12 @@ visible from the start:
 - What requires approval?
 - What must be observable later?
 
+The template also gives coding agents a procedural layer so they do not have to
+infer process from philosophy alone. Generated projects include an execution
+protocol, risk taxonomy, definition of done, contract catalog, threat model, and
+tool registry. Those artifacts force agents to classify the change, name the
+boundaries touched, select verification by risk, and report residual risk.
+
 ## The Core Mental Model
 
 The generated project docs are organized around one mental model:
@@ -139,12 +145,15 @@ Generated projects should use the docs in this order:
 
 1. `AGENTS.md`
 2. `docs/project-profile.md`
-3. `docs/engineering/doctrine.md`
-4. `docs/architecture/system-map.md`
-5. `docs/architecture/stack-profile.md`
-6. `docs/engineering/feature-development.md`
-7. Relevant ADRs in `docs/adr/`
-8. Relevant templates in `docs/templates/`
+3. `docs/engineering/agent-execution-protocol.md`
+4. `docs/engineering/definition-of-done.md`
+5. `docs/engineering/doctrine.md`
+6. `docs/architecture/system-map.md`
+7. `docs/architecture/stack-profile.md`
+8. Relevant contracts in `docs/contracts/`
+9. Relevant threat model in `docs/security/`
+10. Relevant ADRs in `docs/adr/`
+11. Relevant templates in `docs/templates/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` is where the project records its local facts,
@@ -164,6 +173,8 @@ docs/
   README.md
   project-profile.md
   engineering/
+    agent-execution-protocol.md
+    definition-of-done.md
     doctrine.md
     feature-development.md
     deployment-readiness.md
@@ -171,6 +182,16 @@ docs/
   architecture/
     system-map.md
     stack-profile.md
+  contracts/
+    README.md
+    state-machines.md
+    tool-registry.md
+    llm-outputs.md
+    workflow-events.md
+    policy-inputs.md
+    telemetry-events.md
+  security/
+    threat-model.md
   adr/
     README.md
     0001-adopt-agentic-engineering-doctrine.md
@@ -178,6 +199,9 @@ docs/
     adr.md
     feature-brief.md
     agent-task.md
+    threat-model.md
+    tool-capability.md
+    state-machine.md
 scripts/
   doctor.sh
 ```
@@ -222,6 +246,9 @@ Good template changes include:
 - clearer first-principles explanations
 - better feature planning questions
 - better ADR prompts
+- better risk taxonomy and agent execution gates
+- better contract catalog structure
+- better threat model prompts
 - sharper policy, workflow, or tool-boundary guidance
 - improved generated project profile structure
 - corrections to the default stack profile

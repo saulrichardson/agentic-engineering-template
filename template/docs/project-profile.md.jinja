@@ -17,6 +17,22 @@ updated.
 
 - primary domain: {{ primary_domain }}
 
+## Primary Users
+
+- <user or actor>
+
+## Tenant Model
+
+- tenant boundary:
+- ownership model:
+- cross-tenant access rule:
+
+## Data Sensitivity
+
+- sensitive data classes:
+- data that must never enter prompts:
+- retention constraints:
+
 ## Selected Stack
 
 - frontend: {{ frontend }}
@@ -42,6 +58,27 @@ None yet.
 Use this section for constraints such as regulatory requirements, data residency,
 tenant model, critical user workflows, third-party systems, or deployment limits.
 
+## Approval Model
+
+- actions requiring approval:
+- approval actor:
+- approval expiration:
+- denial behavior:
+
+## External Systems
+
+| System | Purpose | Data shared | Side effects | Owner |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
+
+## Irreversible Actions
+
+- <action>
+
+## Critical Invariants
+
+- <invariant>
+
 ## First Vertical Slice
 
 Define the first runnable product slice here before adding application code:
@@ -49,6 +86,25 @@ Define the first runnable product slice here before adding application code:
 ```text
 frontend intent -> API command -> domain transition -> durable record -> observable result
 ```
+
+Reference agentic slice:
+
+```text
+user submits intent
+system creates UserIntent and AgentRun
+workflow starts
+LLM returns typed PlanProposal
+system validates plan
+policy allows or denies proposed action
+ToolProposal is recorded if allowed
+tool execution waits for capability and approval rules
+audit event and trace are emitted
+user sees result
+```
+
+## Known Non-Goals
+
+- <non-goal>
 
 ## Open Questions
 

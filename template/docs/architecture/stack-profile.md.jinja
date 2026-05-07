@@ -59,6 +59,9 @@ intent -> typed command -> policy -> state transition -> workflow -> side effect
 
 Keep this model even if the project uses different tools.
 
+Do not introduce a reference-stack component unless the current project has
+selected it or the feature requires the boundary that component protects.
+
 ## When To Add A Layer
 
 Add a layer when it protects a real boundary:

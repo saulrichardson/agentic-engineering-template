@@ -30,10 +30,13 @@ Before substantial work, read these files:
 
 1. `AGENTS.md`
 2. `docs/project-profile.md`
-3. `docs/engineering/doctrine.md`
-4. `docs/architecture/system-map.md`
-5. `docs/architecture/stack-profile.md`
-6. The relevant feature brief, ADR, or local module documentation
+3. `docs/engineering/agent-execution-protocol.md`
+4. `docs/engineering/definition-of-done.md`
+5. `docs/engineering/doctrine.md`
+6. `docs/architecture/system-map.md`
+7. `docs/architecture/stack-profile.md`
+8. Relevant contract docs in `docs/contracts/`
+9. Relevant threat model, feature brief, ADR, or local module documentation
 
 If the repository has implementation code, inspect the code before changing it.
 Do not assume the docs are more current than the source.
@@ -55,6 +58,9 @@ the replacement must preserve the same boundary: typed inputs, explicit
 authority, durable state, recoverable workflows, constrained side effects, and
 observable execution.
 
+Do not introduce a reference-stack component unless this project has selected it
+or the feature requires the boundary that component protects.
+
 ## Operating Model
 
 For every feature or fix, locate the work on this path:
@@ -74,6 +80,23 @@ deployment / infrastructure
 ```
 
 Most defects are caused by skipping or scattering one of these layers.
+
+## Agent Execution Protocol
+
+For every nontrivial change:
+
+1. Orient: read the required docs, nearby code, and relevant contracts.
+2. Classify the change: docs-only, UI, domain, API, persistence, policy,
+   workflow, LLM, tool, retrieval, infrastructure, or mixed.
+3. Identify affected boundaries: name the layers touched.
+4. State the plan: files, risks, verification, and non-goals.
+5. Implement narrowly: do not widen scope without recording why.
+6. Verify: run the narrowest checks that prove the change.
+7. Report: summarize changes, boundaries, verification, residual risk, and
+   follow-up work.
+
+Use `docs/engineering/agent-execution-protocol.md` for the full risk taxonomy
+and gates.
 
 ## Non-Negotiable Boundaries
 
@@ -177,6 +200,32 @@ Tests should focus on behavior and invariants:
 When changing production behavior, run the narrowest verification that proves the
 change and broaden only when the blast radius requires it.
 
+Verification depends on risk:
+
+- docs-only: consistency review and path/link check
+- pure domain: unit or property tests
+- state machine: valid and invalid transition tests
+- workflow: retry, idempotency, timeout, and compensation tests
+- database: migration and constraint tests
+- policy: allow and deny tests
+- LLM boundary: schema, refusal, and malformed-output tests
+- tool capability: policy, approval, timeout, idempotency, and audit tests
+- critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent specs
+
+## Definition Of Done
+
+A change is done only when:
+
+- intended user or domain behavior is implemented
+- affected boundaries are identified
+- state transitions are explicit where relevant
+- policy checks exist where relevant
+- durable facts are persisted with constraints where relevant
+- side effects are controlled and observable where relevant
+- tests or checks cover important success and failure paths
+- telemetry and audit behavior are considered
+- contracts, docs, or ADRs are updated if architecture changed
+
 ## Documentation Discipline
 
 Documentation should clarify decisions, not freeze implementation details too
@@ -186,6 +235,8 @@ early. Use:
 - `docs/engineering/doctrine.md` for stable engineering principles
 - `docs/architecture/system-map.md` for the system boundary model
 - `docs/architecture/stack-profile.md` for stack choices and substitution rules
+- `docs/contracts/` for state, tool, LLM, policy, workflow, and telemetry contracts
+- `docs/security/threat-model.md` for agentic threat modeling
 - `docs/adr/` for durable architectural decisions
 - `docs/templates/feature-brief.md` before building meaningful features
 
