@@ -68,4 +68,12 @@ if ! grep -q 'Autonomous agents may propose code, plans, and actions' AGENTS.md;
   fail "AGENTS.md is missing the core doctrine boundary"
 fi
 
+if ! grep -q 'Language And Tooling Contract' AGENTS.md; then
+  fail "AGENTS.md is missing the language and tooling contract"
+fi
+
+if ! grep -q 'Implementation Language Contract' docs/architecture/stack-profile.md; then
+  fail "stack profile is missing the implementation language contract"
+fi
+
 printf 'doctor: ok\n'

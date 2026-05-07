@@ -18,6 +18,15 @@ What should the agent not change?
 
 - <boundary>
 
+## Language And Tooling
+
+What project-selected language or toolchain should this work use?
+
+- implementation language:
+- package manager:
+- test command:
+- disallowed tools or runtimes:
+
 ## System Map
 
 Where does this task sit?

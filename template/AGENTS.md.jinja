@@ -68,6 +68,35 @@ observable execution.
 Do not introduce a reference-stack component unless this project has selected it
 or the feature requires the boundary that component protects.
 
+## Language And Tooling Contract
+
+Coding agents must use this project's selected languages and tools for
+production implementation. Do not introduce a new general-purpose language,
+framework, runtime, package manager, database, queue, workflow engine, policy
+engine, or cloud service just because it is convenient.
+
+Current implementation allowlist:
+
+- frontend and UI: {{ frontend }}
+- backend domain core: {{ backend }}
+- durable workflows: {{ workflow_runtime }}
+- database and migrations: {{ database }} plus project-selected migration tools
+- retrieval/vector storage: {{ vector_store }}
+- policy: {{ policy_engine }}
+- formal specifications: Dafny; TLA+ or Lean when justified for critical
+  invariants
+- local repository automation: POSIX shell first, unless the project profile or
+  an ADR explicitly selects another scripting language
+
+Python, TypeScript, Rust, Go, or any other language is not automatically allowed
+for production code just because it is fast to generate. Before adding a
+language or major tool not listed here, update `docs/project-profile.md` and
+write an ADR that names the boundary, owner, package manager, CI checks,
+deployment path, and why the existing stack is insufficient.
+
+If a selected stack entry says `Other / undecided` or `None yet`, choose and
+record the local tool before implementing that layer.
+
 ## Operating Model
 
 For coding-agent work, locate the change on this path:

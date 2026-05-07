@@ -8,6 +8,10 @@
 
 What problem are we solving? What constraints matter?
 
+If this ADR adds a language, framework, runtime, package manager, database,
+queue, workflow engine, policy engine, or cloud service, name the exact boundary
+it owns and why the existing selected stack is insufficient.
+
 ## Decision
 
 What are we choosing?
@@ -33,6 +37,9 @@ What else did we consider, and why did we not choose it?
 ## Consequences
 
 What becomes easier? What becomes harder? What risks or follow-up work remain?
+
+For toolchain decisions, include the package manager, CI checks, deployment
+path, maintenance owner, and rollback or removal story.
 
 ## Verification
 

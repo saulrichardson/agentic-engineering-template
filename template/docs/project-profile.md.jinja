@@ -44,6 +44,26 @@ updated.
 - cloud target: {{ cloud_target }}
 - formal methods: included for critical invariants and workflow specs
 
+## Implementation Language Allowlist
+
+Coding agents should treat this as the project-local language and tool allowlist
+for production code.
+
+- frontend and UI code: {{ frontend }}
+- backend/domain code: {{ backend }}
+- workflow code: {{ workflow_runtime }}
+- persistence and migrations: {{ database }} plus project-selected migration
+  tools
+- retrieval/vector storage: {{ vector_store }}
+- policy code: {{ policy_engine }}
+- formal/specification work: Dafny; TLA+ or Lean where justified
+- repository automation: POSIX shell first
+
+Languages or major tools not listed here require an ADR before production use.
+That includes Python, TypeScript, Rust, Go, a new package manager, a new
+framework, or a new runtime unless already selected above for the relevant
+boundary.
+
 ## Local Doctrine Overrides
 
 None yet.

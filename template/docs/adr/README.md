@@ -6,6 +6,8 @@ question.
 Good ADR subjects:
 
 - choosing or replacing a core technology
+- adding a language, framework, runtime, package manager, database, queue,
+  workflow engine, policy engine, or cloud service
 - changing a state machine
 - introducing a new side-effect boundary
 - exposing a new runtime-agent-facing tool or side-effect capability

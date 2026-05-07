@@ -238,6 +238,10 @@ Generated projects should use the docs in this order:
 `docs/project-profile.md` is where the project records its local facts,
 constraints, stack choices, and deviations. ADRs are where the project records
 decisions that future agents might otherwise accidentally undo.
+`docs/architecture/stack-profile.md` records the implementation language and
+toolchain allowlist. Coding agents should not add Python, TypeScript, Rust, Go,
+a new package manager, or another runtime unless that boundary is selected in
+the project profile or justified by an ADR.
 
 ## What Gets Generated
 
@@ -423,6 +427,35 @@ observable execution.
 
 Do not introduce a reference-stack component unless this project has selected it
 or the feature requires the boundary that component protects.
+
+## Language And Tooling Contract
+
+Coding agents must use this project's selected languages and tools for
+production implementation. Do not introduce a new general-purpose language,
+framework, runtime, package manager, database, queue, workflow engine, policy
+engine, or cloud service just because it is convenient.
+
+Current implementation allowlist:
+
+- frontend and UI: Elm
+- backend domain core: Haskell
+- durable workflows: Temporal
+- database and migrations: PostgreSQL plus project-selected migration tools
+- retrieval/vector storage: PostgreSQL + pgvector
+- policy: OPA / Rego
+- formal specifications: Dafny; TLA+ or Lean when justified for critical
+  invariants
+- local repository automation: POSIX shell first, unless the project profile or
+  an ADR explicitly selects another scripting language
+
+Python, TypeScript, Rust, Go, or any other language is not automatically allowed
+for production code just because it is fast to generate. Before adding a
+language or major tool not listed here, update `docs/project-profile.md` and
+write an ADR that names the boundary, owner, package manager, CI checks,
+deployment path, and why the existing stack is insufficient.
+
+If a selected stack entry says `Other / undecided` or `None yet`, choose and
+record the local tool before implementing that layer.
 
 ## Operating Model
 
@@ -720,6 +753,26 @@ updated.
 - cloud target: Undecided
 - formal methods: included for critical invariants and workflow specs
 
+## Implementation Language Allowlist
+
+Coding agents should treat this as the project-local language and tool allowlist
+for production code.
+
+- frontend and UI code: Elm
+- backend/domain code: Haskell
+- workflow code: Temporal
+- persistence and migrations: PostgreSQL plus project-selected migration
+  tools
+- retrieval/vector storage: PostgreSQL + pgvector
+- policy code: OPA / Rego
+- formal/specification work: Dafny; TLA+ or Lean where justified
+- repository automation: POSIX shell first
+
+Languages or major tools not listed here require an ADR before production use.
+That includes Python, TypeScript, Rust, Go, a new package manager, a new
+framework, or a new runtime unless already selected above for the relevant
+boundary.
+
 ## Local Doctrine Overrides
 
 None yet.
@@ -822,7 +875,9 @@ Do not treat a task as "write code until tests pass."
 
 4. State the plan
    List files or modules to change, tests to run, non-goals, and the main risk.
-   Keep this short for low-risk work. Be explicit for high-risk work.
+   Keep this short for low-risk work. Be explicit for high-risk work. Confirm
+   that implementation files use the project-selected language/toolchain for
+   each affected boundary.
 
 5. Implement narrowly
    Make the smallest change that preserves the boundary model. Do not widen
@@ -854,6 +909,7 @@ than one class.
 | Side effect | External API, email, file, cloud resource, payment, queue, command execution | policy, idempotency, timeout, audit |
 | Runtime agent | Prompt, LLM schema, retrieval, tool proposal, model behavior | schema/refusal/injection/denial tests |
 | Infrastructure | Deployment, secrets, build, networking, observability | reproducibility and rollback/mitigation check |
+| Toolchain | New language, package manager, framework, runtime, database, queue, or cloud service | project-profile update, ADR, CI/deploy plan |
 
 ## Change Risk Taxonomy
 
@@ -882,6 +938,8 @@ High-risk changes:
 - tool capability or side-effect behavior
 - authentication, tenant, or ownership boundary
 - observability changes for critical flows
+- introducing a new package manager, framework, runtime, or implementation
+  language
 
 Critical-risk changes:
 
@@ -893,6 +951,8 @@ Critical-risk changes:
 - approval bypass or approval weakening
 - production data deletion
 - cloud resource mutation with user or cost impact
+- adding a broad general-purpose language/runtime path without a clear owner,
+  CI check, and deployment boundary
 
 ## Gates By Risk
 
@@ -984,6 +1044,7 @@ Every completed change should satisfy:
 - the intended user or domain behavior is implemented
 - affected boundaries are identified
 - unrelated scope is left alone
+- implementation languages and tools match the project profile or an ADR
 - generated or temporary artifacts are not committed accidentally
 - verification has been run or the reason it could not run is stated
 - the final report names changes, verification, and residual risk
@@ -1010,6 +1071,7 @@ When relevant, a completed change should also satisfy:
 Update docs when a change modifies:
 
 - architecture or stack choices
+- implementation language or toolchain choices
 - state machines
 - policy inputs or authorization behavior
 - runtime-agent or LLM schemas
@@ -1700,6 +1762,41 @@ tests, durable persistence, controlled side effects, and observable execution.
 | Build and release | Nix plus provenance practices | Nix plus provenance practices | Reproducible builds and auditable artifacts |
 | Observability | OpenTelemetry | OpenTelemetry | Vendor-neutral traces, metrics, logs, and correlation |
 | Cloud | Undecided | AWS or equivalent | Use replaceable infrastructure with least privilege and reproducibility |
+
+## Implementation Language Contract
+
+The selected stack is an implementation allowlist for coding agents, not a list
+of casual suggestions.
+
+Current allowlist:
+
+- frontend and UI code: Elm
+- backend/domain code: Haskell
+- workflow code: Temporal
+- persistence and migrations: PostgreSQL plus project-selected migration
+  tools
+- retrieval/vector storage: PostgreSQL + pgvector
+- policy code: OPA / Rego
+- formal/specification work: Dafny; TLA+ or Lean where justified
+- repository automation: POSIX shell first, unless this profile or an ADR
+  selects another scripting language
+
+Do not add Python, TypeScript, Rust, Go, a new package manager, a new framework,
+or a new runtime for production implementation unless the project has explicitly
+selected it for that boundary.
+
+Before adding a new language or major tool, record:
+
+- what boundary it owns
+- why the existing selected stack is insufficient
+- package manager and dependency policy
+- test and CI commands
+- deployment path
+- security and maintenance owner
+- rollback or removal story
+
+If a stack entry is `Other / undecided` or `None yet`, choose and record the
+local tool before writing implementation code for that layer.
 
 ## Substitution Rule
 
@@ -2560,6 +2657,8 @@ question.
 Good ADR subjects:
 
 - choosing or replacing a core technology
+- adding a language, framework, runtime, package manager, database, queue,
+  workflow engine, policy engine, or cloud service
 - changing a state machine
 - introducing a new side-effect boundary
 - exposing a new runtime-agent-facing tool or side-effect capability
@@ -2679,6 +2778,10 @@ _Source: `generated-project/docs/templates/adr.md`_
 
 What problem are we solving? What constraints matter?
 
+If this ADR adds a language, framework, runtime, package manager, database,
+queue, workflow engine, policy engine, or cloud service, name the exact boundary
+it owns and why the existing selected stack is insufficient.
+
 ## Decision
 
 What are we choosing?
@@ -2704,6 +2807,9 @@ What else did we consider, and why did we not choose it?
 ## Consequences
 
 What becomes easier? What becomes harder? What risks or follow-up work remain?
+
+For toolchain decisions, include the package manager, CI checks, deployment
+path, maintenance owner, and rollback or removal story.
 
 ## Verification
 
@@ -2834,6 +2940,15 @@ Relevant files, docs, ADRs, or decisions:
 What should the agent not change?
 
 - <boundary>
+
+## Language And Tooling
+
+What project-selected language or toolchain should this work use?
+
+- implementation language:
+- package manager:
+- test command:
+- disallowed tools or runtimes:
 
 ## System Map
 

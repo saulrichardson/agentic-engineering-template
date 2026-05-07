@@ -213,6 +213,10 @@ Generated projects should use the docs in this order:
 `docs/project-profile.md` is where the project records its local facts,
 constraints, stack choices, and deviations. ADRs are where the project records
 decisions that future agents might otherwise accidentally undo.
+`docs/architecture/stack-profile.md` records the implementation language and
+toolchain allowlist. Coding agents should not add Python, TypeScript, Rust, Go,
+a new package manager, or another runtime unless that boundary is selected in
+the project profile or justified by an ADR.
 
 ## What Gets Generated
 

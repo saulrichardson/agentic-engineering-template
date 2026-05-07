@@ -10,6 +10,7 @@ Every completed change should satisfy:
 - the intended user or domain behavior is implemented
 - affected boundaries are identified
 - unrelated scope is left alone
+- implementation languages and tools match the project profile or an ADR
 - generated or temporary artifacts are not committed accidentally
 - verification has been run or the reason it could not run is stated
 - the final report names changes, verification, and residual risk
@@ -36,6 +37,7 @@ When relevant, a completed change should also satisfy:
 Update docs when a change modifies:
 
 - architecture or stack choices
+- implementation language or toolchain choices
 - state machines
 - policy inputs or authorization behavior
 - runtime-agent or LLM schemas
