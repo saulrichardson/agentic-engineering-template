@@ -1,7 +1,8 @@
-# Tool Capability Registry
+# Tool And Side-Effect Capability Registry
 
-Every agent-facing tool must be registered here before it is exposed to an LLM,
-agent runtime, workflow, or MCP gateway.
+Every runtime-agent-facing or automation-facing tool must be registered here
+before it is exposed to an LLM, agent runtime, workflow, MCP gateway, or other
+side-effect capability boundary.
 
 Broad tools require an ADR. Examples include arbitrary SQL, shell execution,
 arbitrary HTTP, arbitrary file write, and arbitrary email send.

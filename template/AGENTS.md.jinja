@@ -3,26 +3,32 @@
 Project: {{ project_name }}
 
 This file is the root operating guide for coding agents working in this
-repository. It is generated from the reusable agentic engineering template, then
-owned by this project.
+repository. It is generated from the reusable high-integrity agentic engineering
+template, then owned by this project.
 
 Project-specific decisions override the base doctrine only when they are
 recorded in `docs/project-profile.md` or an ADR under `docs/adr/`.
 
 ## North Star
 
-Build systems that safely contain nondeterministic intelligence inside
-deterministic software boundaries.
+Build systems whose behavior remains explicit, constrained, testable,
+observable, and reviewable, even when much of the code is produced by
+autonomous coding agents.
+
+```text
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
+```
+
+When the application itself contains LLMs or agentic workflows, those runtime
+agents must also be contained inside the same boundaries:
 
 ```text
 LLMs may propose actions.
 Only typed, verified, policy-checked, durable workflows may execute actions.
 ```
-
-LLMs may interpret, propose, summarize, classify, and plan. They do not directly
-mutate the world. Any action that changes durable state or reaches an external
-system must pass through typed validation, policy, state transition rules,
-durable workflow execution, persistence, and observability.
 
 ## Read Order
 
@@ -33,10 +39,11 @@ Before substantial work, read these files:
 3. `docs/engineering/agent-execution-protocol.md`
 4. `docs/engineering/definition-of-done.md`
 5. `docs/engineering/doctrine.md`
-6. `docs/architecture/system-map.md`
-7. `docs/architecture/stack-profile.md`
-8. Relevant contract docs in `docs/contracts/`
-9. Relevant threat model, feature brief, ADR, or local module documentation
+6. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
+7. `docs/architecture/system-map.md`
+8. `docs/architecture/stack-profile.md`
+9. Relevant contract docs in `docs/contracts/`
+10. Relevant threat model, feature brief, ADR, or local module documentation
 
 If the repository has implementation code, inspect the code before changing it.
 Do not assume the docs are more current than the source.
@@ -63,50 +70,66 @@ or the feature requires the boundary that component protects.
 
 ## Operating Model
 
-For every feature or fix, locate the work on this path:
+For coding-agent work, locate the change on this path:
+
+```text
+task intent
+  -> repository context
+  -> change classification
+  -> design boundary
+  -> implementation plan
+  -> code change
+  -> tests / verification
+  -> review evidence
+  -> documentation / ADR if needed
+  -> deployability check
+```
+
+For runtime product behavior, locate the feature on this path:
 
 ```text
 user intent
-frontend state
-API boundary
-domain model
-policy / authorization
-state transition
-durable persistence
-workflow orchestration
-external side effects
-observability
-deployment / infrastructure
+  -> frontend state
+  -> API boundary
+  -> domain model
+  -> policy / authorization
+  -> state transition
+  -> durable persistence
+  -> workflow orchestration
+  -> external side effects
+  -> observability
+  -> deployment / infrastructure
 ```
 
 Most defects are caused by skipping or scattering one of these layers.
 
-## Agent Execution Protocol
+## Coding Agent Operating Contract
 
-For every nontrivial change:
+Coding agents must not treat a task as "write code until tests pass." For every
+meaningful change, the agent must:
 
-1. Orient: read the required docs, nearby code, and relevant contracts.
-2. Classify the change: docs-only, UI, domain, API, persistence, policy,
-   workflow, LLM, tool, retrieval, infrastructure, or mixed.
-3. Identify affected boundaries: name the layers touched.
-4. State the plan: files, risks, verification, and non-goals.
-5. Implement narrowly: do not widen scope without recording why.
-6. Verify: run the narrowest checks that prove the change.
-7. Report: summarize changes, boundaries, verification, residual risk, and
-   follow-up work.
+1. classify the change
+2. identify affected boundaries
+3. preserve domain rules
+4. avoid widening scope
+5. add or update verification
+6. report what changed and why
+7. flag risks and unresolved questions
 
 Use `docs/engineering/agent-execution-protocol.md` for the full risk taxonomy
 and gates.
 
 ## Non-Negotiable Boundaries
 
-- LLM output is data, not authority.
+- Autonomous agent output is proposal, not authority.
+- Runtime LLM output is data, not authority.
 - User input is useful, not automatically valid.
 - Frontend checks improve experience, not security.
 - Policy lives in code or policy files, not only prompts.
 - State changes go through explicit transitions.
 - Side effects are durable, idempotent where possible, and auditable.
-- External documents, tool results, and retrieved context are untrusted input.
+- External data, tool results, model outputs, and retrieved context are
+  untrusted input.
 - Secrets are never exposed to prompts, client code, logs, or broad tools.
 - Production behavior must be reconstructable from traces, logs, audit events,
   workflow history, and durable records.
@@ -128,7 +151,7 @@ Prefer:
 Avoid:
 
 - broad tools such as `run_sql`, `execute_shell`, `http_request`, or
-  `send_any_email` as agent-facing capabilities
+  `send_any_email` as runtime-agent-facing capabilities
 - lifecycle statuses assigned directly from many files
 - business rules hidden in prompts, UI conditionals, migrations, or route
   handlers
@@ -148,14 +171,21 @@ Before implementing, answer the smallest useful version of these questions:
 5. What durable facts and database constraints are needed?
 6. What side effects occur, and are they retryable or idempotent?
 7. Is a durable workflow required?
-8. Is an LLM involved, and what typed output may it return?
-9. Are tools involved, and what narrow capability do they expose?
+8. Is a runtime agent or LLM involved, and what typed output may it return?
+9. Are side-effect capabilities or tools involved, and what narrow capability
+   do they expose?
 10. What telemetry and audit records are needed to reconstruct behavior?
 11. What tests prove the important invariant?
 
 Small changes do not require long documents. They still require clear answers.
 
-## LLM And Tool Rules
+## Runtime Agent And LLM Rules
+
+This section applies when the product itself contains LLMs, runtime agents,
+retrieval, planning, or tool use. For deeper guidance, read
+`docs/engineering/agentic-runtime.md`.
+
+Runtime LLM output is data, not authority.
 
 LLM responses should map to explicit types such as:
 
@@ -180,7 +210,8 @@ Good tools are narrow:
 - `scheduleApprovedCalendarEvent`
 
 Broad tools may exist for internal operations, migrations, or local development,
-but they should not be exposed as agent capabilities without a written decision.
+but they should not be exposed as runtime-agent capabilities without a written
+decision.
 
 ## Testing And Verification
 
@@ -192,7 +223,7 @@ Tests should focus on behavior and invariants:
 - database constraints
 - idempotency and duplicate delivery
 - workflow retry and compensation behavior
-- LLM schema parsing and refusal paths
+- runtime-agent and LLM schema parsing and refusal paths
 - tool gateway allow/deny behavior
 - retrieval authorization
 - critical end-to-end flows
@@ -208,7 +239,7 @@ Verification depends on risk:
 - workflow: retry, idempotency, timeout, and compensation tests
 - database: migration and constraint tests
 - policy: allow and deny tests
-- LLM boundary: schema, refusal, and malformed-output tests
+- runtime-agent or LLM boundary: schema, refusal, and malformed-output tests
 - tool capability: policy, approval, timeout, idempotency, and audit tests
 - critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent specs
 
@@ -235,8 +266,10 @@ early. Use:
 - `docs/engineering/doctrine.md` for stable engineering principles
 - `docs/architecture/system-map.md` for the system boundary model
 - `docs/architecture/stack-profile.md` for stack choices and substitution rules
-- `docs/contracts/` for state, tool, LLM, policy, workflow, and telemetry contracts
-- `docs/security/threat-model.md` for agentic threat modeling
+- `docs/contracts/` for state, capability, runtime-agent, policy, workflow, and
+  telemetry contracts
+- `docs/security/threat-model.md` for autonomous-agent and runtime-agent threat
+  modeling
 - `docs/adr/` for durable architectural decisions
 - `docs/templates/feature-brief.md` before building meaningful features
 

@@ -1,4 +1,4 @@
-# ADR: Adopt Agentic Engineering Doctrine
+# ADR: Adopt High-Integrity Agentic Engineering Doctrine
 
 - status: accepted
 - date: {{ adoption_date }}
@@ -6,8 +6,8 @@
 
 ## Context
 
-`{{ project_name }}` is starting from a reusable doctrine for high-purity
-agentic software.
+`{{ project_name }}` is starting from a reusable doctrine for high-integrity
+software developed with autonomous coding agents.
 
 The project needs a durable operating model before implementation choices start
 to spread across frontend code, backend handlers, prompts, workflows, policy,
@@ -31,16 +31,27 @@ The initial project stack profile is:
 
 ## Rationale
 
-The doctrine preserves the core boundary:
+The doctrine preserves the core development boundary:
+
+```text
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
+```
+
+When the product itself contains runtime LLMs or agents, the same doctrine
+applies at runtime:
 
 ```text
 LLMs may propose actions.
 Only typed, verified, policy-checked, durable workflows may execute actions.
 ```
 
-This keeps nondeterministic model behavior inside deterministic software
-boundaries: typed inputs, explicit policy, state machines, durable persistence,
-recoverable workflows, constrained tools, and observable side effects.
+This keeps autonomous and nondeterministic behavior inside explicit software
+boundaries: typed inputs, domain rules, policy checks, review gates, state
+machines, durable persistence, recoverable workflows, constrained side effects,
+tests, and observable execution.
 
 ## Alternatives Considered
 

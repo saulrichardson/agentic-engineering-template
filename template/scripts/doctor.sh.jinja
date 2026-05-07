@@ -24,6 +24,7 @@ need_file docs/project-profile.md
 need_file docs/engineering/agent-execution-protocol.md
 need_file docs/engineering/definition-of-done.md
 need_file docs/engineering/doctrine.md
+need_file docs/engineering/agentic-runtime.md
 need_file docs/engineering/feature-development.md
 need_file docs/engineering/deployment-readiness.md
 need_file docs/engineering/formal-methods.md
@@ -63,7 +64,7 @@ if ! grep -q '_src_path:' .copier-answers.yml; then
   fail ".copier-answers.yml does not record _src_path"
 fi
 
-if ! grep -q 'LLMs may propose actions' AGENTS.md; then
+if ! grep -q 'Autonomous agents may propose code, plans, and actions' AGENTS.md; then
   fail "AGENTS.md is missing the core doctrine boundary"
 fi
 

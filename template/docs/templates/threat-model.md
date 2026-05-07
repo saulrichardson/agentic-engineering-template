@@ -13,7 +13,18 @@
 - external systems:
 - side effects:
 
-## LLM Exposure
+## Development-Time Agent Exposure
+
+- what can coding agents read?
+- what can coding agents write?
+- what credentials, commands, or automations can they access?
+- what change types require human review?
+- what deployment or data paths are off limits?
+
+## Runtime Agent Or LLM Exposure
+
+Use this section when the product contains runtime agents, LLMs, retrieval, or
+model-generated outputs.
 
 - what can the LLM see?
 - what can the LLM propose?
@@ -48,7 +59,7 @@ detects, and mitigates it.
 ## Required Tests
 
 - denial path:
-- malformed LLM output:
+- malformed runtime-agent or LLM output:
 - prompt injection:
 - unauthorized retrieval:
 - approval required:

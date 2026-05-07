@@ -3,20 +3,30 @@
 Use this guide before building meaningful features. The goal is to keep feature
 work connected to the whole system without creating heavyweight process.
 
-## 1. Define User Intent
+## 1. Define Intent
 
-Write the user intent in one or two sentences:
+Write the user, operator, or system intent in one or two sentences:
 
 ```text
 As a <user or actor>, I want to <intent>, so that <outcome>.
 ```
 
-Then state what the system must not allow.
+For coding-agent tasks, also state the development intent:
+
+```text
+Given <repository context>, change <system behavior or documentation> so that <outcome>.
+```
+
+Then state what the system or coding agent must not change or allow.
 
 ## 2. Name The Domain Concepts
 
 Identify the domain objects involved. Prefer meaningful names:
 
+- `UserProfile`
+- `BillingRun`
+- `Membership`
+- `StateTransition`
 - `ToolProposal`
 - `ApprovalRequest`
 - `DocumentIngestionRun`
@@ -54,8 +64,9 @@ Answer:
 
 - who is authenticated?
 - what is the user allowed to do?
-- what may the agent do on the user's behalf?
-- what capability does each tool expose?
+- what may another actor, service, coding agent, or runtime agent do on the
+  user's behalf?
+- what capability does each side-effect path expose?
 - what requires approval?
 - what is denied by default?
 
@@ -101,9 +112,10 @@ For each one, define:
 - failure state
 - compensation if needed
 
-## 7. Define LLM Boundaries
+## 7. Define Runtime Agent Or LLM Boundaries
 
-If an LLM is involved, define:
+If a runtime agent, LLM, classifier, recommendation model, or other
+nondeterministic component is involved, define:
 
 - input schema
 - output schema
@@ -114,8 +126,8 @@ If an LLM is involved, define:
 - retention rules
 - prompt-injection handling
 
-The feature should work safely when the LLM returns malformed, incomplete, or
-overconfident output.
+The feature should work safely when the component returns malformed,
+incomplete, overconfident, or adversarially influenced output.
 
 ## 8. Define Observability
 
@@ -142,7 +154,7 @@ Test the invariants, not just examples:
 - unauthorized access is rejected
 - invalid transitions are rejected
 - duplicate events do not duplicate effects
-- malformed LLM output is rejected safely
+- malformed runtime-agent or LLM output is rejected safely
 - retrieval respects permissions
 - high-risk actions require approval
 - workflow retries preserve correctness

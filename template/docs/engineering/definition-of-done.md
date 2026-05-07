@@ -26,7 +26,7 @@ When relevant, a completed change should also satisfy:
 - durable facts are persisted with constraints where practical
 - workflows own long-running, retryable, or externally dependent work
 - side effects are controlled, idempotent where possible, and auditable
-- LLM outputs are typed, validated, and treated as untrusted data
+- runtime-agent or LLM outputs are typed, validated, and treated as untrusted data
 - tool capabilities are narrow and registered in `docs/contracts/tool-registry.md`
 - retrieval respects authorization and source traceability
 - telemetry or audit events can reconstruct important behavior
@@ -38,7 +38,7 @@ Update docs when a change modifies:
 - architecture or stack choices
 - state machines
 - policy inputs or authorization behavior
-- LLM schemas
+- runtime-agent or LLM schemas
 - tool capabilities
 - workflow events
 - telemetry events

@@ -1,8 +1,9 @@
 # Threat Model
 
-This project should maintain a live threat model for agentic risks. Start here
-before adding broad retrieval, new tool classes, approval changes, external side
-effects, tenant-sensitive data access, or secret handling.
+This project should maintain a live threat model for autonomous-agent,
+runtime-agent, and high-risk software changes. Start here before adding broad
+retrieval, new tool classes, approval changes, external side effects,
+tenant-sensitive data access, secret handling, or broad coding-agent authority.
 
 ## Scope
 
@@ -13,7 +14,21 @@ effects, tenant-sensitive data access, or secret handling.
 - external systems:
 - irreversible actions:
 
-## Agentic Questions
+## Development-Time Agent Questions
+
+- What can coding agents read?
+- What can coding agents write?
+- What repository, cloud, database, or deployment credentials can they access?
+- What commands, tools, or automation can they run?
+- What changes require human review before merge or deployment?
+- What generated code paths are high risk?
+- What is the worst change a coding agent could make without detection?
+- How would that change be caught before production?
+
+## Runtime Agent Questions
+
+Use these when the product contains LLMs, retrieval, planning, runtime agents,
+or user-facing automation.
 
 - What can the LLM see?
 - What can the LLM propose?
@@ -39,6 +54,8 @@ effects, tenant-sensitive data access, or secret handling.
 - policy decisions are auditable
 - cross-tenant access is denied by default
 - high-risk side effects are idempotent or compensated where possible
+- coding-agent changes are reviewed according to risk before shipping
+- deployment credentials are least privilege and not available to prompts
 
 ## Open Threats
 
@@ -51,6 +68,7 @@ effects, tenant-sensitive data access, or secret handling.
 Review this threat model when adding or changing:
 
 - LLM boundaries
+- coding-agent permissions
 - retrieval scope
 - tool capabilities
 - policy rules

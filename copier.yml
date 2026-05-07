@@ -15,7 +15,7 @@ project_slug:
 project_description:
   type: str
   help: One-sentence project description.
-  default: "A high-purity agentic application."
+  default: "A high-integrity software project developed with autonomous coding agents."
 
 adoption_date:
   type: str
@@ -25,7 +25,7 @@ adoption_date:
 primary_domain:
   type: str
   help: Product or problem domain.
-  default: "Agentic software"
+  default: "High-integrity software"
 
 frontend:
   type: str

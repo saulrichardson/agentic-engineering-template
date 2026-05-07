@@ -1,7 +1,8 @@
 # Template Maintainer Guide
 
 This repository is a Copier template for seeding new projects with a reusable
-engineering doctrine for high-purity agentic software.
+engineering doctrine for high-integrity software developed with autonomous
+coding agents.
 
 Generated project files live under `template/`. Files outside `template/` are
 for maintaining this template repository and are not copied into generated
@@ -12,9 +13,14 @@ projects.
 Preserve this doctrine across template changes:
 
 ```text
-LLMs may propose actions.
-Only typed, verified, policy-checked, durable workflows may execute actions.
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
 ```
+
+Runtime LLM guidance is a specialization of this broader doctrine, not the whole
+scope of the template.
 
 Do not turn the template into a framework scaffold unless a real boundary needs
 that code. This repository should seed principles, operating structure, decision
@@ -36,21 +42,11 @@ records, and project-local customization points.
 
 ## Verification
 
-After editing the template, generate a temporary project and run its local
-doctor check:
+After editing the template, generate a temporary project from the current
+worktree and run its local doctor check:
 
 ```bash
-rm -rf /tmp/agentic-template-check
-copier copy . /tmp/agentic-template-check \
-  --force \
-  --vcs-ref=HEAD \
-  --data project_name="Template Check" \
-  --data project_slug="template-check" \
-  --data project_description="Temporary generated project for template validation." \
-  --data primary_domain="Template validation" \
-  --data cloud_target="Undecided"
-
-/tmp/agentic-template-check/scripts/doctor.sh
+scripts/validate-template.sh
 ```
 
 Then inspect the generated files for accidental template leakage.

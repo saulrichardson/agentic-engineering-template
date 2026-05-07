@@ -1,6 +1,6 @@
-# Agentic Engineering Doctrine
+# High-Integrity Agentic Engineering Doctrine
 
-This is a single-file reader artifact assembled from the reusable agentic engineering template.
+This is a single-file reader artifact assembled from the reusable high-integrity agentic engineering template.
 
 It is meant to be passed to someone who needs one coherent artifact rather than a repository tree.
 
@@ -11,7 +11,7 @@ Template repository: https://github.com/saulrichardson/agentic-engineering-templ
 Reference rendering notes:
 
 - Project name: Reference Project
-- Primary domain: Reusable agentic software
+- Primary domain: Reusable high-integrity software
 - Cloud target: Undecided
 - The generated project sections use reference values where project-specific answers are required.
 - Technical setup and Copier mechanics are intentionally placed at the end.
@@ -23,10 +23,10 @@ Reference rendering notes:
 
 _Source: `README.md`, before `## Template Mechanics`._
 
-# Agentic Engineering Template
+# High-Integrity Agentic Engineering Template
 
-This repository is a reusable pedagogical documentation template for building
-high-purity agentic software.
+This repository is a reusable pedagogical documentation template for software
+projects developed with autonomous coding agents.
 
 It is not an application framework. It does not scaffold a frontend, backend,
 database, cloud account, or agent runtime. It gives each new project a shared
@@ -34,7 +34,21 @@ engineering doctrine, a vocabulary, a set of first-principles design questions,
 and a small set of project-local documents that make future technical decisions
 easier to reason about.
 
+It is not limited to applications that contain LLM agents. It applies to
+ordinary web apps, APIs, infrastructure, workflows, internal tools, databases,
+user interfaces, and products that contain runtime agents.
+
 The purpose is to make every project start with the same core discipline:
+
+```text
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
+```
+
+When the product itself contains LLMs or agentic workflows, the same doctrine
+applies again at runtime:
 
 ```text
 LLMs may propose actions.
@@ -43,42 +57,64 @@ Only typed, verified, policy-checked, durable workflows may execute actions.
 
 ## Why This Exists
 
-Agentic applications fail in a different way than ordinary CRUD applications.
-They do not only have users, screens, routes, database rows, background jobs, and
-external APIs. They also have nondeterministic reasoning components that can
-summarize, plan, classify, extract, retrieve context, and propose tool calls.
+Autonomous code generation amplifies existing software risks:
 
-That capability is useful, but it creates a purity problem.
+- unclear requirements
+- scattered business rules
+- implicit state machines
+- uncontrolled side effects
+- weak authorization boundaries
+- unsafe data migrations
+- race conditions
+- invalid states
+- inadequate tests
+- poor observability
+- unreviewable changes
+- untraceable production behavior
+- agent-generated code that works locally but violates architecture
 
-An LLM is not a trusted program. It is a probabilistic reasoning component whose
-outputs may be incomplete, overconfident, manipulated by retrieved text, or
-inconsistent across runs. If the rest of the system treats model output as
-authority, the application becomes a chatbot that mutates the world.
+The solution is not to stop using agents. The solution is to make the system's
+intent, boundaries, invariants, and verification paths explicit enough that both
+humans and coding agents can safely extend it.
 
-This template teaches a different architecture:
+The more autonomous the coding agent, the more explicit the boundaries must be.
 
-```text
-user intent
-  -> typed input
-  -> LLM proposal
-  -> schema validation
-  -> policy decision
-  -> state transition
-  -> durable workflow
-  -> constrained side effect
-  -> audit and telemetry
-```
+## Two Agent Contexts
 
-The LLM contributes reasoning. Deterministic software decides what is valid,
-authorized, durable, retryable, observable, and safe to execute.
+This doctrine covers two different agent contexts:
+
+1. Coding agents
+   Agents that write, modify, test, review, and document the codebase.
+
+2. Product or runtime agents
+   Agents inside the application that reason, plan, retrieve context, or use
+   tools for end users.
+
+The primary audience is the first category: autonomous coding agents working in
+serious software repositories. If the product itself contains runtime agents,
+the same discipline applies again inside the application.
 
 ## What This Template Teaches
 
-The generated documentation is meant to train both humans and coding agents to
-think in terms of boundaries rather than isolated tasks.
+The generated documentation trains humans and coding agents to think in terms of
+boundaries rather than isolated tasks.
 
-A feature is not just a UI change, an endpoint, a prompt, or a database table.
-A feature is a path from user intent to durable consequence:
+Coding-agent work follows this path:
+
+```text
+task intent
+  -> repository context
+  -> change classification
+  -> design boundary
+  -> implementation plan
+  -> code change
+  -> tests / verification
+  -> review evidence
+  -> documentation / ADR if needed
+  -> deployability check
+```
+
+Runtime product behavior follows this path:
 
 ```text
 user intent
@@ -94,9 +130,23 @@ observability
 deployment / infrastructure
 ```
 
-The generated docs repeatedly bring work back to that path. This is deliberate.
-The most common failure mode in growing systems is that meaning becomes
-scattered. Business rules drift into route handlers, prompts, frontend
+If the product contains runtime LLMs or agents, add this specialized path:
+
+```text
+user intent
+  -> typed intent object
+  -> runtime agent proposes plan
+  -> schema validation
+  -> policy decision
+  -> state transition
+  -> durable workflow
+  -> constrained side effect
+  -> audit and telemetry
+```
+
+The generated docs repeatedly bring work back to these paths. This is
+deliberate. The most common failure mode in growing systems is that meaning
+becomes scattered. Business rules drift into route handlers, prompts, frontend
 conditionals, webhook handlers, background jobs, admin scripts, and migrations.
 State changes happen from many places. Side effects happen before durable state
 is recorded. Authorization is checked inconsistently. Retries duplicate work.
@@ -106,11 +156,13 @@ This template pushes against that drift by making the important questions
 visible from the start:
 
 - What user intent is being served?
+- What task intent is the coding agent acting on?
 - What domain objects are involved?
 - What states can those objects be in?
 - What events may change those states?
 - Who is allowed to perform the action?
-- What may an agent do on a user's behalf?
+- What may a service, workflow, coding agent, or runtime agent do on a user's
+  behalf?
 - What side effects can happen?
 - What must be persisted before execution?
 - What can be retried?
@@ -128,20 +180,21 @@ boundaries touched, select verification by risk, and report residual risk.
 The generated project docs are organized around one mental model:
 
 ```text
-nondeterministic reasoning inside deterministic boundaries
+software whose structure remains legible to autonomous agents
 ```
 
 That means:
 
 - prompts do not define authority
 - frontend checks do not define security
-- LLM outputs are data, not commands
-- tools are narrow capabilities, not broad execution channels
-- state transitions are explicit, not scattered string assignments
+- autonomous code changes are classified before implementation
+- domain rules, state transitions, and side effects are explicit
+- side-effect capabilities are narrow, not broad execution channels
 - workflows own long-running and retryable side effects
 - the database enforces durable facts where possible
 - policy is testable outside prompt text
 - telemetry records enough to reconstruct important behavior
+- runtime LLM outputs are data, not commands
 
 The model is intentionally technology-independent. The default stack profile
 favors Elm, Haskell, Dafny, Temporal, PostgreSQL, OPA, Wasmtime, Nix, and
@@ -173,12 +226,13 @@ Generated projects should use the docs in this order:
 3. `docs/engineering/agent-execution-protocol.md`
 4. `docs/engineering/definition-of-done.md`
 5. `docs/engineering/doctrine.md`
-6. `docs/architecture/system-map.md`
-7. `docs/architecture/stack-profile.md`
-8. Relevant contracts in `docs/contracts/`
-9. Relevant threat model in `docs/security/`
-10. Relevant ADRs in `docs/adr/`
-11. Relevant templates in `docs/templates/`
+6. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
+7. `docs/architecture/system-map.md`
+8. `docs/architecture/stack-profile.md`
+9. Relevant contracts in `docs/contracts/`
+10. Relevant threat model in `docs/security/`
+11. Relevant ADRs in `docs/adr/`
+12. Relevant templates in `docs/templates/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` is where the project records its local facts,
@@ -201,6 +255,7 @@ docs/
     agent-execution-protocol.md
     definition-of-done.md
     doctrine.md
+    agentic-runtime.md
     feature-development.md
     deployment-readiness.md
     formal-methods.md
@@ -304,26 +359,32 @@ _Source: `generated-project/AGENTS.md`_
 Project: Reference Project
 
 This file is the root operating guide for coding agents working in this
-repository. It is generated from the reusable agentic engineering template, then
-owned by this project.
+repository. It is generated from the reusable high-integrity agentic engineering
+template, then owned by this project.
 
 Project-specific decisions override the base doctrine only when they are
 recorded in `docs/project-profile.md` or an ADR under `docs/adr/`.
 
 ## North Star
 
-Build systems that safely contain nondeterministic intelligence inside
-deterministic software boundaries.
+Build systems whose behavior remains explicit, constrained, testable,
+observable, and reviewable, even when much of the code is produced by
+autonomous coding agents.
+
+```text
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
+```
+
+When the application itself contains LLMs or agentic workflows, those runtime
+agents must also be contained inside the same boundaries:
 
 ```text
 LLMs may propose actions.
 Only typed, verified, policy-checked, durable workflows may execute actions.
 ```
-
-LLMs may interpret, propose, summarize, classify, and plan. They do not directly
-mutate the world. Any action that changes durable state or reaches an external
-system must pass through typed validation, policy, state transition rules,
-durable workflow execution, persistence, and observability.
 
 ## Read Order
 
@@ -334,10 +395,11 @@ Before substantial work, read these files:
 3. `docs/engineering/agent-execution-protocol.md`
 4. `docs/engineering/definition-of-done.md`
 5. `docs/engineering/doctrine.md`
-6. `docs/architecture/system-map.md`
-7. `docs/architecture/stack-profile.md`
-8. Relevant contract docs in `docs/contracts/`
-9. Relevant threat model, feature brief, ADR, or local module documentation
+6. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
+7. `docs/architecture/system-map.md`
+8. `docs/architecture/stack-profile.md`
+9. Relevant contract docs in `docs/contracts/`
+10. Relevant threat model, feature brief, ADR, or local module documentation
 
 If the repository has implementation code, inspect the code before changing it.
 Do not assume the docs are more current than the source.
@@ -364,50 +426,66 @@ or the feature requires the boundary that component protects.
 
 ## Operating Model
 
-For every feature or fix, locate the work on this path:
+For coding-agent work, locate the change on this path:
+
+```text
+task intent
+  -> repository context
+  -> change classification
+  -> design boundary
+  -> implementation plan
+  -> code change
+  -> tests / verification
+  -> review evidence
+  -> documentation / ADR if needed
+  -> deployability check
+```
+
+For runtime product behavior, locate the feature on this path:
 
 ```text
 user intent
-frontend state
-API boundary
-domain model
-policy / authorization
-state transition
-durable persistence
-workflow orchestration
-external side effects
-observability
-deployment / infrastructure
+  -> frontend state
+  -> API boundary
+  -> domain model
+  -> policy / authorization
+  -> state transition
+  -> durable persistence
+  -> workflow orchestration
+  -> external side effects
+  -> observability
+  -> deployment / infrastructure
 ```
 
 Most defects are caused by skipping or scattering one of these layers.
 
-## Agent Execution Protocol
+## Coding Agent Operating Contract
 
-For every nontrivial change:
+Coding agents must not treat a task as "write code until tests pass." For every
+meaningful change, the agent must:
 
-1. Orient: read the required docs, nearby code, and relevant contracts.
-2. Classify the change: docs-only, UI, domain, API, persistence, policy,
-   workflow, LLM, tool, retrieval, infrastructure, or mixed.
-3. Identify affected boundaries: name the layers touched.
-4. State the plan: files, risks, verification, and non-goals.
-5. Implement narrowly: do not widen scope without recording why.
-6. Verify: run the narrowest checks that prove the change.
-7. Report: summarize changes, boundaries, verification, residual risk, and
-   follow-up work.
+1. classify the change
+2. identify affected boundaries
+3. preserve domain rules
+4. avoid widening scope
+5. add or update verification
+6. report what changed and why
+7. flag risks and unresolved questions
 
 Use `docs/engineering/agent-execution-protocol.md` for the full risk taxonomy
 and gates.
 
 ## Non-Negotiable Boundaries
 
-- LLM output is data, not authority.
+- Autonomous agent output is proposal, not authority.
+- Runtime LLM output is data, not authority.
 - User input is useful, not automatically valid.
 - Frontend checks improve experience, not security.
 - Policy lives in code or policy files, not only prompts.
 - State changes go through explicit transitions.
 - Side effects are durable, idempotent where possible, and auditable.
-- External documents, tool results, and retrieved context are untrusted input.
+- External data, tool results, model outputs, and retrieved context are
+  untrusted input.
 - Secrets are never exposed to prompts, client code, logs, or broad tools.
 - Production behavior must be reconstructable from traces, logs, audit events,
   workflow history, and durable records.
@@ -429,7 +507,7 @@ Prefer:
 Avoid:
 
 - broad tools such as `run_sql`, `execute_shell`, `http_request`, or
-  `send_any_email` as agent-facing capabilities
+  `send_any_email` as runtime-agent-facing capabilities
 - lifecycle statuses assigned directly from many files
 - business rules hidden in prompts, UI conditionals, migrations, or route
   handlers
@@ -449,14 +527,21 @@ Before implementing, answer the smallest useful version of these questions:
 5. What durable facts and database constraints are needed?
 6. What side effects occur, and are they retryable or idempotent?
 7. Is a durable workflow required?
-8. Is an LLM involved, and what typed output may it return?
-9. Are tools involved, and what narrow capability do they expose?
+8. Is a runtime agent or LLM involved, and what typed output may it return?
+9. Are side-effect capabilities or tools involved, and what narrow capability
+   do they expose?
 10. What telemetry and audit records are needed to reconstruct behavior?
 11. What tests prove the important invariant?
 
 Small changes do not require long documents. They still require clear answers.
 
-## LLM And Tool Rules
+## Runtime Agent And LLM Rules
+
+This section applies when the product itself contains LLMs, runtime agents,
+retrieval, planning, or tool use. For deeper guidance, read
+`docs/engineering/agentic-runtime.md`.
+
+Runtime LLM output is data, not authority.
 
 LLM responses should map to explicit types such as:
 
@@ -481,7 +566,8 @@ Good tools are narrow:
 - `scheduleApprovedCalendarEvent`
 
 Broad tools may exist for internal operations, migrations, or local development,
-but they should not be exposed as agent capabilities without a written decision.
+but they should not be exposed as runtime-agent capabilities without a written
+decision.
 
 ## Testing And Verification
 
@@ -493,7 +579,7 @@ Tests should focus on behavior and invariants:
 - database constraints
 - idempotency and duplicate delivery
 - workflow retry and compensation behavior
-- LLM schema parsing and refusal paths
+- runtime-agent and LLM schema parsing and refusal paths
 - tool gateway allow/deny behavior
 - retrieval authorization
 - critical end-to-end flows
@@ -509,7 +595,7 @@ Verification depends on risk:
 - workflow: retry, idempotency, timeout, and compensation tests
 - database: migration and constraint tests
 - policy: allow and deny tests
-- LLM boundary: schema, refusal, and malformed-output tests
+- runtime-agent or LLM boundary: schema, refusal, and malformed-output tests
 - tool capability: policy, approval, timeout, idempotency, and audit tests
 - critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent specs
 
@@ -536,8 +622,10 @@ early. Use:
 - `docs/engineering/doctrine.md` for stable engineering principles
 - `docs/architecture/system-map.md` for the system boundary model
 - `docs/architecture/stack-profile.md` for stack choices and substitution rules
-- `docs/contracts/` for state, tool, LLM, policy, workflow, and telemetry contracts
-- `docs/security/threat-model.md` for agentic threat modeling
+- `docs/contracts/` for state, capability, runtime-agent, policy, workflow, and
+  telemetry contracts
+- `docs/security/threat-model.md` for autonomous-agent and runtime-agent threat
+  modeling
 - `docs/adr/` for durable architectural decisions
 - `docs/templates/feature-brief.md` before building meaningful features
 
@@ -563,12 +651,13 @@ This directory contains the reusable doctrine and project-local decisions for
 3. `engineering/agent-execution-protocol.md`
 4. `engineering/definition-of-done.md`
 5. `engineering/doctrine.md`
-6. `architecture/system-map.md`
-7. `architecture/stack-profile.md`
-8. Relevant contracts in `contracts/`
-9. Relevant threat model in `security/`
-10. Relevant ADRs in `adr/`
-11. Relevant templates in `templates/`
+6. `engineering/agentic-runtime.md` if the product contains runtime agents
+7. `architecture/system-map.md`
+8. `architecture/stack-profile.md`
+9. Relevant contracts in `contracts/`
+10. Relevant threat model in `security/`
+11. Relevant ADRs in `adr/`
+12. Relevant templates in `templates/`
 
 ## Ownership Model
 
@@ -589,12 +678,12 @@ _Source: `generated-project/docs/project-profile.md`_
 
 Project: Reference Project
 
-Reference rendering of the reusable agentic engineering doctrine.
+Reference rendering of the reusable high-integrity agentic engineering doctrine.
 
 ## Template Source
 
-This project was generated with Copier from the reusable agentic engineering
-template.
+This project was generated with Copier from the reusable high-integrity
+agentic engineering template.
 
 The durable template metadata is stored in `.copier-answers.yml`. Do not edit
 that file manually unless the template repository moves and `_src_path` must be
@@ -602,7 +691,7 @@ updated.
 
 ## Product Domain
 
-- primary domain: Reusable agentic software
+- primary domain: Reusable high-integrity software
 
 ## Primary Users
 
@@ -668,13 +757,14 @@ tenant model, critical user workflows, third-party systems, or deployment limits
 
 ## First Vertical Slice
 
-Define the first runnable product slice here before adding application code:
+Define the first runnable product slice here before adding application code.
+For an ordinary feature, this may not involve an LLM:
 
 ```text
 frontend intent -> API command -> domain transition -> durable record -> observable result
 ```
 
-Reference agentic slice:
+If the product contains a runtime agent, use this reference slice:
 
 ```text
 user submits intent
@@ -713,6 +803,9 @@ _Source: `generated-project/docs/engineering/agent-execution-protocol.md`_
 This protocol turns the engineering doctrine into a concrete work loop for
 coding agents. Use it for every nontrivial change.
 
+The more autonomous the coding agent, the more explicit the boundaries must be.
+Do not treat a task as "write code until tests pass."
+
 ## Work Loop
 
 1. Orient
@@ -724,7 +817,8 @@ coding agents. Use it for every nontrivial change.
 
 3. Identify affected boundaries
    Name the affected layers: frontend, API, domain, policy, state, persistence,
-   workflow, LLM, tool, retrieval, side effect, observability, infrastructure.
+   workflow, runtime agent, LLM, tool, retrieval, side effect, observability,
+   infrastructure.
 
 4. State the plan
    List files or modules to change, tests to run, non-goals, and the main risk.
@@ -742,6 +836,24 @@ coding agents. Use it for every nontrivial change.
 7. Report
    Summarize what changed, boundaries touched, verification performed, residual
    risks, and follow-up work.
+
+## Change Classification
+
+Classify every meaningful change before implementation. A change can have more
+than one class.
+
+| Class | Meaning | Common gates |
+| --- | --- | --- |
+| Docs-only | Documentation, examples, wording, or planning artifacts with no behavior change | consistency check |
+| UI-only | Frontend representation or local UI state with no backend authority change | UI state check, screenshot or component test when useful |
+| Domain | Business rule, validation, invariant, or state transition | unit/property/transition tests |
+| API | Request/response shape, handler boundary, serialization, client contract | schema and compatibility tests |
+| Persistence | Schema, migration, constraint, ownership, data lifecycle | migration and constraint tests, rollback/mitigation notes |
+| Policy | Auth, delegation, approval, capability, tenant access | allow/deny tests and audit check |
+| Workflow | Long-running process, retry, compensation, external dependency | retry/idempotency/failure tests |
+| Side effect | External API, email, file, cloud resource, payment, queue, command execution | policy, idempotency, timeout, audit |
+| Runtime agent | Prompt, LLM schema, retrieval, tool proposal, model behavior | schema/refusal/injection/denial tests |
+| Infrastructure | Deployment, secrets, build, networking, observability | reproducibility and rollback/mitigation check |
 
 ## Change Risk Taxonomy
 
@@ -826,7 +938,8 @@ Use the smallest proof that fits the risk:
 - workflow: retry, timeout, idempotency, cancellation, and compensation tests
 - database: migration, rollback/mitigation, constraint, and duplicate-event tests
 - policy: allow/deny tests with representative actors, tenants, and capabilities
-- LLM boundary: schema validation, refusal, malformed-output, and prompt-injection tests
+- runtime-agent or LLM boundary: schema validation, refusal, malformed-output,
+  and prompt-injection tests
 - retrieval: permission-scope tests and source traceability checks
 - tool capability: policy, approval, timeout, idempotency, audit, and failure tests
 - critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent spec work
@@ -887,7 +1000,7 @@ When relevant, a completed change should also satisfy:
 - durable facts are persisted with constraints where practical
 - workflows own long-running, retryable, or externally dependent work
 - side effects are controlled, idempotent where possible, and auditable
-- LLM outputs are typed, validated, and treated as untrusted data
+- runtime-agent or LLM outputs are typed, validated, and treated as untrusted data
 - tool capabilities are narrow and registered in `docs/contracts/tool-registry.md`
 - retrieval respects authorization and source traceability
 - telemetry or audit events can reconstruct important behavior
@@ -899,7 +1012,7 @@ Update docs when a change modifies:
 - architecture or stack choices
 - state machines
 - policy inputs or authorization behavior
-- LLM schemas
+- runtime-agent or LLM schemas
 - tool capabilities
 - workflow events
 - telemetry events
@@ -926,46 +1039,115 @@ _Source: `generated-project/docs/engineering/doctrine.md`_
 
 # Engineering Doctrine
 
-We build cloud-hosted agentic applications that remain understandable, safe,
-auditable, and correct as they grow.
+We build software whose behavior remains explicit, constrained, testable,
+observable, and reviewable, even when much of the code is produced by
+autonomous coding agents.
 
-The core rule:
+This doctrine applies to ordinary web applications, APIs, databases,
+infrastructure, workflows, internal tools, and products that contain runtime
+agents or LLMs.
+
+The general rule:
+
+```text
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
+```
+
+When the application itself contains LLMs or agentic workflows, the same rule
+applies again at runtime:
 
 ```text
 LLMs may propose actions.
 Only typed, verified, policy-checked, durable workflows may execute actions.
 ```
 
-An LLM is a nondeterministic reasoning component. The rest of the system treats
-it as an untrusted planner whose outputs must be parsed, validated, authorized,
-recorded, and executed by deterministic infrastructure.
+## Why This Exists
 
-## What We Are Preventing
+Autonomous code generation amplifies existing software risks:
 
-Large systems usually fail because meaning becomes scattered.
+- unclear requirements
+- scattered business rules
+- implicit state machines
+- uncontrolled side effects
+- weak authorization boundaries
+- unsafe data migrations
+- race conditions
+- invalid states
+- shallow tests
+- poor observability
+- unreviewable changes
+- untraceable production behavior
+- generated code that works locally but violates architecture
 
-Business rules drift into route handlers, prompts, UI conditionals, webhook
-handlers, background jobs, admin panels, and helper functions. State changes
-happen from many places. Side effects happen before durable state is recorded.
-Authorization is checked inconsistently. Retries duplicate effects. Production
-failures cannot be reconstructed.
+If humans manually hold the architecture in their heads, loose conventions can
+survive for a while. When autonomous coding agents generate code, hidden
+conventions break quickly. The more autonomous the coding agent, the more
+explicit the system boundaries must be.
 
-This doctrine exists to keep meaning centralized and behavior explainable.
+This doctrine exists to make intent, invariants, authority, side effects, and
+verification visible enough that both humans and coding agents can safely extend
+the codebase.
 
-## First Principles
+## General Software Principles
 
+- Make requirements explicit.
 - Make state explicit.
 - Make events explicit.
 - Make transitions explicit.
-- Make permissions explicit.
-- Make side effects explicit.
+- Make authority explicit.
+- Make side effects controlled.
 - Make durable facts constrained.
 - Make workflows recoverable.
-- Make LLM outputs typed and validated.
-- Make production behavior observable.
-- Make builds and deployments reproducible.
+- Make behavior observable.
+- Make changes reviewable.
+- Make tests prove invariants.
+- Make deployments reproducible.
 
-These principles matter more than any specific framework.
+These principles matter whether or not the product contains LLMs.
+
+## Development-Time Path
+
+Coding-agent work should follow this path:
+
+```text
+task intent
+  -> repository context
+  -> change classification
+  -> design boundary
+  -> implementation plan
+  -> code change
+  -> tests / verification
+  -> review evidence
+  -> documentation / ADR if needed
+  -> deployability check
+```
+
+This path prevents an autonomous coding agent from treating a task as "write
+code until tests pass." Passing tests is not enough if the change violates
+authority, persistence, workflow, observability, or architectural boundaries.
+
+## Runtime Path
+
+Application behavior should still be understood across the full stack:
+
+```text
+user intent
+  -> frontend state
+  -> API boundary
+  -> domain model
+  -> policy / authorization
+  -> state transition
+  -> durable persistence
+  -> workflow orchestration
+  -> external side effects
+  -> observability
+  -> deployment / infrastructure
+```
+
+Every meaningful feature should know where it sits in this path.
 
 ## Authority Model
 
@@ -973,12 +1155,13 @@ The system distinguishes:
 
 - authentication: who is the actor?
 - authorization: what may the actor do?
-- delegation: what may an agent do for the actor?
-- capability: what exact tool or data access is available now?
+- delegation: what may another actor or agent do on the actor's behalf?
+- capability: what exact tool, resource, or operation is available now?
 - approval: does this action require human confirmation?
 
-Agents, users, workflows, and tools may have different authority boundaries.
-Prompts do not define authority.
+Users, services, workflows, coding agents, runtime agents, and tools may all
+have different authority boundaries. Prompts, UI visibility, and generated code
+do not define authority.
 
 ## State Model
 
@@ -996,11 +1179,11 @@ current state + event + facts + policy = next state or rejection
 If a lifecycle matters to correctness, safety, policy, auditability, or user
 trust, it deserves explicit states and transitions.
 
-## Side Effect Model
+## Side-Effect Capability Model
 
 Side effects include database writes, LLM calls, emails, uploads, external API
-calls, payments, tool execution, queue publishes, notifications, and cloud
-resource changes.
+calls, payments, file writes, command execution, queue publishes, notifications,
+and cloud resource changes.
 
 The preferred sequence is:
 
@@ -1008,57 +1191,18 @@ The preferred sequence is:
 decide
 persist the decision
 record the event
-execute side effects through a workflow or outbox
+execute side effects through a workflow, outbox, or controlled capability
 observe the result
 ```
 
 Side effects should be visible, bounded, policy-checked, retryable where
 possible, idempotent where practical, and auditable.
 
-## LLM Model
+Tools are one kind of side-effect capability. They must be narrow, typed,
+capability-scoped, and registered before they are exposed to runtime agents or
+automation.
 
-LLM output is data, not authority.
-
-An LLM may return a typed object such as:
-
-- summary
-- classification
-- extraction
-- draft
-- plan proposal
-- tool proposal
-- clarifying question
-- refusal
-
-It must not directly execute unchecked mutations. Every LLM boundary needs a
-schema, validation, policy check, audit record, model/version trace, and failure
-path.
-
-## Tool Model
-
-Tools are how agentic systems touch the world. They must be narrow, typed,
-capability-scoped, and auditable.
-
-Avoid broad agent-facing tools:
-
-- `run_sql`
-- `execute_shell`
-- `http_request`
-- `send_any_email`
-- `write_any_file`
-
-Prefer narrow tools:
-
-- `searchAuthorizedDocuments`
-- `createDraftEmail`
-- `submitApprovedTicket`
-- `lookupOrderStatus`
-- `scheduleApprovedCalendarEvent`
-
-Tool outputs are untrusted input. A webpage, document, or API response may try
-to influence the agent. Tool results cannot override system policy.
-
-## Database Model
+## Persistence Model
 
 The database is the durable source of truth.
 
@@ -1077,20 +1221,39 @@ If something must always be true, ask whether the database can enforce it.
 
 ## Workflow Model
 
-Long-running, failure-prone, multi-step work belongs in durable workflows.
+Long-running, failure-prone, multi-step work belongs in durable workflows or an
+equivalent recoverable execution model.
 
 Use workflows for processes such as:
 
-- agent run execution
 - approval flows
 - tool execution
 - document ingestion
-- retrieval indexing
 - external API orchestration
-- scheduled agent operations
+- scheduled operations
 - human-in-the-loop work
+- retryable side effects
+- runtime agent execution
 
 A worker crash should not erase the business process.
+
+## Nondeterministic Component Model
+
+LLMs are one example of nondeterministic components. Others include autonomous
+coding agents, recommendation models, classifiers, external APIs, user-submitted
+documents, retrieved context, and tool outputs.
+
+The rule is:
+
+```text
+nondeterministic output is input, not authority
+```
+
+Any nondeterministic output that affects behavior must pass through the same
+software boundaries as other untrusted input: parsing, validation, domain rules,
+policy, state transitions, persistence, tests, and observability.
+
+LLM-specific runtime guidance lives in `docs/engineering/agentic-runtime.md`.
 
 ## Observability Model
 
@@ -1098,24 +1261,64 @@ Every important action should be reconstructable.
 
 The system should be able to answer:
 
-- what did the user request?
-- what did the agent infer?
-- what context was retrieved?
-- what did the LLM return?
+- what task or user intent started this?
+- what code, state, or context was involved?
+- what boundary was crossed?
 - what policy was evaluated?
-- what tool was proposed?
-- was approval required?
-- what action executed?
 - what state changed?
 - what side effect occurred?
 - what failed or retried?
+- what tests or checks support the change?
+- what was recorded for audit or review?
 
 Use structured logs, traces, metrics, audit events, and stable correlation IDs.
 Do not leak secrets or private data into telemetry.
 
+## Ordinary Feature Example
+
+No product LLM is required for the doctrine to apply.
+
+Example: user profile update.
+
+```text
+user submits profile change
+API validates typed input
+domain rules decide allowed fields
+policy checks ownership
+database persists constrained facts
+audit records change
+telemetry records outcome
+```
+
+## Migration Example
+
+Example: database migration proposed by a coding agent.
+
+```text
+task is classified as persistence risk
+schema ownership and invariants are identified
+migration and rollback/mitigation are considered
+tests verify old and new behavior
+ADR is added if ownership or invariants changed
+deployability check is reported
+```
+
+## Workflow Example
+
+Example: background billing job.
+
+```text
+workflow owns retries
+idempotency prevents duplicate charge
+database records durable state
+side effects are audited
+failure path is observable
+```
+
 ## Final Test
 
-For any significant design, future maintainers should be able to understand:
+For any significant design, future maintainers and coding agents should be able
+to understand:
 
 - what state exists
 - how it can change
@@ -1125,8 +1328,163 @@ For any significant design, future maintainers should be able to understand:
 - what can be retried
 - what can be audited
 - what can fail
+- what verification supports it
 
 If those answers are unclear, the design is drifting.
+
+
+---
+
+## Agentic Runtime Guidance
+
+_Source: `generated-project/docs/engineering/agentic-runtime.md`_
+
+# Agentic Runtime Guidance
+
+This document applies when the product itself contains LLMs, runtime agents,
+retrieval, planning, or tool use.
+
+It is a specialization of the general engineering doctrine. Runtime agents
+inside the product must be contained by the same boundaries that guide
+autonomous coding agents during development.
+
+## Runtime Rule
+
+```text
+LLMs may propose actions.
+Only typed, verified, policy-checked, durable workflows may execute actions.
+```
+
+LLM output is data, not authority.
+
+## Allowed Runtime Agent Outputs
+
+An LLM or runtime agent may return typed objects such as:
+
+- `AnswerDraft`
+- `ClarifyingQuestion`
+- `PlanProposal`
+- `ToolProposal`
+- `Classification`
+- `Extraction`
+- `Summary`
+- `Refusal`
+
+It must not directly execute unchecked mutations.
+
+## Runtime Agent Flow
+
+```text
+user intent
+  -> typed intent object
+  -> runtime agent proposes plan
+  -> plan is parsed into typed command candidates
+  -> policy checks authority
+  -> state machine checks validity
+  -> approval is requested when required
+  -> workflow executes durable steps
+  -> database records state change
+  -> outbox or tool gateway performs side effects
+  -> telemetry records the full trace
+```
+
+The agent proposes. The system decides and executes.
+
+## Tool Proposals
+
+Tool proposals must be:
+
+- parsed
+- schema validated
+- policy checked
+- state checked
+- approval checked when required
+- recorded before execution
+- executed through a narrow capability
+- audited after execution
+
+Avoid broad runtime-agent tools:
+
+- `run_sql`
+- `execute_shell`
+- `http_request`
+- `send_any_email`
+- `write_any_file`
+
+Prefer narrow capabilities:
+
+- `searchAuthorizedDocuments`
+- `createDraftEmail`
+- `submitApprovedTicket`
+- `lookupOrderStatus`
+- `scheduleApprovedCalendarEvent`
+
+Every runtime-agent-facing tool belongs in `docs/contracts/tool-registry.md`.
+
+## Retrieval
+
+Retrieval is controlled access to information, not informal prompt stuffing.
+
+The system must ensure:
+
+- the user may access retrieved documents
+- the runtime agent may use those documents for this task
+- retrieved text cannot override system policy
+- document sources are traceable
+- sensitive data is handled intentionally
+- retrieval events are logged
+
+Retrieved context and external documents are untrusted input.
+
+## Prompt Injection And Tool Results
+
+Tool outputs, webpages, documents, emails, PDFs, and external API responses can
+contain instructions hostile to the system.
+
+Runtime agents must not treat those results as authority. Tool results can
+inform the next proposal, but they cannot modify policy, approval, credentials,
+state transitions, or allowed tool capabilities.
+
+## Approval
+
+High-risk runtime actions require explicit approval. Approval is separate from
+authorization.
+
+Approval rules should define:
+
+- what action requires approval
+- who may approve it
+- how long approval lasts
+- what exact proposal was approved
+- what happens when approval is denied or expires
+- what audit event records the decision
+
+## Required Runtime Contracts
+
+When adding runtime agents, update the relevant contract docs:
+
+- `docs/contracts/llm-outputs.md`
+- `docs/contracts/tool-registry.md`
+- `docs/contracts/state-machines.md`
+- `docs/contracts/workflow-events.md`
+- `docs/contracts/policy-inputs.md`
+- `docs/contracts/telemetry-events.md`
+- `docs/security/threat-model.md`
+
+## Verification
+
+Runtime-agent changes should test:
+
+- schema validation
+- malformed output
+- refusal path
+- prompt-injection path
+- unauthorized retrieval
+- denied policy decision
+- approval required
+- duplicate tool callback
+- idempotency or compensation
+- audit and trace output
 
 
 ---
@@ -1137,10 +1495,34 @@ _Source: `generated-project/docs/architecture/system-map.md`_
 
 # System Map
 
-This map describes the intended flow from user intent to durable consequence.
-It is reusable across projects and should guide code organization.
+This map describes how work moves from intent to durable consequence. It covers
+both development-time work done by autonomous coding agents and runtime behavior
+inside the application.
 
-## Canonical Flow
+## Coding-Agent Development Path
+
+Coding-agent work should follow this path:
+
+```text
+task intent
+  -> repository context
+  -> change classification
+  -> design boundary
+  -> implementation plan
+  -> code change
+  -> tests / verification
+  -> review evidence
+  -> documentation / ADR if needed
+  -> deployability check
+```
+
+This path prevents agents from optimizing only for local code changes or passing
+tests. A change is not complete until its boundary, risk, verification, and
+review evidence are clear.
+
+## General Runtime Path
+
+Every feature should be understood across the full stack:
 
 ```text
 user intent
@@ -1156,43 +1538,53 @@ user intent
   -> deployment / infrastructure
 ```
 
-Every meaningful feature should know where it sits in this flow.
+No LLM is required for this path to matter. Ordinary profile updates, billing
+jobs, admin tools, reporting workflows, and infrastructure changes all need
+explicit boundaries.
 
-## Pure Agentic Flow
+## Runtime-Agent Path
+
+When the product itself contains an LLM or runtime agent, use this specialized
+path:
 
 ```text
 user intent
   -> typed intent object
-  -> LLM proposes plan
+  -> runtime agent proposes plan
   -> plan is parsed into typed command candidates
   -> policy checks authority
   -> state machine checks validity
+  -> approval is requested when required
   -> workflow executes durable steps
   -> database records state change
   -> outbox or tool gateway performs side effects
   -> telemetry records the full trace
 ```
 
-The LLM proposes. The system decides and executes.
+The runtime agent proposes. Deterministic software decides and executes.
 
 ## Common Domain Objects
 
-Agentic systems often need first-class objects like:
+Serious systems often need first-class objects like:
 
 - `UserIntent`
-- `AgentRun`
-- `AgentPlan`
-- `ToolProposal`
-- `ToolInvocation`
-- `ApprovalRequest`
-- `ApprovalDecision`
+- `StateTransition`
 - `PolicyDecision`
 - `WorkflowRun`
-- `LLMCall`
-- `RetrievedContext`
-- `StateTransition`
 - `SideEffect`
 - `AuditEvent`
+- `IdempotencyKey`
+- `ApprovalRequest`
+
+Runtime-agent systems may also need:
+
+- `AgentRun`
+- `AgentPlan`
+- `LLMCall`
+- `RetrievedContext`
+- `ToolProposal`
+- `ToolInvocation`
+- `ApprovalDecision`
 
 These names are examples, not mandatory types. The principle is that meaningful
 concepts should be visible in the code and data model.
@@ -1214,12 +1606,13 @@ be thin.
 ### Domain Model
 
 The domain model defines the meaningful facts, objects, rules, and transitions.
-Business rules should live here, not in prompts or route handlers.
+Business rules should live here, not in prompts, UI conditionals, migrations, or
+route handlers.
 
 ### Policy
 
-Policy answers what an actor, agent, workflow, or tool may do. It should be
-explicit, testable, and separate from prompt text.
+Policy answers what an actor, service, workflow, coding agent, runtime agent, or
+tool may do. It should be explicit, testable, and separate from prompt text.
 
 ### State Transition
 
@@ -1236,27 +1629,34 @@ constraints wherever practical.
 Durable workflows coordinate long-running and retryable work. They should make
 waiting, retries, compensation, approval, and final state visible.
 
-### Tool Gateway
+### Side-Effect Capability
 
-The tool gateway is the controlled side-effect boundary. It exposes narrow
-capabilities, checks policy, applies timeouts, records audit data, and treats
-tool outputs as untrusted input.
+A side-effect capability is any controlled way to mutate the world: external
+API, email, file write, payment, command execution, cloud mutation, queue
+publish, or runtime-agent tool.
+
+Side-effect capabilities should be narrow, typed, policy-checked, timed out,
+idempotent where possible, and auditable.
 
 ### Observability
 
-Telemetry reconstructs behavior across requests, workflows, LLM calls, policy
-decisions, tool calls, database changes, and side effects.
+Telemetry reconstructs behavior across tasks, requests, workflows, model calls,
+policy decisions, side effects, database changes, tests, deployments, and audit
+events.
 
 ## Design Smells
 
-- an LLM can directly mutate state
+- a coding agent changes behavior without classifying risk
+- a generated change crosses a boundary without tests or review evidence
 - a route handler owns complex business rules
 - a lifecycle status is assigned from many places
-- a tool accepts arbitrary SQL, shell, URL, or email content from an agent
 - a side effect happens before a durable event is recorded
 - authorization differs between frontend and backend
-- retrieval can access data outside the user or tenant scope
+- a database migration changes ownership or invariants without an ADR
 - a workflow cannot be resumed or explained after a crash
+- a runtime LLM can directly mutate state
+- a runtime tool accepts arbitrary SQL, shell, URL, or email content
+- retrieval can access data outside the user or tenant scope
 - production incidents cannot be reconstructed from durable records and traces
 
 
@@ -1269,14 +1669,16 @@ _Source: `generated-project/docs/architecture/stack-profile.md`_
 # Stack Profile
 
 This is the stack profile for `Reference Project`. It starts from the reusable
-high-purity agentic software defaults, then records this project's selected
-choices.
+high-integrity software defaults for projects developed with autonomous coding
+agents, then records this project's selected choices.
 
 The stack exists to enforce one boundary:
 
 ```text
-LLMs may propose actions.
-Only typed, verified, policy-checked, durable workflows may execute actions.
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
 ```
 
 ## Project Defaults
@@ -1294,7 +1696,7 @@ Only typed, verified, policy-checked, durable workflows may execute actions.
 | Policy | OPA / Rego | OPA / Rego | Explicit policy-as-code outside prompts and scattered conditionals |
 | Tool protocol | MCP behind a gateway | MCP behind a gateway | Useful integration protocol, not a trust boundary by itself |
 | Tool sandbox | WebAssembly / Wasmtime where possible | WebAssembly / Wasmtime | Capability-shaped execution boundary for plugins and tools |
-| LLM integration | Provider-agnostic gateway | Provider-agnostic gateway | Keeps prompts, schemas, models, and vendors behind a typed boundary |
+| Runtime LLM integration | Provider-agnostic gateway when needed | Provider-agnostic gateway | Keeps prompts, schemas, models, and vendors behind a typed boundary when the product contains LLMs |
 | Build and release | Nix plus provenance practices | Nix plus provenance practices | Reproducible builds and auditable artifacts |
 | Observability | OpenTelemetry | OpenTelemetry | Vendor-neutral traces, metrics, logs, and correlation |
 | Cloud | Undecided | AWS or equivalent | Use replaceable infrastructure with least privilege and reproducibility |
@@ -1355,8 +1757,8 @@ frontend intent
   -> trace/log/audit event
 ```
 
-After that, add LLM planning, policy, workflows, retrieval, tools, and cloud
-deployment incrementally as the product surface requires them.
+After that, add policy, workflows, retrieval, runtime-agent planning, tools,
+and cloud deployment incrementally as the product surface requires them.
 
 
 ---
@@ -1370,20 +1772,30 @@ _Source: `generated-project/docs/engineering/feature-development.md`_
 Use this guide before building meaningful features. The goal is to keep feature
 work connected to the whole system without creating heavyweight process.
 
-## 1. Define User Intent
+## 1. Define Intent
 
-Write the user intent in one or two sentences:
+Write the user, operator, or system intent in one or two sentences:
 
 ```text
 As a <user or actor>, I want to <intent>, so that <outcome>.
 ```
 
-Then state what the system must not allow.
+For coding-agent tasks, also state the development intent:
+
+```text
+Given <repository context>, change <system behavior or documentation> so that <outcome>.
+```
+
+Then state what the system or coding agent must not change or allow.
 
 ## 2. Name The Domain Concepts
 
 Identify the domain objects involved. Prefer meaningful names:
 
+- `UserProfile`
+- `BillingRun`
+- `Membership`
+- `StateTransition`
 - `ToolProposal`
 - `ApprovalRequest`
 - `DocumentIngestionRun`
@@ -1421,8 +1833,9 @@ Answer:
 
 - who is authenticated?
 - what is the user allowed to do?
-- what may the agent do on the user's behalf?
-- what capability does each tool expose?
+- what may another actor, service, coding agent, or runtime agent do on the
+  user's behalf?
+- what capability does each side-effect path expose?
 - what requires approval?
 - what is denied by default?
 
@@ -1468,9 +1881,10 @@ For each one, define:
 - failure state
 - compensation if needed
 
-## 7. Define LLM Boundaries
+## 7. Define Runtime Agent Or LLM Boundaries
 
-If an LLM is involved, define:
+If a runtime agent, LLM, classifier, recommendation model, or other
+nondeterministic component is involved, define:
 
 - input schema
 - output schema
@@ -1481,8 +1895,8 @@ If an LLM is involved, define:
 - retention rules
 - prompt-injection handling
 
-The feature should work safely when the LLM returns malformed, incomplete, or
-overconfident output.
+The feature should work safely when the component returns malformed,
+incomplete, overconfident, or adversarially influenced output.
 
 ## 8. Define Observability
 
@@ -1509,7 +1923,7 @@ Test the invariants, not just examples:
 - unauthorized access is rejected
 - invalid transitions are rejected
 - duplicate events do not duplicate effects
-- malformed LLM output is rejected safely
+- malformed runtime-agent or LLM output is rejected safely
 - retrieval respects permissions
 - high-risk actions require approval
 - workflow retries preserve correctness
@@ -1694,8 +2108,8 @@ buried only in prompts, source comments, route handlers, or tribal knowledge.
 Contracts are the named boundaries other code relies on:
 
 - state machines
-- LLM output variants and schemas
-- tool capabilities
+- runtime-agent and LLM output variants and schemas
+- tool and side-effect capabilities
 - workflow events
 - policy inputs
 - telemetry and audit events
@@ -1707,8 +2121,8 @@ or explain why the contract is documented elsewhere.
 ## Files
 
 - `state-machines.md`: lifecycle states, events, guards, and terminal states
-- `tool-registry.md`: tool capability registry and side-effect rules
-- `llm-outputs.md`: allowed LLM output shapes and validation expectations
+- `tool-registry.md`: tool and side-effect capability registry
+- `llm-outputs.md`: runtime LLM output shapes and validation expectations
 - `workflow-events.md`: workflow events, retry semantics, and idempotency notes
 - `policy-inputs.md`: policy decision inputs and authority model
 - `telemetry-events.md`: trace, log, metric, and audit event names
@@ -1815,10 +2229,11 @@ Add project-specific state machines below.
 
 _Source: `generated-project/docs/contracts/tool-registry.md`_
 
-# Tool Capability Registry
+# Tool And Side-Effect Capability Registry
 
-Every agent-facing tool must be registered here before it is exposed to an LLM,
-agent runtime, workflow, or MCP gateway.
+Every runtime-agent-facing or automation-facing tool must be registered here
+before it is exposed to an LLM, agent runtime, workflow, MCP gateway, or other
+side-effect capability boundary.
 
 Broad tools require an ADR. Examples include arbitrary SQL, shell execution,
 arbitrary HTTP, arbitrary file write, and arbitrary email send.
@@ -1862,6 +2277,10 @@ For each tool, define:
 _Source: `generated-project/docs/contracts/llm-outputs.md`_
 
 # LLM Output Contracts
+
+This file applies only when the product contains runtime LLM boundaries,
+runtime agents, retrieval, planning, or model-generated outputs that affect
+system behavior.
 
 LLM output is data, not authority. Every LLM response used by the system must
 map to an allowed output type and pass validation before it affects state,
@@ -1968,7 +2387,7 @@ inputs policy decisions rely on.
 - authenticated actor
 - tenant or organization scope
 - user role or membership
-- agent delegation scope
+- coding-agent or runtime-agent delegation scope
 - workflow identity
 - tool capability
 - resource ownership
@@ -1982,13 +2401,14 @@ inputs policy decisions rely on.
 | --- | --- | --- | --- | --- |
 | `can_start_agent_run` | actor, tenant, intent type | allow | deny | `policy_agent_run_checked` |
 | `can_retrieve_document` | actor, tenant, document labels, task scope | allow | deny | `policy_retrieval_checked` |
-| `can_execute_tool` | actor, workflow, tool, approval state | allow | deny | `policy_tool_execution_checked` |
+| `can_execute_capability` | actor, workflow, capability, approval state | allow | deny | `policy_capability_execution_checked` |
 
 ## Rules
 
 - default deny where practical
 - frontend visibility is not authorization
-- LLM output is not a policy input unless explicitly modeled as untrusted data
+- autonomous-agent or LLM output is not a policy input unless explicitly modeled
+  as untrusted data
 - policy decisions should be logged without leaking secrets
 - approval is separate from authorization
 
@@ -2047,9 +2467,10 @@ _Source: `generated-project/docs/security/threat-model.md`_
 
 # Threat Model
 
-This project should maintain a live threat model for agentic risks. Start here
-before adding broad retrieval, new tool classes, approval changes, external side
-effects, tenant-sensitive data access, or secret handling.
+This project should maintain a live threat model for autonomous-agent,
+runtime-agent, and high-risk software changes. Start here before adding broad
+retrieval, new tool classes, approval changes, external side effects,
+tenant-sensitive data access, secret handling, or broad coding-agent authority.
 
 ## Scope
 
@@ -2060,7 +2481,21 @@ effects, tenant-sensitive data access, or secret handling.
 - external systems:
 - irreversible actions:
 
-## Agentic Questions
+## Development-Time Agent Questions
+
+- What can coding agents read?
+- What can coding agents write?
+- What repository, cloud, database, or deployment credentials can they access?
+- What commands, tools, or automation can they run?
+- What changes require human review before merge or deployment?
+- What generated code paths are high risk?
+- What is the worst change a coding agent could make without detection?
+- How would that change be caught before production?
+
+## Runtime Agent Questions
+
+Use these when the product contains LLMs, retrieval, planning, runtime agents,
+or user-facing automation.
 
 - What can the LLM see?
 - What can the LLM propose?
@@ -2086,6 +2521,8 @@ effects, tenant-sensitive data access, or secret handling.
 - policy decisions are auditable
 - cross-tenant access is denied by default
 - high-risk side effects are idempotent or compensated where possible
+- coding-agent changes are reviewed according to risk before shipping
+- deployment credentials are least privilege and not available to prompts
 
 ## Open Threats
 
@@ -2098,6 +2535,7 @@ effects, tenant-sensitive data access, or secret handling.
 Review this threat model when adding or changing:
 
 - LLM boundaries
+- coding-agent permissions
 - retrieval scope
 - tool capabilities
 - policy rules
@@ -2124,7 +2562,7 @@ Good ADR subjects:
 - choosing or replacing a core technology
 - changing a state machine
 - introducing a new side-effect boundary
-- exposing a new agent-facing tool
+- exposing a new runtime-agent-facing tool or side-effect capability
 - changing policy or approval behavior
 - changing persistence ownership or constraints
 - changing deployment or infrastructure strategy
@@ -2142,7 +2580,7 @@ Use `docs/templates/adr.md` as the starting point.
 
 _Source: `generated-project/docs/adr/0001-adopt-agentic-engineering-doctrine.md`_
 
-# ADR: Adopt Agentic Engineering Doctrine
+# ADR: Adopt High-Integrity Agentic Engineering Doctrine
 
 - status: accepted
 - date: 2026-01-01
@@ -2150,8 +2588,8 @@ _Source: `generated-project/docs/adr/0001-adopt-agentic-engineering-doctrine.md`
 
 ## Context
 
-`Reference Project` is starting from a reusable doctrine for high-purity
-agentic software.
+`Reference Project` is starting from a reusable doctrine for high-integrity
+software developed with autonomous coding agents.
 
 The project needs a durable operating model before implementation choices start
 to spread across frontend code, backend handlers, prompts, workflows, policy,
@@ -2175,16 +2613,27 @@ The initial project stack profile is:
 
 ## Rationale
 
-The doctrine preserves the core boundary:
+The doctrine preserves the core development boundary:
+
+```text
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
+```
+
+When the product itself contains runtime LLMs or agents, the same doctrine
+applies at runtime:
 
 ```text
 LLMs may propose actions.
 Only typed, verified, policy-checked, durable workflows may execute actions.
 ```
 
-This keeps nondeterministic model behavior inside deterministic software
-boundaries: typed inputs, explicit policy, state machines, durable persistence,
-recoverable workflows, constrained tools, and observable side effects.
+This keeps autonomous and nondeterministic behavior inside explicit software
+boundaries: typed inputs, domain rules, policy checks, review gates, state
+machines, durable persistence, recoverable workflows, constrained side effects,
+tests, and observable execution.
 
 ## Alternatives Considered
 
@@ -2435,7 +2884,18 @@ _Source: `generated-project/docs/templates/threat-model.md`_
 - external systems:
 - side effects:
 
-## LLM Exposure
+## Development-Time Agent Exposure
+
+- what can coding agents read?
+- what can coding agents write?
+- what credentials, commands, or automations can they access?
+- what change types require human review?
+- what deployment or data paths are off limits?
+
+## Runtime Agent Or LLM Exposure
+
+Use this section when the product contains runtime agents, LLMs, retrieval, or
+model-generated outputs.
 
 - what can the LLM see?
 - what can the LLM propose?
@@ -2470,7 +2930,7 @@ detects, and mitigates it.
 ## Required Tests
 
 - denial path:
-- malformed LLM output:
+- malformed runtime-agent or LLM output:
 - prompt injection:
 - unauthorized retrieval:
 - approval required:
@@ -2491,7 +2951,7 @@ _Source: `generated-project/docs/templates/tool-capability.md`_
 
 ## Purpose
 
-What narrow capability does this tool expose?
+What narrow side-effect capability does this tool expose?
 
 ## Contract
 
@@ -2513,7 +2973,7 @@ What can this tool change outside memory?
 ## Security Notes
 
 - secrets exposed to tool:
-- secrets exposed to LLM:
+- secrets exposed to runtime agents or LLMs:
 - tenant scope:
 - prompt-injection risk:
 - malicious-result handling:
@@ -2598,7 +3058,8 @@ _Source: `AGENTS.md`_
 # Template Maintainer Guide
 
 This repository is a Copier template for seeding new projects with a reusable
-engineering doctrine for high-purity agentic software.
+engineering doctrine for high-integrity software developed with autonomous
+coding agents.
 
 Generated project files live under `template/`. Files outside `template/` are
 for maintaining this template repository and are not copied into generated
@@ -2609,9 +3070,14 @@ projects.
 Preserve this doctrine across template changes:
 
 ```text
-LLMs may propose actions.
-Only typed, verified, policy-checked, durable workflows may execute actions.
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
 ```
+
+Runtime LLM guidance is a specialization of this broader doctrine, not the whole
+scope of the template.
 
 Do not turn the template into a framework scaffold unless a real boundary needs
 that code. This repository should seed principles, operating structure, decision
@@ -2633,21 +3099,11 @@ records, and project-local customization points.
 
 ## Verification
 
-After editing the template, generate a temporary project and run its local
-doctor check:
+After editing the template, generate a temporary project from the current
+worktree and run its local doctor check:
 
 ```bash
-rm -rf /tmp/agentic-template-check
-copier copy . /tmp/agentic-template-check \
-  --force \
-  --vcs-ref=HEAD \
-  --data project_name="Template Check" \
-  --data project_slug="template-check" \
-  --data project_description="Temporary generated project for template validation." \
-  --data primary_domain="Template validation" \
-  --data cloud_target="Undecided"
-
-/tmp/agentic-template-check/scripts/doctor.sh
+scripts/validate-template.sh
 ```
 
 Then inspect the generated files for accidental template leakage.
@@ -2745,20 +3201,11 @@ Static docs that do not need project variables stay as plain `.md` files.
 
 ### Validate The Template
 
-Generate a temporary project and run its local doctor check:
+Generate a temporary project from the current worktree and run its local doctor
+check:
 
 ```bash
-rm -rf /tmp/agentic-template-check
-copier copy . /tmp/agentic-template-check \
-  --force \
-  --vcs-ref=HEAD \
-  --data project_name="Template Check" \
-  --data project_slug="template-check" \
-  --data project_description="Temporary generated project for template validation." \
-  --data primary_domain="Template validation" \
-  --data cloud_target="Undecided"
-
-/tmp/agentic-template-check/scripts/doctor.sh
+scripts/validate-template.sh
 ```
 
 ### Single-File Reader Artifact

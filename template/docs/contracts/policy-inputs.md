@@ -8,7 +8,7 @@ inputs policy decisions rely on.
 - authenticated actor
 - tenant or organization scope
 - user role or membership
-- agent delegation scope
+- coding-agent or runtime-agent delegation scope
 - workflow identity
 - tool capability
 - resource ownership
@@ -22,12 +22,13 @@ inputs policy decisions rely on.
 | --- | --- | --- | --- | --- |
 | `can_start_agent_run` | actor, tenant, intent type | allow | deny | `policy_agent_run_checked` |
 | `can_retrieve_document` | actor, tenant, document labels, task scope | allow | deny | `policy_retrieval_checked` |
-| `can_execute_tool` | actor, workflow, tool, approval state | allow | deny | `policy_tool_execution_checked` |
+| `can_execute_capability` | actor, workflow, capability, approval state | allow | deny | `policy_capability_execution_checked` |
 
 ## Rules
 
 - default deny where practical
 - frontend visibility is not authorization
-- LLM output is not a policy input unless explicitly modeled as untrusted data
+- autonomous-agent or LLM output is not a policy input unless explicitly modeled
+  as untrusted data
 - policy decisions should be logged without leaking secrets
 - approval is separate from authorization

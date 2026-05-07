@@ -1,7 +1,7 @@
-# Agentic Engineering Template
+# High-Integrity Agentic Engineering Template
 
-This repository is a reusable pedagogical documentation template for building
-high-purity agentic software.
+This repository is a reusable pedagogical documentation template for software
+projects developed with autonomous coding agents.
 
 It is not an application framework. It does not scaffold a frontend, backend,
 database, cloud account, or agent runtime. It gives each new project a shared
@@ -9,7 +9,21 @@ engineering doctrine, a vocabulary, a set of first-principles design questions,
 and a small set of project-local documents that make future technical decisions
 easier to reason about.
 
+It is not limited to applications that contain LLM agents. It applies to
+ordinary web apps, APIs, infrastructure, workflows, internal tools, databases,
+user interfaces, and products that contain runtime agents.
+
 The purpose is to make every project start with the same core discipline:
+
+```text
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
+```
+
+When the product itself contains LLMs or agentic workflows, the same doctrine
+applies again at runtime:
 
 ```text
 LLMs may propose actions.
@@ -18,42 +32,64 @@ Only typed, verified, policy-checked, durable workflows may execute actions.
 
 ## Why This Exists
 
-Agentic applications fail in a different way than ordinary CRUD applications.
-They do not only have users, screens, routes, database rows, background jobs, and
-external APIs. They also have nondeterministic reasoning components that can
-summarize, plan, classify, extract, retrieve context, and propose tool calls.
+Autonomous code generation amplifies existing software risks:
 
-That capability is useful, but it creates a purity problem.
+- unclear requirements
+- scattered business rules
+- implicit state machines
+- uncontrolled side effects
+- weak authorization boundaries
+- unsafe data migrations
+- race conditions
+- invalid states
+- inadequate tests
+- poor observability
+- unreviewable changes
+- untraceable production behavior
+- agent-generated code that works locally but violates architecture
 
-An LLM is not a trusted program. It is a probabilistic reasoning component whose
-outputs may be incomplete, overconfident, manipulated by retrieved text, or
-inconsistent across runs. If the rest of the system treats model output as
-authority, the application becomes a chatbot that mutates the world.
+The solution is not to stop using agents. The solution is to make the system's
+intent, boundaries, invariants, and verification paths explicit enough that both
+humans and coding agents can safely extend it.
 
-This template teaches a different architecture:
+The more autonomous the coding agent, the more explicit the boundaries must be.
 
-```text
-user intent
-  -> typed input
-  -> LLM proposal
-  -> schema validation
-  -> policy decision
-  -> state transition
-  -> durable workflow
-  -> constrained side effect
-  -> audit and telemetry
-```
+## Two Agent Contexts
 
-The LLM contributes reasoning. Deterministic software decides what is valid,
-authorized, durable, retryable, observable, and safe to execute.
+This doctrine covers two different agent contexts:
+
+1. Coding agents
+   Agents that write, modify, test, review, and document the codebase.
+
+2. Product or runtime agents
+   Agents inside the application that reason, plan, retrieve context, or use
+   tools for end users.
+
+The primary audience is the first category: autonomous coding agents working in
+serious software repositories. If the product itself contains runtime agents,
+the same discipline applies again inside the application.
 
 ## What This Template Teaches
 
-The generated documentation is meant to train both humans and coding agents to
-think in terms of boundaries rather than isolated tasks.
+The generated documentation trains humans and coding agents to think in terms of
+boundaries rather than isolated tasks.
 
-A feature is not just a UI change, an endpoint, a prompt, or a database table.
-A feature is a path from user intent to durable consequence:
+Coding-agent work follows this path:
+
+```text
+task intent
+  -> repository context
+  -> change classification
+  -> design boundary
+  -> implementation plan
+  -> code change
+  -> tests / verification
+  -> review evidence
+  -> documentation / ADR if needed
+  -> deployability check
+```
+
+Runtime product behavior follows this path:
 
 ```text
 user intent
@@ -69,9 +105,23 @@ observability
 deployment / infrastructure
 ```
 
-The generated docs repeatedly bring work back to that path. This is deliberate.
-The most common failure mode in growing systems is that meaning becomes
-scattered. Business rules drift into route handlers, prompts, frontend
+If the product contains runtime LLMs or agents, add this specialized path:
+
+```text
+user intent
+  -> typed intent object
+  -> runtime agent proposes plan
+  -> schema validation
+  -> policy decision
+  -> state transition
+  -> durable workflow
+  -> constrained side effect
+  -> audit and telemetry
+```
+
+The generated docs repeatedly bring work back to these paths. This is
+deliberate. The most common failure mode in growing systems is that meaning
+becomes scattered. Business rules drift into route handlers, prompts, frontend
 conditionals, webhook handlers, background jobs, admin scripts, and migrations.
 State changes happen from many places. Side effects happen before durable state
 is recorded. Authorization is checked inconsistently. Retries duplicate work.
@@ -81,11 +131,13 @@ This template pushes against that drift by making the important questions
 visible from the start:
 
 - What user intent is being served?
+- What task intent is the coding agent acting on?
 - What domain objects are involved?
 - What states can those objects be in?
 - What events may change those states?
 - Who is allowed to perform the action?
-- What may an agent do on a user's behalf?
+- What may a service, workflow, coding agent, or runtime agent do on a user's
+  behalf?
 - What side effects can happen?
 - What must be persisted before execution?
 - What can be retried?
@@ -103,20 +155,21 @@ boundaries touched, select verification by risk, and report residual risk.
 The generated project docs are organized around one mental model:
 
 ```text
-nondeterministic reasoning inside deterministic boundaries
+software whose structure remains legible to autonomous agents
 ```
 
 That means:
 
 - prompts do not define authority
 - frontend checks do not define security
-- LLM outputs are data, not commands
-- tools are narrow capabilities, not broad execution channels
-- state transitions are explicit, not scattered string assignments
+- autonomous code changes are classified before implementation
+- domain rules, state transitions, and side effects are explicit
+- side-effect capabilities are narrow, not broad execution channels
 - workflows own long-running and retryable side effects
 - the database enforces durable facts where possible
 - policy is testable outside prompt text
 - telemetry records enough to reconstruct important behavior
+- runtime LLM outputs are data, not commands
 
 The model is intentionally technology-independent. The default stack profile
 favors Elm, Haskell, Dafny, Temporal, PostgreSQL, OPA, Wasmtime, Nix, and
@@ -148,12 +201,13 @@ Generated projects should use the docs in this order:
 3. `docs/engineering/agent-execution-protocol.md`
 4. `docs/engineering/definition-of-done.md`
 5. `docs/engineering/doctrine.md`
-6. `docs/architecture/system-map.md`
-7. `docs/architecture/stack-profile.md`
-8. Relevant contracts in `docs/contracts/`
-9. Relevant threat model in `docs/security/`
-10. Relevant ADRs in `docs/adr/`
-11. Relevant templates in `docs/templates/`
+6. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
+7. `docs/architecture/system-map.md`
+8. `docs/architecture/stack-profile.md`
+9. Relevant contracts in `docs/contracts/`
+10. Relevant threat model in `docs/security/`
+11. Relevant ADRs in `docs/adr/`
+12. Relevant templates in `docs/templates/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` is where the project records its local facts,
@@ -176,6 +230,7 @@ docs/
     agent-execution-protocol.md
     definition-of-done.md
     doctrine.md
+    agentic-runtime.md
     feature-development.md
     deployment-readiness.md
     formal-methods.md
@@ -352,20 +407,11 @@ Static docs that do not need project variables stay as plain `.md` files.
 
 ### Validate The Template
 
-Generate a temporary project and run its local doctor check:
+Generate a temporary project from the current worktree and run its local doctor
+check:
 
 ```bash
-rm -rf /tmp/agentic-template-check
-copier copy . /tmp/agentic-template-check \
-  --force \
-  --vcs-ref=HEAD \
-  --data project_name="Template Check" \
-  --data project_slug="template-check" \
-  --data project_description="Temporary generated project for template validation." \
-  --data primary_domain="Template validation" \
-  --data cloud_target="Undecided"
-
-/tmp/agentic-template-check/scripts/doctor.sh
+scripts/validate-template.sh
 ```
 
 ### Single-File Reader Artifact

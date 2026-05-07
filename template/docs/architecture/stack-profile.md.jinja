@@ -1,14 +1,16 @@
 # Stack Profile
 
 This is the stack profile for `{{ project_name }}`. It starts from the reusable
-high-purity agentic software defaults, then records this project's selected
-choices.
+high-integrity software defaults for projects developed with autonomous coding
+agents, then records this project's selected choices.
 
 The stack exists to enforce one boundary:
 
 ```text
-LLMs may propose actions.
-Only typed, verified, policy-checked, durable workflows may execute actions.
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
 ```
 
 ## Project Defaults
@@ -26,7 +28,7 @@ Only typed, verified, policy-checked, durable workflows may execute actions.
 | Policy | {{ policy_engine }} | OPA / Rego | Explicit policy-as-code outside prompts and scattered conditionals |
 | Tool protocol | MCP behind a gateway | MCP behind a gateway | Useful integration protocol, not a trust boundary by itself |
 | Tool sandbox | WebAssembly / Wasmtime where possible | WebAssembly / Wasmtime | Capability-shaped execution boundary for plugins and tools |
-| LLM integration | Provider-agnostic gateway | Provider-agnostic gateway | Keeps prompts, schemas, models, and vendors behind a typed boundary |
+| Runtime LLM integration | Provider-agnostic gateway when needed | Provider-agnostic gateway | Keeps prompts, schemas, models, and vendors behind a typed boundary when the product contains LLMs |
 | Build and release | Nix plus provenance practices | Nix plus provenance practices | Reproducible builds and auditable artifacts |
 | Observability | OpenTelemetry | OpenTelemetry | Vendor-neutral traces, metrics, logs, and correlation |
 | Cloud | {{ cloud_target }} | AWS or equivalent | Use replaceable infrastructure with least privilege and reproducibility |
@@ -87,5 +89,5 @@ frontend intent
   -> trace/log/audit event
 ```
 
-After that, add LLM planning, policy, workflows, retrieval, tools, and cloud
-deployment incrementally as the product surface requires them.
+After that, add policy, workflows, retrieval, runtime-agent planning, tools,
+and cloud deployment incrementally as the product surface requires them.

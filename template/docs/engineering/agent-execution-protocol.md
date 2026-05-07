@@ -3,6 +3,9 @@
 This protocol turns the engineering doctrine into a concrete work loop for
 coding agents. Use it for every nontrivial change.
 
+The more autonomous the coding agent, the more explicit the boundaries must be.
+Do not treat a task as "write code until tests pass."
+
 ## Work Loop
 
 1. Orient
@@ -14,7 +17,8 @@ coding agents. Use it for every nontrivial change.
 
 3. Identify affected boundaries
    Name the affected layers: frontend, API, domain, policy, state, persistence,
-   workflow, LLM, tool, retrieval, side effect, observability, infrastructure.
+   workflow, runtime agent, LLM, tool, retrieval, side effect, observability,
+   infrastructure.
 
 4. State the plan
    List files or modules to change, tests to run, non-goals, and the main risk.
@@ -32,6 +36,24 @@ coding agents. Use it for every nontrivial change.
 7. Report
    Summarize what changed, boundaries touched, verification performed, residual
    risks, and follow-up work.
+
+## Change Classification
+
+Classify every meaningful change before implementation. A change can have more
+than one class.
+
+| Class | Meaning | Common gates |
+| --- | --- | --- |
+| Docs-only | Documentation, examples, wording, or planning artifacts with no behavior change | consistency check |
+| UI-only | Frontend representation or local UI state with no backend authority change | UI state check, screenshot or component test when useful |
+| Domain | Business rule, validation, invariant, or state transition | unit/property/transition tests |
+| API | Request/response shape, handler boundary, serialization, client contract | schema and compatibility tests |
+| Persistence | Schema, migration, constraint, ownership, data lifecycle | migration and constraint tests, rollback/mitigation notes |
+| Policy | Auth, delegation, approval, capability, tenant access | allow/deny tests and audit check |
+| Workflow | Long-running process, retry, compensation, external dependency | retry/idempotency/failure tests |
+| Side effect | External API, email, file, cloud resource, payment, queue, command execution | policy, idempotency, timeout, audit |
+| Runtime agent | Prompt, LLM schema, retrieval, tool proposal, model behavior | schema/refusal/injection/denial tests |
+| Infrastructure | Deployment, secrets, build, networking, observability | reproducibility and rollback/mitigation check |
 
 ## Change Risk Taxonomy
 
@@ -116,7 +138,8 @@ Use the smallest proof that fits the risk:
 - workflow: retry, timeout, idempotency, cancellation, and compensation tests
 - database: migration, rollback/mitigation, constraint, and duplicate-event tests
 - policy: allow/deny tests with representative actors, tenants, and capabilities
-- LLM boundary: schema validation, refusal, malformed-output, and prompt-injection tests
+- runtime-agent or LLM boundary: schema validation, refusal, malformed-output,
+  and prompt-injection tests
 - retrieval: permission-scope tests and source traceability checks
 - tool capability: policy, approval, timeout, idempotency, audit, and failure tests
 - critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent spec work

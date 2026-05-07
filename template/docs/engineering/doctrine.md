@@ -1,45 +1,114 @@
 # Engineering Doctrine
 
-We build cloud-hosted agentic applications that remain understandable, safe,
-auditable, and correct as they grow.
+We build software whose behavior remains explicit, constrained, testable,
+observable, and reviewable, even when much of the code is produced by
+autonomous coding agents.
 
-The core rule:
+This doctrine applies to ordinary web applications, APIs, databases,
+infrastructure, workflows, internal tools, and products that contain runtime
+agents or LLMs.
+
+The general rule:
+
+```text
+Autonomous agents may propose code, plans, and actions.
+The system may accept them only through explicit boundaries:
+typed inputs, domain rules, policy checks, review gates, state transitions,
+tests, durable persistence, controlled side effects, and observable execution.
+```
+
+When the application itself contains LLMs or agentic workflows, the same rule
+applies again at runtime:
 
 ```text
 LLMs may propose actions.
 Only typed, verified, policy-checked, durable workflows may execute actions.
 ```
 
-An LLM is a nondeterministic reasoning component. The rest of the system treats
-it as an untrusted planner whose outputs must be parsed, validated, authorized,
-recorded, and executed by deterministic infrastructure.
+## Why This Exists
 
-## What We Are Preventing
+Autonomous code generation amplifies existing software risks:
 
-Large systems usually fail because meaning becomes scattered.
+- unclear requirements
+- scattered business rules
+- implicit state machines
+- uncontrolled side effects
+- weak authorization boundaries
+- unsafe data migrations
+- race conditions
+- invalid states
+- shallow tests
+- poor observability
+- unreviewable changes
+- untraceable production behavior
+- generated code that works locally but violates architecture
 
-Business rules drift into route handlers, prompts, UI conditionals, webhook
-handlers, background jobs, admin panels, and helper functions. State changes
-happen from many places. Side effects happen before durable state is recorded.
-Authorization is checked inconsistently. Retries duplicate effects. Production
-failures cannot be reconstructed.
+If humans manually hold the architecture in their heads, loose conventions can
+survive for a while. When autonomous coding agents generate code, hidden
+conventions break quickly. The more autonomous the coding agent, the more
+explicit the system boundaries must be.
 
-This doctrine exists to keep meaning centralized and behavior explainable.
+This doctrine exists to make intent, invariants, authority, side effects, and
+verification visible enough that both humans and coding agents can safely extend
+the codebase.
 
-## First Principles
+## General Software Principles
 
+- Make requirements explicit.
 - Make state explicit.
 - Make events explicit.
 - Make transitions explicit.
-- Make permissions explicit.
-- Make side effects explicit.
+- Make authority explicit.
+- Make side effects controlled.
 - Make durable facts constrained.
 - Make workflows recoverable.
-- Make LLM outputs typed and validated.
-- Make production behavior observable.
-- Make builds and deployments reproducible.
+- Make behavior observable.
+- Make changes reviewable.
+- Make tests prove invariants.
+- Make deployments reproducible.
 
-These principles matter more than any specific framework.
+These principles matter whether or not the product contains LLMs.
+
+## Development-Time Path
+
+Coding-agent work should follow this path:
+
+```text
+task intent
+  -> repository context
+  -> change classification
+  -> design boundary
+  -> implementation plan
+  -> code change
+  -> tests / verification
+  -> review evidence
+  -> documentation / ADR if needed
+  -> deployability check
+```
+
+This path prevents an autonomous coding agent from treating a task as "write
+code until tests pass." Passing tests is not enough if the change violates
+authority, persistence, workflow, observability, or architectural boundaries.
+
+## Runtime Path
+
+Application behavior should still be understood across the full stack:
+
+```text
+user intent
+  -> frontend state
+  -> API boundary
+  -> domain model
+  -> policy / authorization
+  -> state transition
+  -> durable persistence
+  -> workflow orchestration
+  -> external side effects
+  -> observability
+  -> deployment / infrastructure
+```
+
+Every meaningful feature should know where it sits in this path.
 
 ## Authority Model
 
@@ -47,12 +116,13 @@ The system distinguishes:
 
 - authentication: who is the actor?
 - authorization: what may the actor do?
-- delegation: what may an agent do for the actor?
-- capability: what exact tool or data access is available now?
+- delegation: what may another actor or agent do on the actor's behalf?
+- capability: what exact tool, resource, or operation is available now?
 - approval: does this action require human confirmation?
 
-Agents, users, workflows, and tools may have different authority boundaries.
-Prompts do not define authority.
+Users, services, workflows, coding agents, runtime agents, and tools may all
+have different authority boundaries. Prompts, UI visibility, and generated code
+do not define authority.
 
 ## State Model
 
@@ -70,11 +140,11 @@ current state + event + facts + policy = next state or rejection
 If a lifecycle matters to correctness, safety, policy, auditability, or user
 trust, it deserves explicit states and transitions.
 
-## Side Effect Model
+## Side-Effect Capability Model
 
 Side effects include database writes, LLM calls, emails, uploads, external API
-calls, payments, tool execution, queue publishes, notifications, and cloud
-resource changes.
+calls, payments, file writes, command execution, queue publishes, notifications,
+and cloud resource changes.
 
 The preferred sequence is:
 
@@ -82,57 +152,18 @@ The preferred sequence is:
 decide
 persist the decision
 record the event
-execute side effects through a workflow or outbox
+execute side effects through a workflow, outbox, or controlled capability
 observe the result
 ```
 
 Side effects should be visible, bounded, policy-checked, retryable where
 possible, idempotent where practical, and auditable.
 
-## LLM Model
+Tools are one kind of side-effect capability. They must be narrow, typed,
+capability-scoped, and registered before they are exposed to runtime agents or
+automation.
 
-LLM output is data, not authority.
-
-An LLM may return a typed object such as:
-
-- summary
-- classification
-- extraction
-- draft
-- plan proposal
-- tool proposal
-- clarifying question
-- refusal
-
-It must not directly execute unchecked mutations. Every LLM boundary needs a
-schema, validation, policy check, audit record, model/version trace, and failure
-path.
-
-## Tool Model
-
-Tools are how agentic systems touch the world. They must be narrow, typed,
-capability-scoped, and auditable.
-
-Avoid broad agent-facing tools:
-
-- `run_sql`
-- `execute_shell`
-- `http_request`
-- `send_any_email`
-- `write_any_file`
-
-Prefer narrow tools:
-
-- `searchAuthorizedDocuments`
-- `createDraftEmail`
-- `submitApprovedTicket`
-- `lookupOrderStatus`
-- `scheduleApprovedCalendarEvent`
-
-Tool outputs are untrusted input. A webpage, document, or API response may try
-to influence the agent. Tool results cannot override system policy.
-
-## Database Model
+## Persistence Model
 
 The database is the durable source of truth.
 
@@ -151,20 +182,39 @@ If something must always be true, ask whether the database can enforce it.
 
 ## Workflow Model
 
-Long-running, failure-prone, multi-step work belongs in durable workflows.
+Long-running, failure-prone, multi-step work belongs in durable workflows or an
+equivalent recoverable execution model.
 
 Use workflows for processes such as:
 
-- agent run execution
 - approval flows
 - tool execution
 - document ingestion
-- retrieval indexing
 - external API orchestration
-- scheduled agent operations
+- scheduled operations
 - human-in-the-loop work
+- retryable side effects
+- runtime agent execution
 
 A worker crash should not erase the business process.
+
+## Nondeterministic Component Model
+
+LLMs are one example of nondeterministic components. Others include autonomous
+coding agents, recommendation models, classifiers, external APIs, user-submitted
+documents, retrieved context, and tool outputs.
+
+The rule is:
+
+```text
+nondeterministic output is input, not authority
+```
+
+Any nondeterministic output that affects behavior must pass through the same
+software boundaries as other untrusted input: parsing, validation, domain rules,
+policy, state transitions, persistence, tests, and observability.
+
+LLM-specific runtime guidance lives in `docs/engineering/agentic-runtime.md`.
 
 ## Observability Model
 
@@ -172,24 +222,64 @@ Every important action should be reconstructable.
 
 The system should be able to answer:
 
-- what did the user request?
-- what did the agent infer?
-- what context was retrieved?
-- what did the LLM return?
+- what task or user intent started this?
+- what code, state, or context was involved?
+- what boundary was crossed?
 - what policy was evaluated?
-- what tool was proposed?
-- was approval required?
-- what action executed?
 - what state changed?
 - what side effect occurred?
 - what failed or retried?
+- what tests or checks support the change?
+- what was recorded for audit or review?
 
 Use structured logs, traces, metrics, audit events, and stable correlation IDs.
 Do not leak secrets or private data into telemetry.
 
+## Ordinary Feature Example
+
+No product LLM is required for the doctrine to apply.
+
+Example: user profile update.
+
+```text
+user submits profile change
+API validates typed input
+domain rules decide allowed fields
+policy checks ownership
+database persists constrained facts
+audit records change
+telemetry records outcome
+```
+
+## Migration Example
+
+Example: database migration proposed by a coding agent.
+
+```text
+task is classified as persistence risk
+schema ownership and invariants are identified
+migration and rollback/mitigation are considered
+tests verify old and new behavior
+ADR is added if ownership or invariants changed
+deployability check is reported
+```
+
+## Workflow Example
+
+Example: background billing job.
+
+```text
+workflow owns retries
+idempotency prevents duplicate charge
+database records durable state
+side effects are audited
+failure path is observable
+```
+
 ## Final Test
 
-For any significant design, future maintainers should be able to understand:
+For any significant design, future maintainers and coding agents should be able
+to understand:
 
 - what state exists
 - how it can change
@@ -199,5 +289,6 @@ For any significant design, future maintainers should be able to understand:
 - what can be retried
 - what can be audited
 - what can fail
+- what verification supports it
 
 If those answers are unclear, the design is drifting.

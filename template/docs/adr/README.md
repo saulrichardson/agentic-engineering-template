@@ -8,7 +8,7 @@ Good ADR subjects:
 - choosing or replacing a core technology
 - changing a state machine
 - introducing a new side-effect boundary
-- exposing a new agent-facing tool
+- exposing a new runtime-agent-facing tool or side-effect capability
 - changing policy or approval behavior
 - changing persistence ownership or constraints
 - changing deployment or infrastructure strategy

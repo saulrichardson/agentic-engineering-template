@@ -1,9 +1,33 @@
 # System Map
 
-This map describes the intended flow from user intent to durable consequence.
-It is reusable across projects and should guide code organization.
+This map describes how work moves from intent to durable consequence. It covers
+both development-time work done by autonomous coding agents and runtime behavior
+inside the application.
 
-## Canonical Flow
+## Coding-Agent Development Path
+
+Coding-agent work should follow this path:
+
+```text
+task intent
+  -> repository context
+  -> change classification
+  -> design boundary
+  -> implementation plan
+  -> code change
+  -> tests / verification
+  -> review evidence
+  -> documentation / ADR if needed
+  -> deployability check
+```
+
+This path prevents agents from optimizing only for local code changes or passing
+tests. A change is not complete until its boundary, risk, verification, and
+review evidence are clear.
+
+## General Runtime Path
+
+Every feature should be understood across the full stack:
 
 ```text
 user intent
@@ -19,43 +43,53 @@ user intent
   -> deployment / infrastructure
 ```
 
-Every meaningful feature should know where it sits in this flow.
+No LLM is required for this path to matter. Ordinary profile updates, billing
+jobs, admin tools, reporting workflows, and infrastructure changes all need
+explicit boundaries.
 
-## Pure Agentic Flow
+## Runtime-Agent Path
+
+When the product itself contains an LLM or runtime agent, use this specialized
+path:
 
 ```text
 user intent
   -> typed intent object
-  -> LLM proposes plan
+  -> runtime agent proposes plan
   -> plan is parsed into typed command candidates
   -> policy checks authority
   -> state machine checks validity
+  -> approval is requested when required
   -> workflow executes durable steps
   -> database records state change
   -> outbox or tool gateway performs side effects
   -> telemetry records the full trace
 ```
 
-The LLM proposes. The system decides and executes.
+The runtime agent proposes. Deterministic software decides and executes.
 
 ## Common Domain Objects
 
-Agentic systems often need first-class objects like:
+Serious systems often need first-class objects like:
 
 - `UserIntent`
-- `AgentRun`
-- `AgentPlan`
-- `ToolProposal`
-- `ToolInvocation`
-- `ApprovalRequest`
-- `ApprovalDecision`
+- `StateTransition`
 - `PolicyDecision`
 - `WorkflowRun`
-- `LLMCall`
-- `RetrievedContext`
-- `StateTransition`
 - `SideEffect`
 - `AuditEvent`
+- `IdempotencyKey`
+- `ApprovalRequest`
+
+Runtime-agent systems may also need:
+
+- `AgentRun`
+- `AgentPlan`
+- `LLMCall`
+- `RetrievedContext`
+- `ToolProposal`
+- `ToolInvocation`
+- `ApprovalDecision`
 
 These names are examples, not mandatory types. The principle is that meaningful
 concepts should be visible in the code and data model.
@@ -77,12 +111,13 @@ be thin.
 ### Domain Model
 
 The domain model defines the meaningful facts, objects, rules, and transitions.
-Business rules should live here, not in prompts or route handlers.
+Business rules should live here, not in prompts, UI conditionals, migrations, or
+route handlers.
 
 ### Policy
 
-Policy answers what an actor, agent, workflow, or tool may do. It should be
-explicit, testable, and separate from prompt text.
+Policy answers what an actor, service, workflow, coding agent, runtime agent, or
+tool may do. It should be explicit, testable, and separate from prompt text.
 
 ### State Transition
 
@@ -99,25 +134,32 @@ constraints wherever practical.
 Durable workflows coordinate long-running and retryable work. They should make
 waiting, retries, compensation, approval, and final state visible.
 
-### Tool Gateway
+### Side-Effect Capability
 
-The tool gateway is the controlled side-effect boundary. It exposes narrow
-capabilities, checks policy, applies timeouts, records audit data, and treats
-tool outputs as untrusted input.
+A side-effect capability is any controlled way to mutate the world: external
+API, email, file write, payment, command execution, cloud mutation, queue
+publish, or runtime-agent tool.
+
+Side-effect capabilities should be narrow, typed, policy-checked, timed out,
+idempotent where possible, and auditable.
 
 ### Observability
 
-Telemetry reconstructs behavior across requests, workflows, LLM calls, policy
-decisions, tool calls, database changes, and side effects.
+Telemetry reconstructs behavior across tasks, requests, workflows, model calls,
+policy decisions, side effects, database changes, tests, deployments, and audit
+events.
 
 ## Design Smells
 
-- an LLM can directly mutate state
+- a coding agent changes behavior without classifying risk
+- a generated change crosses a boundary without tests or review evidence
 - a route handler owns complex business rules
 - a lifecycle status is assigned from many places
-- a tool accepts arbitrary SQL, shell, URL, or email content from an agent
 - a side effect happens before a durable event is recorded
 - authorization differs between frontend and backend
-- retrieval can access data outside the user or tenant scope
+- a database migration changes ownership or invariants without an ADR
 - a workflow cannot be resumed or explained after a crash
+- a runtime LLM can directly mutate state
+- a runtime tool accepts arbitrary SQL, shell, URL, or email content
+- retrieval can access data outside the user or tenant scope
 - production incidents cannot be reconstructed from durable records and traces

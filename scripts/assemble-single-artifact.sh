@@ -4,6 +4,7 @@ set -eu
 ROOT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 OUT_PATH="${1:-$ROOT_DIR/AGENTIC_ENGINEERING_DOCTRINE.md}"
 TMP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/agentic-docs.XXXXXX")
+SOURCE_DIR="$TMP_DIR/source"
 GENERATED_DIR="$TMP_DIR/generated-project"
 
 cleanup() {
@@ -11,15 +12,26 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-copier copy "$ROOT_DIR" "$GENERATED_DIR" \
+mkdir -p "$SOURCE_DIR"
+(
+  cd "$ROOT_DIR"
+  tar \
+    --exclude './.git' \
+    --exclude './AGENTIC_ENGINEERING_DOCTRINE.md' \
+    -cf - .
+) | (
+  cd "$SOURCE_DIR"
+  tar -xf -
+)
+
+copier copy "$SOURCE_DIR" "$GENERATED_DIR" \
   --force \
   --quiet \
-  --vcs-ref=HEAD \
   --data project_name="Reference Project" \
   --data project_slug="reference-project" \
-  --data project_description="Reference rendering of the reusable agentic engineering doctrine." \
+  --data project_description="Reference rendering of the reusable high-integrity agentic engineering doctrine." \
   --data adoption_date="2026-01-01" \
-  --data primary_domain="Reusable agentic software" \
+  --data primary_domain="Reusable high-integrity software" \
   --data cloud_target="Undecided" >/dev/null
 
 append_file() {
@@ -69,14 +81,14 @@ append_readme_mechanics() {
 }
 
 {
-  printf '# Agentic Engineering Doctrine\n\n'
-  printf 'This is a single-file reader artifact assembled from the reusable agentic engineering template.\n\n'
+  printf '# High-Integrity Agentic Engineering Doctrine\n\n'
+  printf 'This is a single-file reader artifact assembled from the reusable high-integrity agentic engineering template.\n\n'
   printf 'It is meant to be passed to someone who needs one coherent artifact rather than a repository tree.\n\n'
   printf 'Generated from the current template repository contents.\n\n'
   printf 'Template repository: https://github.com/saulrichardson/agentic-engineering-template\n\n'
   printf 'Reference rendering notes:\n\n'
   printf '%s\n' '- Project name: Reference Project'
-  printf '%s\n' '- Primary domain: Reusable agentic software'
+  printf '%s\n' '- Primary domain: Reusable high-integrity software'
   printf '%s\n' '- Cloud target: Undecided'
   printf '%s\n' '- The generated project sections use reference values where project-specific answers are required.'
   printf '%s\n' '- Technical setup and Copier mechanics are intentionally placed at the end.'
@@ -90,6 +102,7 @@ append_file "Generated Project Profile" "$GENERATED_DIR/docs/project-profile.md"
 append_file "Agent Execution Protocol" "$GENERATED_DIR/docs/engineering/agent-execution-protocol.md"
 append_file "Definition Of Done" "$GENERATED_DIR/docs/engineering/definition-of-done.md"
 append_file "Engineering Doctrine" "$GENERATED_DIR/docs/engineering/doctrine.md"
+append_file "Agentic Runtime Guidance" "$GENERATED_DIR/docs/engineering/agentic-runtime.md"
 append_file "System Map" "$GENERATED_DIR/docs/architecture/system-map.md"
 append_file "Stack Profile" "$GENERATED_DIR/docs/architecture/stack-profile.md"
 append_file "Feature Development Guide" "$GENERATED_DIR/docs/engineering/feature-development.md"

@@ -6,8 +6,8 @@ buried only in prompts, source comments, route handlers, or tribal knowledge.
 Contracts are the named boundaries other code relies on:
 
 - state machines
-- LLM output variants and schemas
-- tool capabilities
+- runtime-agent and LLM output variants and schemas
+- tool and side-effect capabilities
 - workflow events
 - policy inputs
 - telemetry and audit events
@@ -19,8 +19,8 @@ or explain why the contract is documented elsewhere.
 ## Files
 
 - `state-machines.md`: lifecycle states, events, guards, and terminal states
-- `tool-registry.md`: tool capability registry and side-effect rules
-- `llm-outputs.md`: allowed LLM output shapes and validation expectations
+- `tool-registry.md`: tool and side-effect capability registry
+- `llm-outputs.md`: runtime LLM output shapes and validation expectations
 - `workflow-events.md`: workflow events, retry semantics, and idempotency notes
 - `policy-inputs.md`: policy decision inputs and authority model
 - `telemetry-events.md`: trace, log, metric, and audit event names

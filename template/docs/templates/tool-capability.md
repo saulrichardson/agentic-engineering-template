@@ -6,7 +6,7 @@
 
 ## Purpose
 
-What narrow capability does this tool expose?
+What narrow side-effect capability does this tool expose?
 
 ## Contract
 
@@ -28,7 +28,7 @@ What can this tool change outside memory?
 ## Security Notes
 
 - secrets exposed to tool:
-- secrets exposed to LLM:
+- secrets exposed to runtime agents or LLMs:
 - tenant scope:
 - prompt-injection risk:
 - malicious-result handling:

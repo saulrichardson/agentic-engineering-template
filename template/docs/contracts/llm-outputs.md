@@ -1,5 +1,9 @@
 # LLM Output Contracts
 
+This file applies only when the product contains runtime LLM boundaries,
+runtime agents, retrieval, planning, or model-generated outputs that affect
+system behavior.
+
 LLM output is data, not authority. Every LLM response used by the system must
 map to an allowed output type and pass validation before it affects state,
 policy, workflows, tools, or persistence.
