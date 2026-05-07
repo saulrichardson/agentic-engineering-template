@@ -1,0 +1,70 @@
+# ADR: Adopt Agentic Engineering Doctrine
+
+- status: accepted
+- date: {{ adoption_date }}
+- owners: project maintainers
+
+## Context
+
+`{{ project_name }}` is starting from a reusable doctrine for high-purity
+agentic software.
+
+The project needs a durable operating model before implementation choices start
+to spread across frontend code, backend handlers, prompts, workflows, policy,
+database schema, and infrastructure.
+
+## Decision
+
+Adopt the reusable engineering doctrine in `AGENTS.md`,
+`docs/engineering/doctrine.md`, `docs/architecture/system-map.md`, and
+`docs/architecture/stack-profile.md`.
+
+The initial project stack profile is:
+
+- frontend: {{ frontend }}
+- backend domain core: {{ backend }}
+- workflow runtime: {{ workflow_runtime }}
+- durable database: {{ database }}
+- vector storage: {{ vector_store }}
+- policy engine: {{ policy_engine }}
+- cloud target: {{ cloud_target }}
+
+## Rationale
+
+The doctrine preserves the core boundary:
+
+```text
+LLMs may propose actions.
+Only typed, verified, policy-checked, durable workflows may execute actions.
+```
+
+This keeps nondeterministic model behavior inside deterministic software
+boundaries: typed inputs, explicit policy, state machines, durable persistence,
+recoverable workflows, constrained tools, and observable side effects.
+
+## Alternatives Considered
+
+### Submodule
+
+Rejected as the default. A submodule keeps doctrine centrally pinned, but makes
+project-local customization and future updates more awkward. This project should
+own its generated docs and update deliberately with Copier.
+
+### Ad Hoc Project Docs
+
+Rejected. Starting from ad hoc docs makes each project rediscover the same
+authority, workflow, side-effect, and observability boundaries.
+
+## Consequences
+
+Future architecture decisions should either preserve this doctrine or explicitly
+record the reason for a deviation.
+
+Template updates can be pulled with `copier update`, but project-specific
+decisions remain local and should be protected through ADRs.
+
+## Verification
+
+- `scripts/doctor.sh` verifies the expected documentation structure exists.
+- Feature work should use `docs/templates/feature-brief.md`.
+- Meaningful architecture changes should use `docs/templates/adr.md`.

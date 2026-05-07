@@ -1,0 +1,64 @@
+# Project Profile
+
+Project: {{ project_name }}
+
+{{ project_description }}
+
+## Template Source
+
+This project was generated with Copier from the reusable agentic engineering
+template.
+
+The durable template metadata is stored in `.copier-answers.yml`. Do not edit
+that file manually unless the template repository moves and `_src_path` must be
+updated.
+
+## Product Domain
+
+- primary domain: {{ primary_domain }}
+
+## Selected Stack
+
+- frontend: {{ frontend }}
+- backend domain core: {{ backend }}
+- workflow runtime: {{ workflow_runtime }}
+- durable database: {{ database }}
+- vector storage: {{ vector_store }}
+- policy engine: {{ policy_engine }}
+- cloud target: {{ cloud_target }}
+{% if include_formal_methods %}
+- formal methods: included for critical invariants and workflow specs
+{% else %}
+- formal methods: not included by default; add an ADR before introducing
+  verification tooling
+{% endif %}
+
+## Local Doctrine Overrides
+
+None yet.
+
+When a project-specific decision intentionally overrides the reusable doctrine,
+record it here briefly and add an ADR under `docs/adr/`.
+
+## Project-Specific Constraints
+
+None yet.
+
+Use this section for constraints such as regulatory requirements, data residency,
+tenant model, critical user workflows, third-party systems, or deployment limits.
+
+## First Vertical Slice
+
+Define the first runnable product slice here before adding application code:
+
+```text
+frontend intent -> API command -> domain transition -> durable record -> observable result
+```
+
+## Open Questions
+
+- What is the first user-facing workflow?
+- What data is the durable source of truth?
+- What actions require human approval?
+- What external systems can the application touch?
+- What must be auditable from day one?

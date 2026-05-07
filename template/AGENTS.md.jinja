@@ -1,0 +1,195 @@
+# Agent Operating Guide
+
+Project: {{ project_name }}
+
+This file is the root operating guide for coding agents working in this
+repository. It is generated from the reusable agentic engineering template, then
+owned by this project.
+
+Project-specific decisions override the base doctrine only when they are
+recorded in `docs/project-profile.md` or an ADR under `docs/adr/`.
+
+## North Star
+
+Build systems that safely contain nondeterministic intelligence inside
+deterministic software boundaries.
+
+```text
+LLMs may propose actions.
+Only typed, verified, policy-checked, durable workflows may execute actions.
+```
+
+LLMs may interpret, propose, summarize, classify, and plan. They do not directly
+mutate the world. Any action that changes durable state or reaches an external
+system must pass through typed validation, policy, state transition rules,
+durable workflow execution, persistence, and observability.
+
+## Read Order
+
+Before substantial work, read these files:
+
+1. `AGENTS.md`
+2. `docs/project-profile.md`
+3. `docs/engineering/doctrine.md`
+4. `docs/architecture/system-map.md`
+5. `docs/architecture/stack-profile.md`
+6. The relevant feature brief, ADR, or local module documentation
+
+If the repository has implementation code, inspect the code before changing it.
+Do not assume the docs are more current than the source.
+
+## Project Stack Defaults
+
+- frontend: {{ frontend }}
+- backend domain core: {{ backend }}
+- workflow runtime: {{ workflow_runtime }}
+- durable database: {{ database }}
+- vector storage: {{ vector_store }}
+- policy engine: {{ policy_engine }}
+- cloud target: {{ cloud_target }}
+{% if include_formal_methods %}
+- formal methods: Dafny for critical modules; TLA+ or Lean when deeper
+  specification is justified
+{% endif %}
+
+These choices are defaults, not dogma. If the project substitutes a technology,
+the replacement must preserve the same boundary: typed inputs, explicit
+authority, durable state, recoverable workflows, constrained side effects, and
+observable execution.
+
+## Operating Model
+
+For every feature or fix, locate the work on this path:
+
+```text
+user intent
+frontend state
+API boundary
+domain model
+policy / authorization
+state transition
+durable persistence
+workflow orchestration
+external side effects
+observability
+deployment / infrastructure
+```
+
+Most defects are caused by skipping or scattering one of these layers.
+
+## Non-Negotiable Boundaries
+
+- LLM output is data, not authority.
+- User input is useful, not automatically valid.
+- Frontend checks improve experience, not security.
+- Policy lives in code or policy files, not only prompts.
+- State changes go through explicit transitions.
+- Side effects are durable, idempotent where possible, and auditable.
+- External documents, tool results, and retrieved context are untrusted input.
+- Secrets are never exposed to prompts, client code, logs, or broad tools.
+- Production behavior must be reconstructable from traces, logs, audit events,
+  workflow history, and durable records.
+
+## Preferred Shape Of Code
+
+Prefer:
+
+- typed request and response boundaries
+- small API handlers that call application/domain services
+- pure domain functions for business rules and state transitions
+- explicit state machines for important lifecycles
+- narrow capability-scoped tools
+- database constraints for durable invariants
+- durable workflows for long-running or retryable processes
+- structured telemetry with stable correlation IDs
+- ADRs for architectural choices that future agents might question
+
+Avoid:
+
+- broad tools such as `run_sql`, `execute_shell`, `http_request`, or
+  `send_any_email` as agent-facing capabilities
+- lifecycle statuses assigned directly from many files
+- business rules hidden in prompts, UI conditionals, migrations, or route
+  handlers
+- untyped blobs named `payload`, `metadata`, or `data` when the concept has
+  domain meaning
+- side effects before durable decisions are recorded
+- introducing infrastructure that does not preserve the system boundaries
+
+## Feature Work Checklist
+
+Before implementing, answer the smallest useful version of these questions:
+
+1. What user intent is served?
+2. What domain objects are involved?
+3. What lifecycle or state machine changes?
+4. What permissions, delegation, capability, or approval checks are required?
+5. What durable facts and database constraints are needed?
+6. What side effects occur, and are they retryable or idempotent?
+7. Is a durable workflow required?
+8. Is an LLM involved, and what typed output may it return?
+9. Are tools involved, and what narrow capability do they expose?
+10. What telemetry and audit records are needed to reconstruct behavior?
+11. What tests prove the important invariant?
+
+Small changes do not require long documents. They still require clear answers.
+
+## LLM And Tool Rules
+
+LLM responses should map to explicit types such as:
+
+- `AnswerDraft`
+- `ClarifyingQuestion`
+- `PlanProposal`
+- `ToolProposal`
+- `Classification`
+- `Extraction`
+- `Summary`
+- `Refusal`
+
+Tool proposals must be parsed, validated, policy checked, state checked, and
+recorded before execution. High-risk actions require approval.
+
+Good tools are narrow:
+
+- `searchAuthorizedDocuments`
+- `createDraftEmail`
+- `lookupOrderStatus`
+- `submitApprovedTicket`
+- `scheduleApprovedCalendarEvent`
+
+Broad tools may exist for internal operations, migrations, or local development,
+but they should not be exposed as agent capabilities without a written decision.
+
+## Testing And Verification
+
+Tests should focus on behavior and invariants:
+
+- pure domain logic
+- state transitions
+- authorization and delegation
+- database constraints
+- idempotency and duplicate delivery
+- workflow retry and compensation behavior
+- LLM schema parsing and refusal paths
+- tool gateway allow/deny behavior
+- retrieval authorization
+- critical end-to-end flows
+
+When changing production behavior, run the narrowest verification that proves the
+change and broaden only when the blast radius requires it.
+
+## Documentation Discipline
+
+Documentation should clarify decisions, not freeze implementation details too
+early. Use:
+
+- `docs/project-profile.md` for local project facts and deviations
+- `docs/engineering/doctrine.md` for stable engineering principles
+- `docs/architecture/system-map.md` for the system boundary model
+- `docs/architecture/stack-profile.md` for stack choices and substitution rules
+- `docs/adr/` for durable architectural decisions
+- `docs/templates/feature-brief.md` before building meaningful features
+
+When a local choice becomes important enough that future agents need to preserve
+it, document it close to the code or add an ADR.

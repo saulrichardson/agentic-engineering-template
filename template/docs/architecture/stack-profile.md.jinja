@@ -1,0 +1,88 @@
+# Stack Profile
+
+This is the stack profile for `{{ project_name }}`. It starts from the reusable
+high-purity agentic software defaults, then records this project's selected
+choices.
+
+The stack exists to enforce one boundary:
+
+```text
+LLMs may propose actions.
+Only typed, verified, policy-checked, durable workflows may execute actions.
+```
+
+## Project Defaults
+
+| Concern | Project choice | Reference default | Why it fits |
+| --- | --- | --- | --- |
+| Frontend | {{ frontend }} | Elm | Explicit UI state, controlled commands, strong compiler feedback |
+| Backend domain core | {{ backend }} | Haskell | Pure domain logic, strong types, clear effect boundaries |
+{% if include_formal_methods %}| Critical verification | Dafny where justified | Dafny | Machine-checked specs and invariants for high-risk logic |
+| System modeling | TLA+ or Lean where justified | TLA+ or Lean | Concurrency, workflow, and invariant reasoning before implementation |
+{% endif %}| Workflow runtime | {{ workflow_runtime }} | Temporal | Durable execution, retries, long-running processes, human-in-the-loop flows |
+| Durable database | {{ database }} | PostgreSQL | Transactions, constraints, locks, mature relational modeling |
+| Vector storage | {{ vector_store }} | PostgreSQL with pgvector first | Retrieval near metadata, permissions, and transactions |
+| Dedicated vector search | Qdrant when needed | Qdrant when needed | Use when vector search becomes a separate scaling domain |
+| Policy | {{ policy_engine }} | OPA / Rego | Explicit policy-as-code outside prompts and scattered conditionals |
+| Tool protocol | MCP behind a gateway | MCP behind a gateway | Useful integration protocol, not a trust boundary by itself |
+| Tool sandbox | WebAssembly / Wasmtime where possible | WebAssembly / Wasmtime | Capability-shaped execution boundary for plugins and tools |
+| LLM integration | Provider-agnostic gateway | Provider-agnostic gateway | Keeps prompts, schemas, models, and vendors behind a typed boundary |
+| Build and release | Nix plus provenance practices | Nix plus provenance practices | Reproducible builds and auditable artifacts |
+| Observability | OpenTelemetry | OpenTelemetry | Vendor-neutral traces, metrics, logs, and correlation |
+| Cloud | {{ cloud_target }} | AWS or equivalent | Use replaceable infrastructure with least privilege and reproducibility |
+
+## Substitution Rule
+
+A technology can be replaced when the replacement preserves the same system
+properties:
+
+- typed boundaries
+- explicit authority
+- durable state
+- constrained side effects
+- recoverable workflows
+- reproducible builds
+- observable execution
+- auditable decisions
+
+If a replacement weakens one of these properties, write an ADR explaining the
+tradeoff and compensating control.
+
+## Stack Is Not Architecture
+
+The architecture is not a specific language, framework, database, or cloud. The
+architecture is the boundary model:
+
+```text
+intent -> typed command -> policy -> state transition -> workflow -> side effect
+```
+
+Keep this model even if the project uses different tools.
+
+## When To Add A Layer
+
+Add a layer when it protects a real boundary:
+
+- add policy when authority is nontrivial
+- add workflows when work is long-running, retryable, or externally dependent
+- add verification when an invariant is critical and easy to get subtly wrong
+- add a sandbox when third-party or generated code may execute
+- add a dedicated vector database when retrieval has independent scale needs
+- add infrastructure automation when manual setup would become unreproducible
+
+Do not add tools only because the reference stack lists them.
+
+## Early Vertical Slice
+
+The first runnable slice should usually be:
+
+```text
+frontend intent
+  -> API command
+  -> domain transition
+  -> {{ database }} record
+  -> trace/log/audit event
+```
+
+After that, add LLM planning, policy, workflows, retrieval, tools, and cloud
+deployment incrementally as the product surface requires them.

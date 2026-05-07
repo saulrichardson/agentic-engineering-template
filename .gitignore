@@ -1,0 +1,12 @@
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary smoke outputs
+.tmp/
+
+# Logs
+*.log
