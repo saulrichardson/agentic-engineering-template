@@ -46,6 +46,7 @@ copier copy gh:YOUR_ORG/agentic-engineering-template /path/to/new-project \
 Inside a generated project:
 
 ```bash
+copier check-update
 copier update
 ```
 
