@@ -527,10 +527,10 @@ boundaries, explicit authority, durable state, recoverable workflows,
 constrained side effects, reproducible builds, observable execution, and
 auditable decisions.
 
-When a feature needs a language or major tool not listed here, record the choice
-in `docs/project-profile.md` or an ADR. Name the boundary it owns, why the
-preferred stack is insufficient, how it is tested and deployed, and how it
-preserves the doctrine.
+When a feature uses a language or major tool outside the preferred stack, record
+the choice in `docs/project-profile.md` or an ADR. Name the boundary it owns,
+why the preferred stack is insufficient, how it is tested and deployed, and how
+it preserves the doctrine.
 
 If a selected stack entry says `Other / undecided` or `None yet`, choose and
 record the local tool before implementing that layer.
@@ -1864,7 +1864,7 @@ Preferred implementation stack:
 If the preferred stack does not fit, choose the next best option that preserves
 the same project goals and engineering boundaries.
 
-Before adding a new language or major tool, record:
+When choosing a substitute language or major tool, record:
 
 - what boundary it owns
 - why the existing selected stack is insufficient
