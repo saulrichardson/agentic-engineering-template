@@ -17,6 +17,19 @@ The system must not allow:
 - <domain object>
 - <domain object>
 
+## First-Class Change
+
+Does this feature introduce a new durable concept, authority boundary, state,
+event, data flow, or side effect?
+
+If yes:
+
+- where is it represented first-class?
+- what old abstraction no longer matches?
+- what contracts must change?
+- what tests prove the new model?
+- is any compatibility path required, or is a breaking change acceptable?
+
 ## State And Events
 
 States:

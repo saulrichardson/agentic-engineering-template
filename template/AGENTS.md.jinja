@@ -240,6 +240,60 @@ and gates.
 - Production behavior must be reconstructable from traces, logs, audit events,
   workflow history, and durable records.
 
+## Evidence Over Assumption
+
+Ground implementation decisions in repository artifacts:
+
+- code
+- tests
+- schemas
+- configs
+- migrations
+- logs
+- docs
+- ADRs
+- contract files
+- representative data examples
+
+Do not rely on generic knowledge, common conventions, or prior expectations when
+concrete project artifacts are available.
+
+Treat assumptions as hypotheses. If required information is missing, say what is
+missing and choose only conservative, easily-correctable defaults unless the
+task requires a decision.
+
+For nontrivial work, manually inspect both the relevant inputs and outputs.
+Passing tests or matching a common pattern is not enough if the result does not
+satisfy the actual goal and execution path.
+
+## No Heuristic Final Evidence
+
+Heuristics may guide investigation. They do not prove correctness.
+
+Do not conclude that a result is correct only because it follows a common
+pattern, resembles nearby code, satisfies a linter, compiles, or passes
+generated tests.
+
+Use concrete evidence from the current repository and task.
+
+## Design Choice Rule
+
+If multiple reasonable approaches exist, choose only when the decision is local,
+reversible, and consistent with existing project artifacts.
+
+Ask or record an ADR when the decision affects:
+
+- architecture
+- persistence
+- public API
+- authorization
+- tenant model
+- workflow behavior
+- tool capability
+- runtime model behavior
+- deployment
+- implementation language or major framework
+
 ## Preferred Shape Of Code
 
 Prefer:
@@ -265,6 +319,19 @@ Avoid:
   domain meaning
 - side effects before durable decisions are recorded
 - introducing infrastructure that does not preserve the system boundaries
+
+## Fail Fast And Loudly
+
+Prefer explicit errors over silent fallbacks.
+
+Do not hide misconfiguration, malformed input, invalid state, missing policy,
+missing credentials, or unsupported behavior behind permissive defaults.
+
+Avoid defensive or magical branching that makes the system appear to work while
+skipping the intended boundary.
+
+Do not add feature flags, compatibility branches, or fallback paths unless the
+task explicitly requires them or an ADR records the reason.
 
 ## Feature Work Checklist
 

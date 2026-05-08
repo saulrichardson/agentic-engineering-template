@@ -80,4 +80,24 @@ if ! grep -q 'Implementation Language Guidance' docs/architecture/stack-profile.
   fail "stack profile is missing the implementation language guidance"
 fi
 
+if ! grep -q 'Evidence Over Assumption' AGENTS.md; then
+  fail "AGENTS.md is missing evidence-over-assumption guidance"
+fi
+
+if ! grep -q 'Instruction Interpretation Mode' docs/engineering/agent-execution-protocol.md; then
+  fail "agent execution protocol is missing instruction interpretation mode"
+fi
+
+if ! grep -q 'First-Class Change Rule' docs/engineering/doctrine.md; then
+  fail "engineering doctrine is missing the first-class change rule"
+fi
+
+if ! grep -q 'Root Cause Before Patch' docs/engineering/agent-execution-protocol.md; then
+  fail "agent execution protocol is missing root-cause guidance"
+fi
+
+if ! grep -q 'Mode:' docs/engineering/agent-execution-protocol.md; then
+  fail "agent execution protocol report format is missing mode"
+fi
+
 printf 'doctor: ok\n'

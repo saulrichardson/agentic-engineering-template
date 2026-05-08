@@ -601,6 +601,60 @@ and gates.
 - Production behavior must be reconstructable from traces, logs, audit events,
   workflow history, and durable records.
 
+## Evidence Over Assumption
+
+Ground implementation decisions in repository artifacts:
+
+- code
+- tests
+- schemas
+- configs
+- migrations
+- logs
+- docs
+- ADRs
+- contract files
+- representative data examples
+
+Do not rely on generic knowledge, common conventions, or prior expectations when
+concrete project artifacts are available.
+
+Treat assumptions as hypotheses. If required information is missing, say what is
+missing and choose only conservative, easily-correctable defaults unless the
+task requires a decision.
+
+For nontrivial work, manually inspect both the relevant inputs and outputs.
+Passing tests or matching a common pattern is not enough if the result does not
+satisfy the actual goal and execution path.
+
+## No Heuristic Final Evidence
+
+Heuristics may guide investigation. They do not prove correctness.
+
+Do not conclude that a result is correct only because it follows a common
+pattern, resembles nearby code, satisfies a linter, compiles, or passes
+generated tests.
+
+Use concrete evidence from the current repository and task.
+
+## Design Choice Rule
+
+If multiple reasonable approaches exist, choose only when the decision is local,
+reversible, and consistent with existing project artifacts.
+
+Ask or record an ADR when the decision affects:
+
+- architecture
+- persistence
+- public API
+- authorization
+- tenant model
+- workflow behavior
+- tool capability
+- runtime model behavior
+- deployment
+- implementation language or major framework
+
 ## Preferred Shape Of Code
 
 Prefer:
@@ -626,6 +680,19 @@ Avoid:
   domain meaning
 - side effects before durable decisions are recorded
 - introducing infrastructure that does not preserve the system boundaries
+
+## Fail Fast And Loudly
+
+Prefer explicit errors over silent fallbacks.
+
+Do not hide misconfiguration, malformed input, invalid state, missing policy,
+missing credentials, or unsupported behavior behind permissive defaults.
+
+Avoid defensive or magical branching that makes the system appear to work while
+skipping the intended boundary.
+
+Do not add feature flags, compatibility branches, or fallback paths unless the
+task explicitly requires them or an ADR records the reason.
 
 ## Feature Work Checklist
 
@@ -937,6 +1004,45 @@ coding agents. Use it for every nontrivial change.
 The more autonomous the coding agent, the more explicit the boundaries must be.
 Do not treat a task as "write code until tests pass."
 
+## Instruction Interpretation Mode
+
+Before substantial work, decide whether the task is literal or interpretive.
+
+Use literal mode when the requester gives exact steps, exact wording, or says to
+follow instructions precisely. In literal mode, treat the instructions as
+constraints unless they are contradictory or impossible.
+
+Use interpretive mode when the requester gives a high-level goal, incomplete
+direction, or a desired outcome without exact implementation. In interpretive
+mode, preserve the goal, identify assumptions, and make the smallest durable
+design choice that satisfies the request.
+
+For interpretive work, state the edit contract before changing substantial
+artifacts:
+
+- what role the result should play
+- what remains fixed
+- what changes
+- which parts of the request are instructions rather than artifact content
+
+If the task is ambiguous in a way that affects architecture, persistence,
+authority, security, or user-visible behavior, stop and ask or present a small
+set of options.
+
+## Preserve Stable Semantics
+
+When the task points to a specific problem, solve that problem first.
+
+Preserve existing terminology, headings, structure, public contracts, and
+conceptual framing unless the task explicitly asks to change them or they are
+the source of the problem.
+
+Do not treat request wording as replacement artifact text unless the requester
+asks for that wording to appear.
+
+For nontrivial revisions, make the intended delta clear: what stays fixed, what
+changes, and why.
+
 ## Work Loop
 
 1. Orient
@@ -959,7 +1065,8 @@ Do not treat a task as "write code until tests pass."
 
 5. Implement narrowly
    Make the smallest change that preserves the boundary model. Do not widen
-   scope without recording why.
+   scope without recording why. When work is reacting to a failure, apply
+   `Root Cause Before Patch` before editing.
 
 6. Verify
    Run the narrowest checks that prove the change. Broaden verification when the
@@ -969,6 +1076,26 @@ Do not treat a task as "write code until tests pass."
 7. Report
    Summarize what changed, boundaries touched, verification performed, residual
    risks, and follow-up work.
+
+## Root Cause Before Patch
+
+Do not write code merely to make an error disappear.
+
+When a failure appears, identify whether it comes from:
+
+- incorrect requirement interpretation
+- invalid input
+- wrong domain model
+- missing policy
+- invalid state transition
+- persistence mismatch
+- workflow ordering
+- side-effect failure
+- test setup error
+- environment or configuration issue
+
+Fix the root cause where practical. If more than one cause is plausible, report
+the options and the evidence for each.
 
 ## Change Classification
 
@@ -1063,6 +1190,27 @@ Critical risk:
 - require rollback, mitigation, or compensation notes
 - do not expose broad capabilities without a written ADR
 
+## Stop Conditions
+
+Stop and report instead of continuing when:
+
+- the task requires choosing between multiple architectural approaches and no
+  local decision exists
+- the implementation would preserve an old abstraction that no longer matches
+  the stated goal
+- the change would become a patch, shim, or hidden special case instead of a
+  first-class concept
+- deterministic checks pass but the output conflicts with the actual input,
+  goal, or source-of-truth artifacts
+- the agent cannot ground an important claim in code, tests, schemas, docs,
+  logs, or data
+- high-risk or critical-risk work lacks a policy, approval, rollback,
+  mitigation, or verification path
+- required secrets, credentials, external systems, or representative data are
+  unavailable and the task cannot be verified without them
+- executing the next step would create an irreversible side effect not already
+  approved by the project model or requester
+
 ## What Verification Means
 
 Verification is risk-dependent. It does not always mean formal methods, and it
@@ -1087,20 +1235,35 @@ Use the smallest proof that fits the risk:
 Use this shape for final reports when work is nontrivial:
 
 ```text
+Mode:
+- literal / interpretive
+
+Goal restated:
+- <goal in project terms>
+
+Assumptions:
+- <assumption or "none">
+
 Changed:
 - <short list>
 
+Risk class:
+- low / medium / high / critical
+
 Boundaries touched:
-- <frontend/API/domain/policy/state/persistence/workflow/tool/etc.>
+- <frontend / API / domain / policy / state / persistence / workflow / side effect / observability / infrastructure>
 
 Verification:
 - <commands or checks run>
 
-Residual risk:
-- <remaining risk or "none known">
+Manual checks:
+- <inputs and outputs inspected against the actual goal>
 
-Follow-up:
-- <only if useful>
+Docs or contracts updated:
+- <docs, contracts, or ADRs updated>
+
+Residual risk:
+- none known / <remaining risk>
 ```
 
 
@@ -1127,6 +1290,23 @@ Every completed change should satisfy:
 - generated or temporary artifacts are not committed accidentally
 - verification has been run or the reason it could not run is stated
 - the final report names changes, verification, and residual risk
+
+## Manual Verification
+
+A change is not done until the relevant inputs and outputs have been inspected
+against the actual goal.
+
+For nontrivial changes, verify:
+
+- what input or state existed before the change
+- what the change inferred
+- what behavior, data, or contract changed
+- what was intentionally preserved
+- what output or system state now results
+- whether the result is substantively correct, not merely syntactically valid
+
+Heuristics, generated tests, type checks, and conventions are useful signals.
+They are not substitutes for checking the specific case in front of the agent.
 
 ## Boundary Checks
 
@@ -1170,6 +1350,23 @@ Tests should prove the important behavior, not only the happy path.
 For high-risk and critical-risk changes, include failure or denial tests. For
 critical-risk changes, include a rollback, mitigation, approval, or compensation
 story before calling the work done.
+
+## Substantive Correctness
+
+Verification should prove that the result satisfies the actual goal, not only
+that the implementation is internally consistent.
+
+A change can pass tests and still be wrong if:
+
+- the tests encode the wrong requirement
+- the output is plausible but not grounded in the input
+- the implementation preserves an outdated abstraction
+- authorization is checked in the wrong layer
+- a side effect happens in the wrong order
+- edge cases are ignored because the common case works
+
+Review the full path from input to durable consequence when the risk justifies
+it.
 
 
 ---
@@ -1248,6 +1445,50 @@ the codebase.
 - Make deployments reproducible.
 
 These principles matter whether or not the product contains LLMs.
+
+## Goal-First Engineering
+
+Coding agents must start from the project goal and the local source-of-truth
+artifacts, not from standard patterns, legacy conventions, or the most common
+library approach.
+
+A common pattern is only a hypothesis. It becomes acceptable only when it fits
+the stated goal, the current codebase, the project profile, and the relevant
+contracts.
+
+When the goal conflicts with an existing abstraction, do not preserve the old
+abstraction by default. Surface the mismatch and either reshape the abstraction
+cleanly or record why a temporary compromise is necessary.
+
+Optimize for a system that becomes clearer, truer to the goal, and easier to
+reason about.
+
+## First-Class Change Rule
+
+When a requirement materially changes behavior, data flow, ownership,
+authority, persistence, or system boundaries, implement it as a first-class
+concept.
+
+Do not bury important changes in one-off conditionals, compatibility shims,
+scattered flags, wrapper functions, or hidden exception paths.
+
+If something is now important to the system, reflect it in the appropriate
+artifacts:
+
+- domain model
+- types or schemas
+- API contracts
+- state machines
+- policy inputs
+- database constraints
+- workflow events
+- tool capabilities
+- tests
+- telemetry or audit events
+- docs or ADRs
+
+A reader should be able to see that the behavior is supported by the system
+model, not accidentally patched around it.
 
 ## Development-Time Path
 
@@ -1893,6 +2134,17 @@ properties:
 
 If a replacement weakens one of these properties, write an ADR explaining the
 tradeoff and compensating control.
+
+## Backward Compatibility
+
+Backward compatibility is not assumed by default.
+
+Preserve compatibility only when the project profile, an ADR, a contract, a
+public API commitment, a migration plan, or the current task explicitly requires
+it.
+
+When the cleanest design requires a breaking change, surface that fact and
+record the migration, rollout, or replacement path appropriate to the risk.
 
 ## Stack Is Not Architecture
 
@@ -2920,6 +3172,19 @@ The system must not allow:
 
 - <domain object>
 - <domain object>
+
+## First-Class Change
+
+Does this feature introduce a new durable concept, authority boundary, state,
+event, data flow, or side effect?
+
+If yes:
+
+- where is it represented first-class?
+- what old abstraction no longer matches?
+- what contracts must change?
+- what tests prove the new model?
+- is any compatibility path required, or is a breaking change acceptable?
 
 ## State And Events
 

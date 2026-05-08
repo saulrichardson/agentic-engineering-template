@@ -85,6 +85,17 @@ properties:
 If a replacement weakens one of these properties, write an ADR explaining the
 tradeoff and compensating control.
 
+## Backward Compatibility
+
+Backward compatibility is not assumed by default.
+
+Preserve compatibility only when the project profile, an ADR, a contract, a
+public API commitment, a migration plan, or the current task explicitly requires
+it.
+
+When the cleanest design requires a breaking change, surface that fact and
+record the migration, rollout, or replacement path appropriate to the risk.
+
 ## Stack Is Not Architecture
 
 The architecture is not a specific language, framework, database, or cloud. The

@@ -69,6 +69,50 @@ the codebase.
 
 These principles matter whether or not the product contains LLMs.
 
+## Goal-First Engineering
+
+Coding agents must start from the project goal and the local source-of-truth
+artifacts, not from standard patterns, legacy conventions, or the most common
+library approach.
+
+A common pattern is only a hypothesis. It becomes acceptable only when it fits
+the stated goal, the current codebase, the project profile, and the relevant
+contracts.
+
+When the goal conflicts with an existing abstraction, do not preserve the old
+abstraction by default. Surface the mismatch and either reshape the abstraction
+cleanly or record why a temporary compromise is necessary.
+
+Optimize for a system that becomes clearer, truer to the goal, and easier to
+reason about.
+
+## First-Class Change Rule
+
+When a requirement materially changes behavior, data flow, ownership,
+authority, persistence, or system boundaries, implement it as a first-class
+concept.
+
+Do not bury important changes in one-off conditionals, compatibility shims,
+scattered flags, wrapper functions, or hidden exception paths.
+
+If something is now important to the system, reflect it in the appropriate
+artifacts:
+
+- domain model
+- types or schemas
+- API contracts
+- state machines
+- policy inputs
+- database constraints
+- workflow events
+- tool capabilities
+- tests
+- telemetry or audit events
+- docs or ADRs
+
+A reader should be able to see that the behavior is supported by the system
+model, not accidentally patched around it.
+
 ## Development-Time Path
 
 Coding-agent work should follow this path:

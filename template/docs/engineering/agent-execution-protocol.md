@@ -6,6 +6,45 @@ coding agents. Use it for every nontrivial change.
 The more autonomous the coding agent, the more explicit the boundaries must be.
 Do not treat a task as "write code until tests pass."
 
+## Instruction Interpretation Mode
+
+Before substantial work, decide whether the task is literal or interpretive.
+
+Use literal mode when the requester gives exact steps, exact wording, or says to
+follow instructions precisely. In literal mode, treat the instructions as
+constraints unless they are contradictory or impossible.
+
+Use interpretive mode when the requester gives a high-level goal, incomplete
+direction, or a desired outcome without exact implementation. In interpretive
+mode, preserve the goal, identify assumptions, and make the smallest durable
+design choice that satisfies the request.
+
+For interpretive work, state the edit contract before changing substantial
+artifacts:
+
+- what role the result should play
+- what remains fixed
+- what changes
+- which parts of the request are instructions rather than artifact content
+
+If the task is ambiguous in a way that affects architecture, persistence,
+authority, security, or user-visible behavior, stop and ask or present a small
+set of options.
+
+## Preserve Stable Semantics
+
+When the task points to a specific problem, solve that problem first.
+
+Preserve existing terminology, headings, structure, public contracts, and
+conceptual framing unless the task explicitly asks to change them or they are
+the source of the problem.
+
+Do not treat request wording as replacement artifact text unless the requester
+asks for that wording to appear.
+
+For nontrivial revisions, make the intended delta clear: what stays fixed, what
+changes, and why.
+
 ## Work Loop
 
 1. Orient
@@ -28,7 +67,8 @@ Do not treat a task as "write code until tests pass."
 
 5. Implement narrowly
    Make the smallest change that preserves the boundary model. Do not widen
-   scope without recording why.
+   scope without recording why. When work is reacting to a failure, apply
+   `Root Cause Before Patch` before editing.
 
 6. Verify
    Run the narrowest checks that prove the change. Broaden verification when the
@@ -38,6 +78,26 @@ Do not treat a task as "write code until tests pass."
 7. Report
    Summarize what changed, boundaries touched, verification performed, residual
    risks, and follow-up work.
+
+## Root Cause Before Patch
+
+Do not write code merely to make an error disappear.
+
+When a failure appears, identify whether it comes from:
+
+- incorrect requirement interpretation
+- invalid input
+- wrong domain model
+- missing policy
+- invalid state transition
+- persistence mismatch
+- workflow ordering
+- side-effect failure
+- test setup error
+- environment or configuration issue
+
+Fix the root cause where practical. If more than one cause is plausible, report
+the options and the evidence for each.
 
 ## Change Classification
 
@@ -132,6 +192,27 @@ Critical risk:
 - require rollback, mitigation, or compensation notes
 - do not expose broad capabilities without a written ADR
 
+## Stop Conditions
+
+Stop and report instead of continuing when:
+
+- the task requires choosing between multiple architectural approaches and no
+  local decision exists
+- the implementation would preserve an old abstraction that no longer matches
+  the stated goal
+- the change would become a patch, shim, or hidden special case instead of a
+  first-class concept
+- deterministic checks pass but the output conflicts with the actual input,
+  goal, or source-of-truth artifacts
+- the agent cannot ground an important claim in code, tests, schemas, docs,
+  logs, or data
+- high-risk or critical-risk work lacks a policy, approval, rollback,
+  mitigation, or verification path
+- required secrets, credentials, external systems, or representative data are
+  unavailable and the task cannot be verified without them
+- executing the next step would create an irreversible side effect not already
+  approved by the project model or requester
+
 ## What Verification Means
 
 Verification is risk-dependent. It does not always mean formal methods, and it
@@ -156,18 +237,33 @@ Use the smallest proof that fits the risk:
 Use this shape for final reports when work is nontrivial:
 
 ```text
+Mode:
+- literal / interpretive
+
+Goal restated:
+- <goal in project terms>
+
+Assumptions:
+- <assumption or "none">
+
 Changed:
 - <short list>
 
+Risk class:
+- low / medium / high / critical
+
 Boundaries touched:
-- <frontend/API/domain/policy/state/persistence/workflow/tool/etc.>
+- <frontend / API / domain / policy / state / persistence / workflow / side effect / observability / infrastructure>
 
 Verification:
 - <commands or checks run>
 
-Residual risk:
-- <remaining risk or "none known">
+Manual checks:
+- <inputs and outputs inspected against the actual goal>
 
-Follow-up:
-- <only if useful>
+Docs or contracts updated:
+- <docs, contracts, or ADRs updated>
+
+Residual risk:
+- none known / <remaining risk>
 ```
