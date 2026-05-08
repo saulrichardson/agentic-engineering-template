@@ -99,6 +99,7 @@ append_readme_before_mechanics
 append_file "Generated Project Operating Guide" "$GENERATED_DIR/AGENTS.md"
 append_file "Generated Documentation Index" "$GENERATED_DIR/docs/README.md"
 append_file "Generated Project Profile" "$GENERATED_DIR/docs/project-profile.md"
+append_file "Generated Product Intent" "$GENERATED_DIR/docs/product-intent.md"
 append_file "Agent Execution Protocol" "$GENERATED_DIR/docs/engineering/agent-execution-protocol.md"
 append_file "Definition Of Done" "$GENERATED_DIR/docs/engineering/definition-of-done.md"
 append_file "Engineering Doctrine" "$GENERATED_DIR/docs/engineering/doctrine.md"

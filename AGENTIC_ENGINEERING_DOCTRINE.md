@@ -223,21 +223,26 @@ Generated projects should use the docs in this order:
 
 1. `AGENTS.md`
 2. `docs/project-profile.md`
-3. `docs/engineering/agent-execution-protocol.md`
-4. `docs/engineering/definition-of-done.md`
-5. `docs/engineering/doctrine.md`
-6. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
-7. `docs/architecture/system-map.md`
-8. `docs/architecture/stack-profile.md`
-9. Relevant contracts in `docs/contracts/`
-10. Relevant threat model in `docs/security/`
-11. Relevant ADRs in `docs/adr/`
-12. Relevant templates in `docs/templates/`
+3. `docs/product-intent.md`
+4. `docs/engineering/agent-execution-protocol.md`
+5. `docs/engineering/definition-of-done.md`
+6. `docs/engineering/doctrine.md`
+7. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
+8. `docs/architecture/system-map.md`
+9. `docs/architecture/stack-profile.md`
+10. Relevant contracts in `docs/contracts/`
+11. Relevant threat model in `docs/security/`
+12. Relevant ADRs in `docs/adr/`
+13. Relevant templates in `docs/templates/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` is where the project records its local facts,
 constraints, stack choices, and deviations. ADRs are where the project records
 decisions that future agents might otherwise accidentally undo.
+`docs/product-intent.md` is where users can freely dump thoughts about what the
+product should do, who it serves, desired workflows, examples, runtime-agent
+behavior, constraints, and open questions before those ideas become formal
+contracts or ADRs.
 `docs/architecture/stack-profile.md` records preferred implementation languages
 and toolchain guidance. Coding agents should start there, then choose the next
 best option when the preferred stack is insufficient, as long as the substitute
@@ -256,6 +261,7 @@ README.md
 docs/
   README.md
   project-profile.md
+  product-intent.md
   engineering/
     agent-execution-protocol.md
     definition-of-done.md
@@ -397,14 +403,15 @@ Before substantial work, read these files:
 
 1. `AGENTS.md`
 2. `docs/project-profile.md`
-3. `docs/engineering/agent-execution-protocol.md`
-4. `docs/engineering/definition-of-done.md`
-5. `docs/engineering/doctrine.md`
-6. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
-7. `docs/architecture/system-map.md`
-8. `docs/architecture/stack-profile.md`
-9. Relevant contract docs in `docs/contracts/`
-10. Relevant threat model, feature brief, ADR, or local module documentation
+3. `docs/product-intent.md`
+4. `docs/engineering/agent-execution-protocol.md`
+5. `docs/engineering/definition-of-done.md`
+6. `docs/engineering/doctrine.md`
+7. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
+8. `docs/architecture/system-map.md`
+9. `docs/architecture/stack-profile.md`
+10. Relevant contract docs in `docs/contracts/`
+11. Relevant threat model, feature brief, ADR, or local module documentation
 
 If the repository has implementation code, inspect the code before changing it.
 Do not assume the docs are more current than the source.
@@ -420,6 +427,9 @@ Use this map when you need a specific kind of guidance:
 - `docs/project-profile.md`: project-local facts, selected stack, language
   preferences, users, tenant model, sensitive data, approvals, external systems,
   irreversible actions, critical invariants, non-goals, and open questions.
+- `docs/product-intent.md`: freeform product narrative and raw notes about what
+  the product should do, who it serves, desired workflows, runtime-agent role,
+  examples, non-goals, and questions before they become formal contracts.
 - `docs/engineering/agent-execution-protocol.md`: work loop, change
   classification, risk taxonomy, gates, verification meaning, and report shape.
 - `docs/engineering/definition-of-done.md`: completion criteria for behavior,
@@ -797,6 +807,8 @@ Documentation should clarify decisions, not freeze implementation details too
 early. Use:
 
 - `docs/project-profile.md` for local project facts and deviations
+- `docs/product-intent.md` for freeform product narrative and functionality
+  notes
 - `docs/engineering/doctrine.md` for stable engineering principles
 - `docs/architecture/system-map.md` for the system boundary model
 - `docs/architecture/stack-profile.md` for stack choices and substitution rules
@@ -826,21 +838,27 @@ This directory contains the reusable doctrine and project-local decisions for
 
 1. `../AGENTS.md`
 2. `project-profile.md`
-3. `engineering/agent-execution-protocol.md`
-4. `engineering/definition-of-done.md`
-5. `engineering/doctrine.md`
-6. `engineering/agentic-runtime.md` if the product contains runtime agents
-7. `architecture/system-map.md`
-8. `architecture/stack-profile.md`
-9. Relevant contracts in `contracts/`
-10. Relevant threat model in `security/`
-11. Relevant ADRs in `adr/`
-12. Relevant templates in `templates/`
+3. `product-intent.md`
+4. `engineering/agent-execution-protocol.md`
+5. `engineering/definition-of-done.md`
+6. `engineering/doctrine.md`
+7. `engineering/agentic-runtime.md` if the product contains runtime agents
+8. `architecture/system-map.md`
+9. `architecture/stack-profile.md`
+10. Relevant contracts in `contracts/`
+11. Relevant threat model in `security/`
+12. Relevant ADRs in `adr/`
+13. Relevant templates in `templates/`
 
 ## Ownership Model
 
 The reusable doctrine gives the project a starting point. The project owns the
 generated files after creation.
+
+Use `product-intent.md` for freeform notes about what the product is actually
+trying to do. Promote stable facts from that file into `project-profile.md`,
+contracts, feature briefs, ADRs, or tests when implementation starts depending
+on them.
 
 Use ADRs when a local decision changes architecture, authority, persistence,
 workflow behavior, tool capabilities, or deployment strategy.
@@ -988,6 +1006,88 @@ user sees result
 - What actions require human approval?
 - What external systems can the application touch?
 - What must be auditable from day one?
+
+
+---
+
+## Generated Product Intent
+
+_Source: `generated-project/docs/product-intent.md`_
+
+# Product Intent
+
+This is the project-owned place for describing what the product is actually
+trying to become.
+
+Use it for raw thoughts, product narrative, desired functionality, workflow
+ideas, runtime-agent behavior, constraints, examples, open questions, and notes
+that are not yet ready to become formal contracts or ADRs.
+
+This file may be messy while the product is still being understood. It should
+be useful to humans and coding agents trying to understand the goal behind the
+work.
+
+## Raw Notes
+
+Add unstructured thoughts here.
+
+- <note>
+
+## Product Narrative
+
+What are we building, for whom, and why?
+
+## Desired Functionality
+
+What should the product let users do?
+
+## Users And Jobs
+
+Who uses this system, and what job are they trying to get done?
+
+## Runtime Agent Role
+
+If the product contains runtime agents or LLMs, what role should they play?
+
+What should they never decide or do?
+
+## Core Workflows
+
+What are the most important end-to-end workflows?
+
+## Boundaries And Non-Goals
+
+What should stay out of scope?
+
+What behavior would make the product confusing, unsafe, or untrustworthy?
+
+## Examples
+
+Representative examples, scenarios, sample inputs, sample outputs, or sketches:
+
+- <example>
+
+## Open Questions
+
+- <question>
+
+## Promote Stable Facts
+
+When a note here becomes stable and important, move or summarize it into the
+right durable artifact:
+
+- `docs/project-profile.md` for concise project facts, constraints, users,
+  stack choices, invariants, and non-goals
+- `docs/templates/feature-brief.md` for a specific feature before implementation
+- `docs/adr/` for architecture, stack, policy, persistence, or workflow decisions
+- `docs/contracts/` for state machines, policy inputs, tool capabilities,
+  workflow events, telemetry events, and runtime-agent outputs
+- `docs/security/threat-model.md` for security and abuse-risk assumptions
+
+Coding agents may use this file to understand intent, but this file is not by
+itself an execution contract. Important behavior should be promoted into the
+project profile, contracts, feature briefs, tests, or ADRs before implementation
+depends on it.
 
 
 ---

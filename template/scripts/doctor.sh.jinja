@@ -21,6 +21,7 @@ need_file AGENTS.md
 need_file README.md
 need_file .copier-answers.yml
 need_file docs/project-profile.md
+need_file docs/product-intent.md
 need_file docs/engineering/agent-execution-protocol.md
 need_file docs/engineering/definition-of-done.md
 need_file docs/engineering/doctrine.md
@@ -74,6 +75,10 @@ fi
 
 if ! grep -q 'Documentation Map' AGENTS.md; then
   fail "AGENTS.md is missing the documentation map"
+fi
+
+if ! grep -q 'docs/product-intent.md' AGENTS.md; then
+  fail "AGENTS.md is missing product-intent guidance"
 fi
 
 if ! grep -q 'Implementation Language Guidance' docs/architecture/stack-profile.md; then

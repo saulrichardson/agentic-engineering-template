@@ -36,14 +36,15 @@ Before substantial work, read these files:
 
 1. `AGENTS.md`
 2. `docs/project-profile.md`
-3. `docs/engineering/agent-execution-protocol.md`
-4. `docs/engineering/definition-of-done.md`
-5. `docs/engineering/doctrine.md`
-6. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
-7. `docs/architecture/system-map.md`
-8. `docs/architecture/stack-profile.md`
-9. Relevant contract docs in `docs/contracts/`
-10. Relevant threat model, feature brief, ADR, or local module documentation
+3. `docs/product-intent.md`
+4. `docs/engineering/agent-execution-protocol.md`
+5. `docs/engineering/definition-of-done.md`
+6. `docs/engineering/doctrine.md`
+7. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
+8. `docs/architecture/system-map.md`
+9. `docs/architecture/stack-profile.md`
+10. Relevant contract docs in `docs/contracts/`
+11. Relevant threat model, feature brief, ADR, or local module documentation
 
 If the repository has implementation code, inspect the code before changing it.
 Do not assume the docs are more current than the source.
@@ -59,6 +60,9 @@ Use this map when you need a specific kind of guidance:
 - `docs/project-profile.md`: project-local facts, selected stack, language
   preferences, users, tenant model, sensitive data, approvals, external systems,
   irreversible actions, critical invariants, non-goals, and open questions.
+- `docs/product-intent.md`: freeform product narrative and raw notes about what
+  the product should do, who it serves, desired workflows, runtime-agent role,
+  examples, non-goals, and questions before they become formal contracts.
 - `docs/engineering/agent-execution-protocol.md`: work loop, change
   classification, risk taxonomy, gates, verification meaning, and report shape.
 - `docs/engineering/definition-of-done.md`: completion criteria for behavior,
@@ -436,6 +440,8 @@ Documentation should clarify decisions, not freeze implementation details too
 early. Use:
 
 - `docs/project-profile.md` for local project facts and deviations
+- `docs/product-intent.md` for freeform product narrative and functionality
+  notes
 - `docs/engineering/doctrine.md` for stable engineering principles
 - `docs/architecture/system-map.md` for the system boundary model
 - `docs/architecture/stack-profile.md` for stack choices and substitution rules

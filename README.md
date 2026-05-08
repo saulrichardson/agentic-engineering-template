@@ -198,21 +198,26 @@ Generated projects should use the docs in this order:
 
 1. `AGENTS.md`
 2. `docs/project-profile.md`
-3. `docs/engineering/agent-execution-protocol.md`
-4. `docs/engineering/definition-of-done.md`
-5. `docs/engineering/doctrine.md`
-6. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
-7. `docs/architecture/system-map.md`
-8. `docs/architecture/stack-profile.md`
-9. Relevant contracts in `docs/contracts/`
-10. Relevant threat model in `docs/security/`
-11. Relevant ADRs in `docs/adr/`
-12. Relevant templates in `docs/templates/`
+3. `docs/product-intent.md`
+4. `docs/engineering/agent-execution-protocol.md`
+5. `docs/engineering/definition-of-done.md`
+6. `docs/engineering/doctrine.md`
+7. `docs/engineering/agentic-runtime.md` if the product contains runtime agents
+8. `docs/architecture/system-map.md`
+9. `docs/architecture/stack-profile.md`
+10. Relevant contracts in `docs/contracts/`
+11. Relevant threat model in `docs/security/`
+12. Relevant ADRs in `docs/adr/`
+13. Relevant templates in `docs/templates/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` is where the project records its local facts,
 constraints, stack choices, and deviations. ADRs are where the project records
 decisions that future agents might otherwise accidentally undo.
+`docs/product-intent.md` is where users can freely dump thoughts about what the
+product should do, who it serves, desired workflows, examples, runtime-agent
+behavior, constraints, and open questions before those ideas become formal
+contracts or ADRs.
 `docs/architecture/stack-profile.md` records preferred implementation languages
 and toolchain guidance. Coding agents should start there, then choose the next
 best option when the preferred stack is insufficient, as long as the substitute
@@ -231,6 +236,7 @@ README.md
 docs/
   README.md
   project-profile.md
+  product-intent.md
   engineering/
     agent-execution-protocol.md
     definition-of-done.md
