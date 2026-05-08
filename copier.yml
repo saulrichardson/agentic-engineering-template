@@ -29,68 +29,35 @@ primary_domain:
 
 frontend:
   type: str
-  help: Preferred frontend layer for this project.
-  choices:
-    Elm: Elm
-    TypeScript/React: TypeScript/React
-    Other / undecided: Other / undecided
+  help: Preferred frontend layer for this project, for example Elm, PureScript, TypeScript/React, or undecided.
   default: Elm
 
 backend:
   type: str
-  help: Preferred backend domain core for this project.
-  choices:
-    Haskell: Haskell
-    Rust: Rust
-    TypeScript: TypeScript
-    Other / undecided: Other / undecided
+  help: Preferred backend domain core for this project, for example Haskell, Rust, TypeScript, or undecided.
   default: Haskell
 
 workflow_runtime:
   type: str
-  help: Durable workflow runtime.
-  choices:
-    Temporal: Temporal
-    None yet: None yet
-    Other / undecided: Other / undecided
+  help: Durable workflow runtime, for example Temporal, none yet, or undecided.
   default: Temporal
 
 database:
   type: str
-  help: Durable source of truth.
-  choices:
-    PostgreSQL: PostgreSQL
-    Other / undecided: Other / undecided
+  help: Durable source of truth, for example PostgreSQL or undecided.
   default: PostgreSQL
 
 vector_store:
   type: str
-  help: Retrieval/vector storage default.
-  choices:
-    PostgreSQL + pgvector: PostgreSQL + pgvector
-    Qdrant: Qdrant
-    None yet: None yet
-    Other / undecided: Other / undecided
+  help: Retrieval/vector storage default, for example PostgreSQL + pgvector, Qdrant, none yet, or undecided.
   default: PostgreSQL + pgvector
 
 policy_engine:
   type: str
-  help: Policy and authorization engine.
-  choices:
-    OPA / Rego: OPA / Rego
-    Application policy module: Application policy module
-    Other / undecided: Other / undecided
+  help: Policy and authorization engine, for example OPA / Rego, application policy module, or undecided.
   default: OPA / Rego
 
 cloud_target:
   type: str
-  help: Initial cloud/deployment target.
-  choices:
-    AWS: AWS
-    Cloudflare: Cloudflare
-    Vercel: Vercel
-    GCP: GCP
-    Azure: Azure
-    Undecided: Undecided
-    Other: Other
+  help: Initial cloud/deployment target, for example AWS, Cloudflare, Vercel, GCP, Azure, or undecided.
   default: Undecided

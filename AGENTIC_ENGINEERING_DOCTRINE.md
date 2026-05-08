@@ -3704,8 +3704,12 @@ copier copy gh:saulrichardson/agentic-engineering-template /path/to/new-project 
   --data project_slug="new-project" \
   --data project_description="Short project description." \
   --data primary_domain="Project domain" \
+  --data frontend="PureScript" \
   --data cloud_target="AWS"
 ```
+
+Stack answers are freeform. Use the project's actual intended tool choices
+instead of accepting defaults when the defaults do not fit.
 
 ### Update An Existing Project
 
