@@ -52,6 +52,12 @@ Preferred implementation stack:
 - repository automation: POSIX shell first, unless this profile or an ADR
   selects another scripting language
 
+Tooling substrates do not define application layers. A selected language may
+need a package manager, runtime, bundler, formatter, or language server written
+in another ecosystem. Use that tooling only for the boundary it serves.
+Application code in a tooling language is a stack substitution and requires a
+recorded boundary and rationale before use.
+
 If the preferred stack does not fit, choose the next best option that preserves
 the same project goals and engineering boundaries.
 

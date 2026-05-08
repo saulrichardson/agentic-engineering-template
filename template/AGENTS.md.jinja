@@ -165,6 +165,15 @@ Preferred implementation stack:
 - local repository automation: POSIX shell first, unless the project profile or
   an ADR explicitly selects another scripting language
 
+Tooling substrates do not automatically become application implementation
+languages. For example, a frontend choice such as PureScript may require
+Node.js, npm, pnpm, or equivalent tools for compiler distribution, package
+management, formatting, editor integration, bundling, or tests. That tooling is
+allowed only for the boundary it serves. Do not add product behavior, domain
+rules, backend services, runtime-agent logic, or business-critical scripts in a
+tooling language unless `docs/project-profile.md` or an ADR records the boundary
+and rationale.
+
 If the preferred stack is not enough for the task, choose the next best option
 that accomplishes the goal while preserving the project principles: typed
 boundaries, explicit authority, durable state, recoverable workflows,

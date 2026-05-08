@@ -73,6 +73,18 @@ if ! grep -q 'Language And Tooling Guidance' AGENTS.md; then
   fail "AGENTS.md is missing the language and tooling guidance"
 fi
 
+if ! grep -q 'Tooling Boundary' README.md; then
+  fail "README.md is missing the tooling boundary"
+fi
+
+if ! grep -q 'Tooling Boundary' docs/project-profile.md; then
+  fail "project profile is missing the tooling boundary"
+fi
+
+if ! grep -q 'Tooling substrates do not define application layers' docs/architecture/stack-profile.md; then
+  fail "stack profile is missing the tooling boundary"
+fi
+
 if ! grep -q 'Documentation Map' AGENTS.md; then
   fail "AGENTS.md is missing the documentation map"
 fi

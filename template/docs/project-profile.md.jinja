@@ -59,6 +59,23 @@ profile for production code.
 - formal/specification work: Dafny; TLA+ or Lean where justified
 - repository automation: POSIX shell first
 
+## Tooling Boundary
+
+Record local compiler, package-manager, formatter, editor, bundler, test-runner,
+and deployment CLIs here as they become real project dependencies.
+
+Tooling substrates do not automatically become product implementation languages.
+For example, a frontend language that compiles to JavaScript may use Node.js,
+npm, pnpm, or equivalent tools for compiler distribution, package management,
+editor support, bundling, or tests. That does not make JavaScript or TypeScript
+selected application languages.
+
+Do not place frontend application behavior, backend services, domain rules,
+policy decisions, workflow logic, runtime-agent logic, or business-critical
+scripts in a tooling language unless an ADR records the boundary, why the
+preferred stack was insufficient, and how the code is built, tested, deployed,
+and retired if it stops being necessary.
+
 If the preferred stack is insufficient, choose the next best option that
 accomplishes the goal while preserving the doctrine. Record the choice here or
 in an ADR, including the boundary it owns, why the preferred stack was not

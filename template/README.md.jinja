@@ -62,6 +62,15 @@ framework layers before a real boundary exists.
 These are starting choices. Record meaningful deviations in
 `docs/project-profile.md` or a new ADR under `docs/adr/`.
 
+## Tooling Boundary
+
+Tooling used to install compilers, run formatters, support editors, bundle
+assets, or execute tests is not automatically part of the product implementation
+stack. For example, a functional frontend may still need Node.js or a JavaScript
+package manager as a build substrate. Keep product behavior in the selected
+application languages, and record any JavaScript, TypeScript, shell, or other
+tooling-language application code in `docs/project-profile.md` or an ADR.
+
 ## Suggested Implementation Layout
 
 When application code is introduced, prefer a structure like this and adjust it

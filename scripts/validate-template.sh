@@ -32,6 +32,7 @@ copier copy "$SOURCE_DIR" "$CHECK_DIR" \
   --data project_slug="template-check" \
   --data project_description="Temporary generated project for template validation." \
   --data primary_domain="Template validation" \
+  --data frontend="PureScript" \
   --data cloud_target="Undecided"
 
 "$CHECK_DIR/scripts/doctor.sh"

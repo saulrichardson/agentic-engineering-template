@@ -533,6 +533,15 @@ Preferred implementation stack:
 - local repository automation: POSIX shell first, unless the project profile or
   an ADR explicitly selects another scripting language
 
+Tooling substrates do not automatically become application implementation
+languages. For example, a frontend choice such as PureScript may require
+Node.js, npm, pnpm, or equivalent tools for compiler distribution, package
+management, formatting, editor integration, bundling, or tests. That tooling is
+allowed only for the boundary it serves. Do not add product behavior, domain
+rules, backend services, runtime-agent logic, or business-critical scripts in a
+tooling language unless `docs/project-profile.md` or an ADR records the boundary
+and rationale.
+
 If the preferred stack is not enough for the task, choose the next best option
 that accomplishes the goal while preserving the project principles: typed
 boundaries, explicit authority, durable state, recoverable workflows,
@@ -932,6 +941,23 @@ profile for production code.
 - policy code: OPA / Rego
 - formal/specification work: Dafny; TLA+ or Lean where justified
 - repository automation: POSIX shell first
+
+## Tooling Boundary
+
+Record local compiler, package-manager, formatter, editor, bundler, test-runner,
+and deployment CLIs here as they become real project dependencies.
+
+Tooling substrates do not automatically become product implementation languages.
+For example, a frontend language that compiles to JavaScript may use Node.js,
+npm, pnpm, or equivalent tools for compiler distribution, package management,
+editor support, bundling, or tests. That does not make JavaScript or TypeScript
+selected application languages.
+
+Do not place frontend application behavior, backend services, domain rules,
+policy decisions, workflow logic, runtime-agent logic, or business-critical
+scripts in a tooling language unless an ADR records the boundary, why the
+preferred stack was insufficient, and how the code is built, tested, deployed,
+and retired if it stops being necessary.
 
 If the preferred stack is insufficient, choose the next best option that
 accomplishes the goal while preserving the doctrine. Record the choice here or
@@ -2219,6 +2245,12 @@ Preferred implementation stack:
 - formal/specification work: Dafny; TLA+ or Lean where justified
 - repository automation: POSIX shell first, unless this profile or an ADR
   selects another scripting language
+
+Tooling substrates do not define application layers. A selected language may
+need a package manager, runtime, bundler, formatter, or language server written
+in another ecosystem. Use that tooling only for the boundary it serves.
+Application code in a tooling language is a stack substitution and requires a
+recorded boundary and rationale before use.
 
 If the preferred stack does not fit, choose the next best option that preserves
 the same project goals and engineering boundaries.
