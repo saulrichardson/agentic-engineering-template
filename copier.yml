@@ -29,8 +29,8 @@ primary_domain:
 
 frontend:
   type: str
-  help: Preferred frontend layer for this project, for example Elm, PureScript, TypeScript/React, or undecided.
-  default: Elm
+  help: Preferred frontend layer for this project, for example PureScript, Elm, TypeScript/React, or undecided.
+  default: PureScript
 
 backend:
   type: str

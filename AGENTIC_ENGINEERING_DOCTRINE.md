@@ -495,7 +495,7 @@ contract file.
 
 ## Project Stack Defaults
 
-- frontend: Elm
+- frontend: PureScript
 - backend domain core: Haskell
 - workflow runtime: Temporal
 - durable database: PostgreSQL
@@ -522,7 +522,7 @@ boundaries, not to win an argument about tools.
 
 Preferred implementation stack:
 
-- frontend and UI: Elm
+- frontend and UI: PureScript
 - backend domain core: Haskell
 - durable workflows: Temporal
 - database and migrations: PostgreSQL plus project-selected migration tools
@@ -918,7 +918,7 @@ updated.
 
 ## Selected Stack
 
-- frontend: Elm
+- frontend: PureScript
 - backend domain core: Haskell
 - workflow runtime: Temporal
 - durable database: PostgreSQL
@@ -932,7 +932,7 @@ updated.
 Coding agents should treat this as the project-local preferred language and tool
 profile for production code.
 
-- frontend and UI code: Elm
+- frontend and UI code: PureScript
 - backend/domain code: Haskell
 - workflow code: Temporal
 - persistence and migrations: PostgreSQL plus project-selected migration
@@ -2211,7 +2211,7 @@ tests, durable persistence, controlled side effects, and observable execution.
 
 | Concern | Project choice | Reference default | Why it fits |
 | --- | --- | --- | --- |
-| Frontend | Elm | Elm | Explicit UI state, controlled commands, strong compiler feedback |
+| Frontend | PureScript | PureScript | Explicit UI state, controlled commands, strong compiler feedback |
 | Backend domain core | Haskell | Haskell | Pure domain logic, strong types, clear effect boundaries |
 | Critical verification | Dafny where justified | Dafny | Machine-checked specs and invariants for high-risk logic |
 | System modeling | TLA+ or Lean where justified | TLA+ or Lean | Concurrency, workflow, and invariant reasoning before implementation |
@@ -2235,7 +2235,7 @@ preferred stack is insufficient for the task.
 
 Preferred implementation stack:
 
-- frontend and UI code: Elm
+- frontend and UI code: PureScript
 - backend/domain code: Haskell
 - workflow code: Temporal
 - persistence and migrations: PostgreSQL plus project-selected migration
@@ -3184,7 +3184,7 @@ Adopt the reusable engineering doctrine in `AGENTS.md`,
 
 The initial project stack profile is:
 
-- frontend: Elm
+- frontend: PureScript
 - backend domain core: Haskell
 - workflow runtime: Temporal
 - durable database: PostgreSQL

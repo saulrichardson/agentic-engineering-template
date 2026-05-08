@@ -36,4 +36,25 @@ copier copy "$SOURCE_DIR" "$CHECK_DIR" \
   --data cloud_target="Undecided"
 
 "$CHECK_DIR/scripts/doctor.sh"
+
+if ! grep -q 'frontend: PureScript' "$CHECK_DIR/docs/project-profile.md"; then
+  printf 'generated project did not preserve PureScript frontend choice\n' >&2
+  exit 1
+fi
+
+if ! grep -q '| Frontend | PureScript | PureScript |' "$CHECK_DIR/docs/architecture/stack-profile.md"; then
+  printf 'generated stack profile did not use PureScript as the frontend reference default\n' >&2
+  exit 1
+fi
+
+if ! grep -q 'output/' "$CHECK_DIR/.gitignore"; then
+  printf 'generated PureScript project did not ignore compiler output\n' >&2
+  exit 1
+fi
+
+if grep -q 'elm-stuff/' "$CHECK_DIR/.gitignore"; then
+  printf 'generated PureScript project included Elm build artifacts\n' >&2
+  exit 1
+fi
+
 printf 'validated: %s\n' "$CHECK_DIR"
