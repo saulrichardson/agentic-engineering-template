@@ -21,15 +21,14 @@ temp/
 node_modules/
 dist/
 build/
-{% if "purescript" in frontend_lower or "pure script" in frontend_lower %}
+{% if "purescript" in frontend_lower or "pure script" in frontend_lower -%}
 output/
 .spago/
 .psci_modules/
-{% endif %}
-{% if "elm" in frontend_lower %}
+{% endif -%}
+{% if "elm" in frontend_lower -%}
 elm-stuff/
 {% endif %}
-
 # Haskell artifacts
 .stack-work/
 dist-newstyle/
