@@ -172,8 +172,9 @@ visible from the start:
 The template also gives coding agents a procedural layer so they do not have to
 infer process from philosophy alone. Generated projects include an execution
 protocol, risk taxonomy, definition of done, contract catalog, threat model, and
-tool registry. Those artifacts force agents to classify the change, name the
-boundaries touched, select verification by risk, and report residual risk.
+tool registry. Those artifacts help agents classify the change, name important
+boundaries, select verification by risk, and surface assumptions or residual
+risk when that information helps the user evaluate the work.
 
 ## The Core Mental Model
 
@@ -431,7 +432,8 @@ Use this map when you need a specific kind of guidance:
   the product should do, who it serves, desired workflows, runtime-agent role,
   examples, non-goals, and questions before they become formal contracts.
 - `docs/engineering/agent-execution-protocol.md`: work loop, change
-  classification, risk taxonomy, gates, verification meaning, and report shape.
+  classification, risk taxonomy, gates, verification meaning, and reporting
+  judgment.
 - `docs/engineering/definition-of-done.md`: completion criteria for behavior,
   boundaries, documentation, tests, and risk-specific work.
 - `docs/engineering/doctrine.md`: stable first-principles engineering doctrine
@@ -591,7 +593,7 @@ meaningful change, the agent must:
 4. avoid widening scope
 5. add or update verification
 6. report what changed and why
-7. flag risks and unresolved questions
+7. flag risks and unresolved questions when they affect review or next steps
 
 Use `docs/engineering/agent-execution-protocol.md` for the full risk taxonomy
 and gates.
@@ -1174,8 +1176,9 @@ changes, and why.
    or user-visible behavior.
 
 7. Report
-   Summarize what changed, boundaries touched, verification performed, residual
-   risks, and follow-up work.
+   Summarize what changed and how it was verified. Surface mode, assumptions,
+   risk, boundaries, residual risk, and follow-up work when they materially help
+   the user evaluate the result.
 
 ## Root Cause Before Patch
 
@@ -1330,28 +1333,38 @@ Use the smallest proof that fits the risk:
 - tool capability: policy, approval, timeout, idempotency, audit, and failure tests
 - critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent spec work
 
-## Report Format
+## Reporting Judgment
 
-Use this shape for final reports when work is nontrivial:
+Reports should be useful, not ceremonial.
+
+For small, low-risk, or obvious changes, concise prose is preferred. Name what
+changed and what was checked. Do not force a long structured report when there
+are no meaningful assumptions, risks, or architectural choices to surface.
+
+Use a structured report when the work is nontrivial, ambiguous, high-risk,
+crosses important boundaries, changes contracts, or requires the user to review
+tradeoffs.
+
+When structure helps, use this shape and omit fields that add no signal:
 
 ```text
 Mode:
-- literal / interpretive
+- literal / interpretive, when relevant
 
 Goal restated:
 - <goal in project terms>
 
 Assumptions:
-- <assumption or "none">
+- <assumptions that affected the work>
 
 Changed:
 - <short list>
 
 Risk class:
-- low / medium / high / critical
+- low / medium / high / critical, when relevant
 
 Boundaries touched:
-- <frontend / API / domain / policy / state / persistence / workflow / side effect / observability / infrastructure>
+- <frontend / API / domain / policy / state / persistence / workflow / side effect / observability / infrastructure, when relevant>
 
 Verification:
 - <commands or checks run>
@@ -1363,8 +1376,12 @@ Docs or contracts updated:
 - <docs, contracts, or ADRs updated>
 
 Residual risk:
-- none known / <remaining risk>
+- <remaining risk worth surfacing>
 ```
+
+Mode, assumptions, and risk are reasoning aids. Think about them during the
+work. Surface them to the user when they affect interpretation, safety, review,
+or next steps.
 
 
 ---
@@ -1389,7 +1406,8 @@ Every completed change should satisfy:
   substitution is recorded with its boundary and rationale
 - generated or temporary artifacts are not committed accidentally
 - verification has been run or the reason it could not run is stated
-- the final report names changes, verification, and residual risk
+- the final response clearly names the change and verification, with
+  assumptions, risk, and follow-up only when they add useful signal
 
 ## Manual Verification
 

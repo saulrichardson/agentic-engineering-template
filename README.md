@@ -147,8 +147,9 @@ visible from the start:
 The template also gives coding agents a procedural layer so they do not have to
 infer process from philosophy alone. Generated projects include an execution
 protocol, risk taxonomy, definition of done, contract catalog, threat model, and
-tool registry. Those artifacts force agents to classify the change, name the
-boundaries touched, select verification by risk, and report residual risk.
+tool registry. Those artifacts help agents classify the change, name important
+boundaries, select verification by risk, and surface assumptions or residual
+risk when that information helps the user evaluate the work.
 
 ## The Core Mental Model
 

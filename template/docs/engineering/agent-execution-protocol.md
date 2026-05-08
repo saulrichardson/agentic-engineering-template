@@ -76,8 +76,9 @@ changes, and why.
    or user-visible behavior.
 
 7. Report
-   Summarize what changed, boundaries touched, verification performed, residual
-   risks, and follow-up work.
+   Summarize what changed and how it was verified. Surface mode, assumptions,
+   risk, boundaries, residual risk, and follow-up work when they materially help
+   the user evaluate the result.
 
 ## Root Cause Before Patch
 
@@ -232,28 +233,38 @@ Use the smallest proof that fits the risk:
 - tool capability: policy, approval, timeout, idempotency, audit, and failure tests
 - critical invariant: model-based tests, Dafny, TLA+, Lean, or equivalent spec work
 
-## Report Format
+## Reporting Judgment
 
-Use this shape for final reports when work is nontrivial:
+Reports should be useful, not ceremonial.
+
+For small, low-risk, or obvious changes, concise prose is preferred. Name what
+changed and what was checked. Do not force a long structured report when there
+are no meaningful assumptions, risks, or architectural choices to surface.
+
+Use a structured report when the work is nontrivial, ambiguous, high-risk,
+crosses important boundaries, changes contracts, or requires the user to review
+tradeoffs.
+
+When structure helps, use this shape and omit fields that add no signal:
 
 ```text
 Mode:
-- literal / interpretive
+- literal / interpretive, when relevant
 
 Goal restated:
 - <goal in project terms>
 
 Assumptions:
-- <assumption or "none">
+- <assumptions that affected the work>
 
 Changed:
 - <short list>
 
 Risk class:
-- low / medium / high / critical
+- low / medium / high / critical, when relevant
 
 Boundaries touched:
-- <frontend / API / domain / policy / state / persistence / workflow / side effect / observability / infrastructure>
+- <frontend / API / domain / policy / state / persistence / workflow / side effect / observability / infrastructure, when relevant>
 
 Verification:
 - <commands or checks run>
@@ -265,5 +276,9 @@ Docs or contracts updated:
 - <docs, contracts, or ADRs updated>
 
 Residual risk:
-- none known / <remaining risk>
+- <remaining risk worth surfacing>
 ```
+
+Mode, assumptions, and risk are reasoning aids. Think about them during the
+work. Surface them to the user when they affect interpretation, safety, review,
+or next steps.

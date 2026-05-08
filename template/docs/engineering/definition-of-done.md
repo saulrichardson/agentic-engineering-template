@@ -14,7 +14,8 @@ Every completed change should satisfy:
   substitution is recorded with its boundary and rationale
 - generated or temporary artifacts are not committed accidentally
 - verification has been run or the reason it could not run is stated
-- the final report names changes, verification, and residual risk
+- the final response clearly names the change and verification, with
+  assumptions, risk, and follow-up only when they add useful signal
 
 ## Manual Verification
 

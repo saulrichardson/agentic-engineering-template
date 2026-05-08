@@ -101,8 +101,8 @@ if ! grep -q 'Root Cause Before Patch' docs/engineering/agent-execution-protocol
   fail "agent execution protocol is missing root-cause guidance"
 fi
 
-if ! grep -q 'Mode:' docs/engineering/agent-execution-protocol.md; then
-  fail "agent execution protocol report format is missing mode"
+if ! grep -q 'Reporting Judgment' docs/engineering/agent-execution-protocol.md; then
+  fail "agent execution protocol is missing reporting judgment guidance"
 fi
 
 printf 'doctor: ok\n'
