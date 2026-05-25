@@ -63,6 +63,18 @@ Prefer coherent, forward-looking designs over preserving old structures by defau
 
 When issues arise, do not write code merely to get the system to run. Identify the root cause, validate the logic, and report meaningful options when the right fix depends on a consequential choice.
 
+### Functional Programming Posture
+
+This project may not use functional programming languages by default, but agents should develop it from a functional programmer’s perspective where feasible. The goal is to reduce avoidable bugs, hidden state, brittle control flow, and frustrating side effects that often accumulate in traditional software development.
+
+When implementing features, prefer designs that make data flow explicit, keep transformations pure where practical, and isolate side effects behind clear boundaries. Favor immutable data, total functions, explicit inputs and outputs, small composable units, declarative transformations, and domain models that make invalid states hard or impossible to represent.
+
+In practice, this means agents should try to keep the core of each feature as a pure, testable decision layer, with side effects pushed to the edges. Parse and validate inputs before they enter domain logic. Represent state transitions explicitly rather than mutating shared state in place. Return structured results or explicit errors instead of relying on nulls, hidden exceptions, or implicit fallbacks. Prefer data models and types that encode the business rules directly, so invalid states are difficult to construct.
+
+When side effects are necessary, make them obvious and narrow: database writes, network calls, filesystem access, time, randomness, environment variables, and external services should be isolated behind small interfaces. The code that decides what should happen should be separable from the code that performs the effect.
+
+Do not force functional patterns where they make the code obscure, inefficient, or inconsistent with the project’s actual stack. Use the posture pragmatically: separate pure decision-making from impure execution, minimize shared mutable state, avoid temporal coupling, make effects visible, and design APIs so behavior can be tested without requiring the full runtime environment.
+
 ### Grounded Work
 
 Base claims and decisions on real artifacts: code, tests, schemas, configs, logs, docs, APIs, data examples, and records. Treat generic knowledge and prior assumptions as hypotheses until the repository confirms them.
@@ -146,7 +158,7 @@ Put behavior where future agents will expect to find it.
 * Policy code owns permissions, ownership, tenant boundaries, and approvals.
 * Side-effect code owns external APIs, files, notifications, payments, and cloud changes.
 * Observability owns logs, metrics, traces, audit events, and health checks.
-* Deployment owns build, config, secrets, rollout, rollback, and smoke checks.
+* Deployment owns build, config, sensitive configuration, rollout, rollback, and smoke checks.
 
 Use this placement guide to simplify the system when rules repeat, behavior is hard to test, data lacks an owner, side effects lack a clear lifecycle, or a future agent would need chat history to understand the change.
 
@@ -156,9 +168,47 @@ Match verification to the risk and surface area of the change. Run narrow checks
 
 Use tests, type checks, builds, linters, migrations, browser checks, scripts, logs, sample data, and manual inspection as the project requires. Inspect actual inputs and outputs, especially for transformations, migrations, policy decisions, or user-visible behavior.
 
-When a check depends on unavailable credentials or infrastructure, state the blocker and the strongest evidence gathered locally.
+When a check depends on unavailable access or infrastructure, state the blocker and the strongest evidence gathered locally.
 
-Treat delivery as part of engineering. When a change affects deployment, identify the build and test path, config and secret needs, migration or data steps, rollout path, rollback or mitigation path, and smoke checks.
+Treat delivery as part of engineering. When a change affects deployment, identify the build and test path, config and sensitive configuration needs, migration or data steps, rollout path, rollback or mitigation path, and smoke checks.
+
+## Development, Testing, And Deployment Discipline
+
+Develop software in small, coherent slices that can be understood, tested, and shipped safely. A change is not complete when the code is written; it is complete when the behavior is implemented, verified, documented where needed, and prepared for safe delivery.
+
+### Development
+
+Start by identifying the real behavior change, the source-of-truth artifacts involved, and the part of the system that should own the change. Avoid scattering behavior across unrelated call sites. Prefer one clear model over many local exceptions.
+
+Keep feature work close to the domain concept it changes. If a feature introduces a new state, permission, workflow, integration, or lifecycle, represent that directly in the relevant types, schemas, interfaces, validation, storage, tests, and docs.
+
+Build from the inside out where feasible: domain rules first, then persistence and side effects, then entry points and interface behavior. Keep decision-making code separate from effectful execution so it can be tested directly.
+
+Do not leave important behavior implicit in comments, naming conventions, environment assumptions, or UI-only validation. Important rules should exist in executable code, enforced constraints, or durable documentation.
+
+### Testing
+
+Test the behavior, not just the implementation shape. The test suite should prove that the system does the right thing for the actual product case, including edge cases, invalid inputs, failure paths, and state transitions.
+
+Prefer focused tests for pure domain logic, integration tests for boundaries, and end-to-end or smoke tests for critical user workflows. Do not rely only on snapshots, mocks, or happy-path tests when the risk is in data flow, permissions, persistence, or external effects.
+
+Every bug fix should include a regression test when the project has a viable test path. The test should fail before the fix and pass after it, or the agent should explain why that proof was not possible.
+
+When changing schemas, migrations, permissions, background jobs, billing, notifications, or external integrations, test both the intended path and the failure path. Verify that retries, duplicate events, partial failures, and invalid state are handled explicitly.
+
+Do not treat passing tests as the only evidence. Manually inspect important inputs and outputs when correctness depends on meaning, formatting, data preservation, user-visible behavior, or production safety.
+
+### Deployment
+
+Treat deployment as part of the implementation, not an afterthought. Before delivery, identify what must be true for the change to run safely in the target environment: configuration, sensitive configuration, migrations, permissions, build steps, external services, data backfills, and runtime assumptions.
+
+Changes that affect production data should have a clear migration path, rollback or mitigation plan, and smoke-check procedure. Avoid irreversible changes unless the user has explicitly approved the tradeoff and the project has a recovery plan.
+
+Prefer deployable increments. A large change should be broken into safe steps when possible: introduce the new model, migrate data, switch behavior, remove obsolete paths, and verify each stage.
+
+After deployment, the system should expose enough evidence to know whether the change is working: logs, metrics, traces, audit events, health checks, admin visibility, or concrete smoke tests. Silent production behavior is not sufficient for important workflows.
+
+If deployment cannot be fully verified because access, infrastructure, production data, or external services are unavailable, state that clearly and report the strongest local evidence gathered.
 
 ## Updating The Docs
 
