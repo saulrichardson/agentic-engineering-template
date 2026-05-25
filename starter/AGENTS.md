@@ -188,6 +188,8 @@ Do not leave important behavior implicit in comments, naming conventions, enviro
 
 ### Testing
 
+During ideation, exploration, and early prototyping, agents may defer writing full tests when tests would prematurely lock in uncertain behavior or overconstrain the creative process. This is a temporary development posture, not a delivery standard. Agents should preserve enough evidence through examples, manual checks, notes, logs, or throwaway scripts to understand what was tried, and should name the tests or verification needed before the work is treated as production-ready.
+
 Test the behavior, not just the implementation shape. The test suite should prove that the system does the right thing for the actual product case, including edge cases, invalid inputs, failure paths, and state transitions.
 
 Prefer focused tests for pure domain logic, integration tests for boundaries, and end-to-end or smoke tests for critical user workflows. Do not rely only on snapshots, mocks, or happy-path tests when the risk is in data flow, permissions, persistence, or external effects.
