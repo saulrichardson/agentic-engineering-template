@@ -1,13 +1,15 @@
 # Project Records
 
-Use this directory for durable project knowledge.
+Records are durable project memory.
 
-Project records are the one standard way to document decisions, caveats,
-technical choices, constraints, risks, learned guidance, invariants, operating
-notes, and feature context that future agents should inherit.
+Use this directory for anything future agents should understand after the
+current task is over: decisions, caveats, stack choices, architecture rationale,
+risks, constraints, lessons, operating notes, feature context, and important
+tradeoffs.
 
-Create a record when the information is useful beyond the current task. Use a
-short filename that starts with the date:
+Create a record when the reasoning matters more than the current edit.
+
+Use short dated filenames:
 
 ```text
 YYYY-MM-DD-short-topic.md
@@ -19,55 +21,40 @@ Examples:
 2026-01-15-frontend-stack.md
 2026-01-20-report-export-caveats.md
 2026-02-03-billing-state-model.md
-2026-02-10-production-deploy-notes.md
+2026-02-10-deployment-notes.md
 ```
 
-## Record Shape
+## Shape
 
 ```markdown
 # <record title>
 
 - date: YYYY-MM-DD
-- status: draft | active | superseded
-- kind: decision | caveat | stack | feature | invariant | risk | operation | learning
-- owner: <person, team, or agent>
 
 ## Context
 
-What prompted this record?
+What happened, changed, or became clear?
 
-What facts from the project matter?
+## Record
 
-## Guidance
-
-What should future agents know, choose, preserve, migrate, or revisit?
+What should future agents know, preserve, choose, avoid, migrate, or revisit?
 
 ## Evidence
 
-What code, tests, commands, examples, production signals, user feedback, or
-constraints support this record?
+What code, tests, commands, examples, data, user feedback, production signals,
+or constraints support this record?
 
-## Consequences
+## Future Guidance
 
-What changes because of this record?
-
-## Follow-Up
-
-- <task, question, or owner>
+How should this affect later work?
 ```
 
-## How To Use Records
+## Practical Rule
 
-Use records for anything durable:
+Use `product-intent.md` for the product north star.
 
-- chosen technical stack and why
-- caveats discovered during implementation
-- meaningful product or domain decisions
-- policy, permission, ownership, or tenant assumptions
-- state, workflow, data, or telemetry guidance
-- security or abuse-risk notes
-- deployment or operating model notes
-- lessons learned that should change future agent behavior
+Use `approach.md` for the current stack, architecture, constraints, and delivery
+model.
 
-Keep records direct. A record should help the next agent make a better decision
-without reading chat history.
+Use records for the reasoning that explains how the project got here and what
+future agents should remember.

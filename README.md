@@ -12,10 +12,9 @@ single-file review artifact. The useful thing is the starter documentation under
 The starter gives a new or existing project four durable surfaces:
 
 - `AGENTS.md`: how coding agents should work in the repository.
-- `docs/approach.md`: current project truth, including stack, architecture,
-  operating model, constraints, verification, and delivery approach.
-- `docs/product-intent.md`: product north star, user goals, desired outcomes,
-  workflows, examples, and open questions.
+- `docs/product-intent.md`: what the product is trying to accomplish.
+- `docs/approach.md`: the current stack, architecture, operating model,
+  constraints, verification path, and delivery model.
 - `docs/records/`: durable rationale, dated decisions, caveats, tradeoffs, and
   lessons future agents should inherit.
 
@@ -23,8 +22,8 @@ The core model is:
 
 ```text
 AGENTS.md = agent behavior
-docs/approach.md = current project truth
 docs/product-intent.md = product north star
+docs/approach.md = current project truth
 docs/records/ = durable project memory
 ```
 
@@ -41,8 +40,8 @@ Then edit the placeholders in:
 ```text
 AGENTS.md
 README.md
-docs/approach.md
 docs/product-intent.md
+docs/approach.md
 ```
 
 If the target project already has a `README.md`, merge the useful operating
@@ -67,13 +66,13 @@ starter/
 Use `AGENTS.md` to define how coding agents interpret goals, make decisions,
 verify work, and report outcomes.
 
-Use `docs/approach.md` to keep the current product and technical operating model
-accurate. This is where agents document the current stack, architecture,
-ownership boundaries, constraints, verification approach, and delivery model.
-
 Use `docs/product-intent.md` to keep the product goal visible. It should explain
 what the product should accomplish for users or developers. Coding agents should
 update it as they learn what the user wants.
+
+Use `docs/approach.md` to keep the current product and technical operating model
+accurate. This is where agents document the current stack, architecture,
+constraints, verification path, and delivery model.
 
 Use `docs/records/` when future agents need durable reasoning: why a choice was
 made, what caveat matters, what tradeoff was accepted, or what lesson should

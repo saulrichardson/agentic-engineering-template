@@ -2,36 +2,31 @@
 
 This directory contains project-local context for `<project name>`.
 
-`../AGENTS.md` is the operating guide for autonomous coding agents. The files
-here explain what the product should accomplish, how the project works today,
-and what durable decisions future agents should inherit.
-
 ## Read Order
 
 1. `../AGENTS.md`
-2. `approach.md`
-3. `product-intent.md`
+2. `product-intent.md`
+3. `approach.md`
 4. `records/README.md`
-5. Relevant project records in `records/`
+5. Relevant records in `records/`
+6. Nearby code, tests, configs, data, and deployment files
 
-## Operating Model
+## Model
 
-Use `approach.md` for current project truth: what the project is, who it serves,
-the selected stack, the current architecture, ownership boundaries, constraints,
-invariants, verification expectations, and delivery approach.
+Use `product-intent.md` for the north star: what the product should accomplish,
+who it serves, what outcomes matter, and which workflows define success.
 
-Use `product-intent.md` for the product north star: the user goals, desired
-outcomes, workflows, examples, and open questions that explain what the product
-is supposed to accomplish. Coding agents should update it as they better
-understand what the user wants.
+Use `approach.md` for the current operating model: how the project is built,
+where important behavior lives, what stack is in use, what constraints matter,
+and how work is verified and delivered.
 
-Use `records/` for durable project memory: why a decision was made, what caveat
-matters, what tradeoff was accepted, what lesson was learned, and what future
-agents should remember.
+Use `records/` for durable memory: decisions, caveats, lessons, risks,
+tradeoffs, stack rationale, and operating notes that future agents should
+understand.
 
 ## Practical Rule
 
-- Current truth or operating model: `approach.md`
 - Product goal or user intent: `product-intent.md`
+- Current stack, architecture, constraints, or delivery model: `approach.md`
 - Rationale, history, caveats, or lessons: `records/`
 - Agent behavior and working rules: `../AGENTS.md`

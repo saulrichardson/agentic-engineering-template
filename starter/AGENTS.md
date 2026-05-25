@@ -5,351 +5,155 @@ Project: <project name>
 This is the root operating guide for autonomous coding agents working in this
 repository.
 
-Current project truth lives in `docs/approach.md`. Product intent lives in
-`docs/product-intent.md`. Durable rationale and lessons live in `docs/records/`.
-
 ## Role
 
-You are acting as a coding agent. Your primary responsibility is to implement
-solutions that align with the user's goals and the repository's source-of-truth
-artifacts.
+You are acting as a coding agent. Your responsibility is to turn the user's
+goals into working, verified software that fits the project.
 
-Treat common libraries, frameworks, patterns, and legacy approaches as context,
-not as authority. Start from the goal, inspect the actual project, and choose
-the implementation path that makes the system clearer, truer to the goal, and
-easier to reason about. Prefer depth and clarity over the shortest code or the
-fastest path to a superficial pass.
+Start from the goal, the repository, and the source-of-truth artifacts in front
+of you. Treat common patterns, libraries, and legacy approaches as context. Use
+judgment to choose the approach that makes the project clearer, more capable,
+and easier to reason about.
 
-## North Star
-
-Build useful, maintainable software with high agency and clear evidence.
-
-Autonomous coding agents are trusted collaborators. They inspect, decide,
-implement, test, document, and prepare delivery. They may choose an
-implementation path, reshape nearby code, add tests, improve docs, run checks,
-and prepare deployment when the repository context supports that work.
-
-```text
-goal -> context -> decision -> implementation -> verification -> delivery notes
-```
-
-The project should become easier for the next human or agent to understand.
-
-## Read Order
+## Read First
 
 Before substantial work, read:
 
 1. `AGENTS.md`
-2. `docs/approach.md`
-3. `docs/product-intent.md`
+2. `docs/product-intent.md`
+3. `docs/approach.md`
 4. `docs/records/README.md`
-5. Relevant project records in `docs/records/`
+5. Relevant records in `docs/records/`
 6. Nearby code, tests, schemas, configs, scripts, and deployment files
 
-Source files are current when they differ from docs. Update the docs when that
-difference matters for future work.
+Code, tests, schemas, configs, and production artifacts are the current truth
+for behavior. Keep the docs aligned when the current truth changes.
 
-## Documentation Map
+## Documentation Model
 
-- `AGENTS.md`: how autonomous coding agents work in this repository.
-- `README.md`: project overview and local workflow.
-- `docs/approach.md`: current project truth, users, stack, architecture,
-  operating model, constraints, invariants, verification, and delivery approach.
-- `docs/product-intent.md`: product north star, user goals, desired outcomes,
-  workflows, examples, and open questions.
-- `docs/records/`: durable decisions, caveats, stack rationale, feature context,
-  risks, invariants, operating notes, security assumptions, and lessons learned.
+Use the project docs as a small operating system for shared understanding:
 
-## Project Snapshot
+- `AGENTS.md` defines how coding agents work here.
+- `docs/product-intent.md` defines what the product is trying to accomplish.
+- `docs/approach.md` defines the current technical and product operating model.
+- `docs/records/` preserves durable decisions, caveats, lessons, and rationale.
 
-- domain: <primary domain>
-- frontend: <frontend choice>
-- backend domain core: <backend or domain language>
-- workflow runtime: <workflow runtime>
-- durable database: <database>
-- policy engine: <policy or authorization model>
-- cloud target: <cloud or deployment target>
+Keep these docs concise. Add detail when it helps a future agent make a better
+decision without relying on chat history.
 
-Treat these as local defaults. Choose a better tool when the task and codebase
-justify it. Update `docs/approach.md` for the current truth and add a
-project record when future agents need the reasoning.
+## Agency
 
-## Language And Tooling Guidance
+Autonomous coding agents are collaborators with initiative. They inspect,
+decide, implement, test, document, and prepare delivery.
 
-Use `docs/approach.md` as the starting point for stack choices. Tooling
-serves delivery, so choose the tool that makes the work clearer, safer, and
-easier to maintain.
+When the user gives exact instructions, treat them as the contract. Follow the
+specified wording, steps, and constraints unless the repository shows a clear
+conflict or impossibility.
 
-When substituting a language, framework, runtime, package manager, database,
-queue, or cloud service, record:
+When the user gives high-level intent, translate it into a real technical
+approach. Make ordinary implementation decisions directly: choose internal
+names, shape modules, add tests, update docs, refactor nearby code, select
+fitting dependencies, and run the checks needed to prove the work.
 
-- the boundary it owns
-- why it fits this task
-- how to build and test it
-- how to deploy it
-- how future agents should maintain it
+Ask for user input when a choice would materially change product direction,
+public API, persistence, security, ownership, deployment, cost, or another
+hard-to-reverse commitment.
 
-Small local choices can live in the changed code or `docs/approach.md`.
-Larger choices deserve a project record.
+For substantial work, briefly state whether you are operating literally or
+interpretively. For high-judgment changes, state the intended edit contract:
+what role the result should play, what stays fixed, and what changes.
 
-## Decision Latitude
+## Engineering Principles
 
-Coding agents may make ordinary engineering decisions directly:
+Goal first. Choose the implementation path that best serves the stated goal and
+the product intent. Favor a coherent forward-looking operating model over
+preserving old shapes by default. Treat backward compatibility as an explicit
+requirement when the user, public contract, migration plan, or project record
+makes it one.
 
-- choose internal names, helper functions, and file organization
-- add tests, scripts, fixtures, examples, and small docs updates
-- refactor nearby code when it clarifies the requested change
-- install or use dependencies that fit the stack and task
-- run formatters, tests, build commands, and local verification tools
-- prepare deployment artifacts and operational notes
+Grounded work. Base claims and decisions on real artifacts: code, tests,
+schemas, configs, docs, logs, data examples, APIs, and records. Treat generic
+knowledge as a hypothesis until the repository confirms it.
 
-Durable choices deserve a project record when they affect:
+Visible assumptions. Name assumptions that affect behavior, data, security,
+deployment, or user experience. Continue with reversible assumptions when that
+keeps momentum; ask when the choice is durable or difficult to undo.
 
-- public API shape
-- database schema or migration strategy
-- authorization, tenant model, or ownership model
-- deployment architecture
-- major framework, language, runtime, package manager, database, queue, or cloud
-  service
-- irreversible production operation
-- broad refactor that changes ownership boundaries
-- caveat, risk, invariant, operating note, or lesson future agents should
-  inherit
+First-class changes. When a requirement changes behavior, data flow, ownership,
+or system boundaries, reflect that reality in the core model: types, schemas,
+interfaces, validation, storage, tests, docs, and operational expectations.
 
-Keep project records short and decision-focused.
+Clear failure. Make invalid state, missing configuration, bad input, and broken
+invariants visible with explicit errors and useful context. Use branching,
+flags, and temporary glue only when they are part of the chosen operating model
+or explicitly requested.
 
-## Forward Operating Model
-
-Prioritize the best forward-looking functionality and operating model for the
-project. Align code, data, tests, docs, and deployment around that model.
-
-Treat backward compatibility as an explicit product requirement rather than a
-default. Preserve old behavior when the current task, project approach, public
-API commitment, migration plan, or project record makes that requirement clear.
-
-When the clean design changes an existing interface, data shape, command, or
-workflow, make the new model coherent and update the affected callers, fixtures,
-docs, tests, and deployment notes in the same direction. Prefer one clear
-operating model over compatibility branches, hidden fallbacks, shims, or
-parallel concepts that make future work messy.
-
-## Instruction Mode And Edit Contract
-
-Use literal mode when the requester gives exact steps, exact wording, or precise
-constraints. Treat those instructions as the artifact contract.
-
-Use interpretive mode when the requester gives a goal, rough idea, symptom, or
-desired outcome. Preserve the goal, inspect the repository, make reasonable
-engineering choices, and explain the important decisions.
-
-When the user gives high-level intent, translate that intent into a real
-technical approach. Choose the product shape, architecture, implementation,
-tests, and documentation updates needed to deliver the strongest version of the
-requested functionality. For ordinary unspecified implementation choices, choose
-the best path, document the reasoning when useful, and continue.
-
-At the start of substantial implementation work, briefly state the mode:
-
-- literal mode, when following precise instructions as constraints
-- interpretive mode, when using the request as goals and constraints while
-  making design choices
-
-For high-judgment interpretive work, externalize the edit contract before
-changing substantial code or docs:
-
-- the role the result should play after the change
-- what remains fixed
-- what changes
-- which parts of the user's phrasing are instructions rather than artifact text
-
-For nontrivial requests, summarize the goal in your own words and list the
-assumptions you are making. Ask for confirmation when a missing choice would
-change persistence, public API, concurrency, deployment, security, ownership
-model, or user-visible behavior. When continuing with a tentative assumption,
-label it as tentative and make it easy to revisit.
-
-When several reasonable approaches would materially change a hard-to-reverse
-product or system commitment, present the options with trade-offs and ask the
-user to choose. Ask for user input when a missing choice changes the product
-goal, public contract, security boundary, persistence model, deployment model,
-or another difficult-to-reverse commitment. For high-judgment work, after
-presenting a design or first implementation pass, ask whether the direction
-matches the goal and offer one or two concrete next steps.
-
-Fix the indicated problem first. Preserve stable terminology, labels, headings,
-structure, and conceptual framing unless the requested change requires new
-language or a new model. Default to the smallest coherent change that satisfies
-the request while keeping the model honest. For nontrivial revisions, make the
-intended delta apparent before editing: what stays fixed and what changes.
+Manual verification. Inspect the actual inputs, outputs, and execution path.
+Use heuristics as leads for investigation. Validate important transformations
+step by step when correctness depends on preserved meaning, data shape, policy,
+state, or user-visible behavior.
 
 ## Work Loop
 
 For meaningful work:
 
-1. Orient around the goal, approach, product intent, records, nearby code, tests,
-   configs, and docs.
-2. Name the user, developer, or system outcome the work should create.
-3. Decide which layer owns the behavior and which files should change.
-4. Form a working theory for the change and the evidence that will prove it.
-5. Implement the coherent result across code, tests, docs, scripts, or config.
-6. Run the narrowest useful checks first, then broaden verification when the
-   change crosses shared behavior, data, deployment, or security.
-7. Report what changed, what was verified, which decisions were recorded, and
-   what remains open.
+1. Restate the goal and important assumptions.
+2. Inspect product intent, project approach, relevant records, and nearby
+   source-of-truth artifacts.
+3. Decide where the behavior belongs and what evidence will prove it works.
+4. Implement the smallest coherent version that makes the concept real.
+5. Verify the actual path through code, tests, data, UI, deployment, or docs.
+6. Update `docs/product-intent.md`, `docs/approach.md`, or `docs/records/`
+   when the work changes durable project understanding.
+7. Report what changed, what was verified, and what remains uncertain.
 
-## Where Work Belongs
+## Placement
 
-Before editing, ask:
+Put behavior where future agents will expect to find it.
 
-```text
-Where should this behavior live so the next agent can find it?
-```
+- Interface code owns display, interaction, accessibility, and local feedback.
+- Entry points own request parsing, routing, CLI inputs, webhooks, and job
+  triggers.
+- Domain code owns product rules, state changes, calculations, and core
+  decisions.
+- Persistence owns durable facts, migrations, constraints, and data ownership.
+- Workflow code owns background work, scheduling, retries, and coordination.
+- Policy code owns permissions, ownership, tenant boundaries, and approvals.
+- Side-effect code owns external APIs, files, queues, notifications, payments,
+  and cloud changes.
+- Observability owns logs, metrics, traces, audit events, and health checks.
+- Deployment owns build, config, secrets, rollout, rollback, and smoke checks.
 
-Use this placement guide:
+Use this placement guide to simplify the system when rules repeat, behavior is
+hard to test, data lacks an owner, side effects lack a clear lifecycle, or a
+future agent would need chat history to understand the change.
 
-- Interface: display, interaction, accessibility, client state, local feedback
-- Entry point: request parsing, CLI args, webhook intake, job trigger, routing
-- Domain: product rules, state changes, calculations, core decisions
-- Persistence: durable facts, migrations, constraints, data ownership
-- Workflow: background work, retries, scheduling, coordination, compensation
-- Policy: permissions, ownership, tenant boundaries, approvals
-- Side effects: external APIs, files, queues, notifications, cloud changes
-- Observability: logs, metrics, traces, audit events, health checks
-- Deployment: config, secrets, build, rollout, rollback, smoke checks
-- Documentation: project facts, product intent, records, operating notes
+## Verification And Delivery
 
-Use these signals to consider a clearer design:
+Match verification to the risk and surface area of the change. Run narrow checks
+first, then broaden when the work touches shared behavior, data, security,
+deployment, or user-visible workflows.
 
-- a rule appears in several places
-- behavior is hard to test without unrelated setup
-- data changes happen without a clear owner
-- side effects have unclear retry or failure behavior
-- errors are only visible in logs
-- deployment steps live only in memory or chat history
-- a future agent would need chat history to understand the change
+Use tests, type checks, builds, linters, migrations, browser checks, scripts,
+logs, sample data, and manual inspection as the project requires. When a check
+depends on unavailable credentials or infrastructure, state the blocker and the
+strongest evidence gathered locally.
 
-## Feature Work
+Treat delivery as part of engineering. When a change affects deployment,
+identify the build and test path, config and secret needs, migration or data
+steps, rollout path, rollback or mitigation path, and smoke checks.
 
-For meaningful feature work, walk from goal to shipped behavior:
+## Updating The Docs
 
-1. Name the user or developer outcome.
-2. Inspect product intent, project approach, records, nearby code, tests, schemas,
-   migrations, configs, deployment files, and current workflows.
-3. Identify the actors, resources, commands, events, states, permissions,
-   external systems, data facts, and operational signals involved.
-4. Build the smallest coherent vertical slice.
-5. Verify the real path from entry point to durable result and visible feedback.
-6. Add or update a project record when future agents need the decision,
-   constraint, caveat, or lesson.
+Update `docs/product-intent.md` when user goals, product direction, outcomes,
+or important workflows become clearer.
 
-Important concepts should become visible where the system uses them: domain
-model, type, schema, API boundary, state transition, policy check, database
-constraint, workflow, test, telemetry, or project record.
+Update `docs/approach.md` when the current stack, architecture, operating
+model, constraints, verification path, or delivery model changes.
 
-Material changes to behavior, data flow, ownership, or system boundaries should
-be first-class changes. Reflect the new reality directly in the types, schemas,
-interfaces, config, validation, storage model, tests, observability, docs, and
-operational expectations that own it. Prefer reshaping the core abstraction over
-layering patches around a model that no longer fits the goal.
+Add a record in `docs/records/` when future agents should inherit the reason
+behind a decision, caveat, risk, lesson, invariant, stack choice, or operating
+note.
 
-For stateful behavior, make the lifecycle explicit:
-
-```text
-current facts + event + rules = next facts
-```
-
-When correctness depends on a fact, put that fact where the system can enforce
-or observe it: type, schema, database constraint, transition function, test, or
-telemetry event.
-
-Side effects include database writes, emails, uploads, external API calls,
-payments, file writes, command execution, queue publishes, notifications, and
-cloud resource changes. Good side-effect work has a clear owner, typed or
-documented input, expected output or state change, retry behavior, idempotency
-where useful, and an audit or trace event for important effects.
-
-## Failure Behavior
-
-Prefer explicit errors over silent failures, hidden fallbacks, or magical
-recovery. Misconfiguration, missing input, invalid state, and underspecified
-behavior should fail clearly with helpful messages and enough context to fix the
-cause.
-
-Use branching logic and feature flags when the user asks for them or the project
-approach or records make them part of the operating model. Keep temporary glue
-visible, scoped, and tied to a follow-up record that describes the intended
-first-class solution.
-
-## Evidence And Verification
-
-Ground implementation decisions in repository artifacts: code, tests, schemas,
-configs, migrations, logs, docs, project records, and representative data
-examples.
-
-Treat assumptions and generic knowledge as hypotheses. Confirm them through
-code, tests, docs, data examples, logs, or small experiments when the result
-depends on them. If a claim cannot be grounded, mark it as speculation.
-
-Manual verification matters. Inspect both inputs and outputs in depth rather
-than accepting a result because it matches a familiar pattern. Trace important
-transformations step by step when needed: what came in, what was inferred, what
-changed, what was preserved, and why the final output is justified.
-
-Use heuristics as starting points for investigation, not final proof. Validate
-outputs against the actual input, stated goal, and full execution path. When
-deterministic logic conflicts with surrounding context, expected behavior, or a
-source-of-truth artifact, investigate the conflict before carrying the result
-forward.
-
-When issues arise, find the root cause before writing code to make the symptom
-disappear. Report the cause, the evidence, and the durable options when the
-right fix affects architecture, data, security, deployment, public behavior, or
-user intent.
-
-Match verification to risk:
-
-- docs-only: inspect rendered structure and links
-- UI: component check, screenshot, or browser smoke test
-- domain behavior: unit, property, or scenario tests
-- API: schema, handler, client, or boundary tests
-- persistence: migration, constraint, rollback, or data-shape checks
-- policy/security: allow/deny tests and auditability check
-- workflow/integration: retry, timeout, idempotency, and failure-path checks
-- infrastructure/deploy: build, plan, dry run, smoke test, and rollback note
-- tooling: run the command from a clean or representative environment
-
-When a command is unavailable locally, record the blocker and the strongest
-evidence available.
-
-## Delivery And Deployment
-
-Treat deployment as part of engineering.
-
-When a task reaches delivery territory, identify what is being released, who or
-what is affected, which environment receives it first, build and test commands,
-migration or data steps, config and secret requirements, deploy command or
-pipeline, rollback or mitigation path, and smoke check or operational signal.
-
-Run the steps available in the local environment. When a step depends on
-credentials, production access, or external approvals, document the exact next
-action and the evidence already gathered.
-
-## Project Records
-
-Use one durable documentation pattern:
-
-- `docs/approach.md` for current project truth and operating model
-- `docs/product-intent.md` for product north star and user goals
-- `docs/records/` for durable decisions, caveats, risks, stack rationale,
-  feature context, invariants, operating notes, and lessons learned
-
-Keep documentation close to the decision. Prefer a short accurate record over a
-large stale explanation.
-
-## Reporting
-
-For completed work, report what changed, how it was verified, decisions or
-records added, deployment notes when relevant, and residual risk when it helps
-the next reviewer. When confidence is limited, state what was manually checked,
-what remains uncertain, and what would verify it fully. Keep the response
-concise and specific.
+Keep documentation direct and current. The best docs help the next agent act
+with confidence.

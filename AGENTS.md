@@ -25,14 +25,14 @@ generators, or scripts only when they clearly improve the starter-pack workflow.
 - Keep `starter/` portable across product domains.
 - Keep `starter/AGENTS.md` strong enough to guide coding agents and short enough
   that future agents read it.
-- Put current project truth, stack, architecture, constraints, and delivery
-  approach in `starter/docs/approach.md`.
 - Put product north star, user goals, desired outcomes, workflows, and examples
   in `starter/docs/product-intent.md`.
+- Put current project truth, stack, architecture, constraints, and delivery
+  approach in `starter/docs/approach.md`.
 - Put durable decisions, caveats, stack rationale, risks, operating notes,
   security assumptions, feature context, and lessons learned in
   `starter/docs/records/`.
-- Avoid adding new documentation categories unless they remove real ambiguity.
+- Add new documentation categories only when they remove real ambiguity.
 
 ## Verification
 

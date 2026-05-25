@@ -6,96 +6,73 @@ Project: <project name>
 
 This file is the current project truth.
 
-Use it to understand what the project is, who it serves, how it is shaped, what
-stack it uses, what constraints matter, and how coding agents should extend it.
+Use it to understand how the project is shaped today: the selected stack, the
+architecture, the operating model, the constraints that matter, and the way work
+is verified and delivered.
 
-Use `docs/product-intent.md` for the product north star and user goals. Use
-`docs/records/` for durable rationale, dated decisions, caveats, and lessons.
+Use `product-intent.md` for the product north star. Use `records/` for durable
+rationale, caveats, lessons, and dated decisions.
 
-## Project Summary
+## Project At A Glance
 
-- domain: <primary domain>
-- primary users:
-- core jobs:
-- current product stage:
+- domain:
+- main users:
+- main workflows:
+- current stage:
 
-## Product Direction
+## Stack
 
-Summarize the current product goal in a few lines. Keep the fuller evolving
-north star, desired outcomes, examples, and user intent in
-`docs/product-intent.md`.
-
-## Current Stack
-
-- frontend: <frontend choice>
-- backend domain core: <backend or domain language>
-- workflow runtime: <workflow runtime>
-- durable database: <database>
-- policy or authorization model: <policy or authorization model>
-- cloud or deployment target: <cloud or deployment target>
+- frontend:
+- backend:
+- data store:
+- auth or policy model:
+- background work or workflow runtime:
+- hosting or deployment target:
 - build command:
 - test command:
 - deploy command:
 
-These are current project choices. When the stack changes, update this file for
-the current truth and add a project record when future agents need the reasoning.
+When the stack changes, update this section for the current truth. Add a record
+when future agents should understand why the choice was made.
+
+## Architecture
+
+Describe the current system shape at the level future agents need to act.
+
+- main applications or services:
+- important directories:
+- where product rules live:
+- where state and durable data live:
+- where integrations and side effects live:
+- where deployment and operations live:
 
 ## Operating Model
 
-Describe how work moves through the system today.
+Describe how the main workflows move through the system.
 
 ```text
-user or developer intent
+intent
   -> interface or entry point
   -> product behavior
-  -> data or state
+  -> state or durable data
   -> side effects
   -> observable result
   -> delivery or operation
 ```
 
-Use this section for the project-level model, not for every feature detail.
+Keep this section focused on the project-level model. Feature details belong in
+code, tests, and records when the reasoning should persist.
 
-## Architecture And Ownership
+## Constraints And Invariants
 
-Describe the current system shape at a level future agents can act on.
-
-- main applications or services:
-- important directories:
-- ownership boundaries:
-- where product rules live:
-- where durable data and migrations live:
-- where workflows or background work live:
-- where integrations and side effects live:
-- where deployment and operations live:
-
-## Data, State, And Invariants
+Document the facts that shape future work.
 
 - durable source of truth:
-- key entities or resources:
-- important states:
-- critical invariants:
-- migration or data-change approach:
-
-## Security, Ownership, And Policy
-
-- user, account, or tenant boundary:
-- ownership model:
-- sensitive data:
-- authorization approach:
-- audit or review expectations:
-
-## External Systems And Side Effects
-
-| System | Purpose | Data shared | Side effects | Owner |
-| --- | --- | --- | --- | --- |
-|  |  |  |  |  |
-
-## Constraints And Non-Goals
-
-- project constraints:
-- explicit non-goals:
-- actions that require coordination:
+- important entities or resources:
+- states or lifecycles that matter:
+- rules that must remain true:
+- sensitive data or ownership boundaries:
+- actions that need coordination:
 - high-blast-radius or irreversible actions:
 
 ## Verification And Delivery
@@ -103,20 +80,17 @@ Describe the current system shape at a level future agents can act on.
 - expected local checks:
 - expected manual checks:
 - migration or data checks:
-- deployment or smoke checks:
-- operational signals:
+- deployment path:
+- smoke checks or operational signals:
+- rollback or mitigation path:
 
 ## Open Questions
 
-- What is the first user-facing or developer-facing workflow?
-- What data is the durable source of truth?
-- What actions deserve explicit coordination?
-- What external systems can the application touch?
-- What should be observable from day one?
+- <question>
 
 ## Related Records
 
-Link records that explain why the current approach was chosen or what caveats
-future agents should remember.
+List records that explain why the current approach exists or what future agents
+should remember.
 
-- `docs/records/YYYY-MM-DD-topic.md`
+- `records/YYYY-MM-DD-short-topic.md`
