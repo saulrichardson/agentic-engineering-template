@@ -37,7 +37,6 @@ need_file docs/contracts/policy-inputs.md
 need_file docs/contracts/telemetry-events.md
 need_file docs/security/threat-model.md
 need_file docs/adr/README.md
-need_file docs/adr/0001-adopt-agentic-engineering-doctrine.md
 need_file docs/templates/adr.md
 need_file docs/templates/feature-brief.md
 need_file docs/templates/agent-task.md
@@ -67,6 +66,10 @@ fi
 
 if ! grep -q 'Language And Tooling Guidance' AGENTS.md; then
   fail "AGENTS.md is missing the language and tooling guidance"
+fi
+
+if ! grep -q 'Forward Operating Model' AGENTS.md; then
+  fail "AGENTS.md is missing the forward operating model guidance"
 fi
 
 if ! grep -q 'Agentic Delivery Model' README.md; then

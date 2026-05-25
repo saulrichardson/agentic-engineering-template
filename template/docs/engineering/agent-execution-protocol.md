@@ -119,7 +119,7 @@ Match verification to risk:
 - docs-only: inspect rendered structure and links
 - UI: component check, screenshot, or browser smoke test
 - domain behavior: unit, property, or scenario tests
-- API: schema, handler, client, or compatibility tests
+- API: schema, handler, client, or contract tests
 - persistence: migration, constraint, rollback, or data-shape checks
 - policy/security: allow/deny tests and auditability check
 - workflow/integration: retry, timeout, idempotency, and failure-path checks

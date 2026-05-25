@@ -170,7 +170,6 @@ docs/
     threat-model.md
   adr/
     README.md
-    0001-adopt-agentic-engineering-doctrine.md
   templates/
     adr.md
     feature-brief.md

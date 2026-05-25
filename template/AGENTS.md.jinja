@@ -128,6 +128,21 @@ Some choices deserve durable explanation:
 
 Use ADRs for those choices. Keep ADRs short and decision-focused.
 
+## Forward Operating Model
+
+Prioritize the best forward-looking functionality and operating model for the
+project. Align code, data, tests, docs, and deployment around that model.
+
+Treat backward compatibility as an explicit product requirement rather than a
+default. Preserve old behavior only when the current task, project profile,
+public API commitment, migration plan, or ADR makes that requirement clear.
+
+When the clean design changes an existing interface, data shape, command, or
+workflow, make the new model coherent and update the affected callers,
+fixtures, docs, tests, and deployment notes in the same direction. Prefer one
+clear operating model over compatibility branches, hidden fallbacks, shims, or
+parallel concepts that make future work messy.
+
 ## Work Loop
 
 For meaningful work, follow this loop:

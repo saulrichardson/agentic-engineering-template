@@ -30,7 +30,6 @@ copier copy "$SOURCE_DIR" "$GENERATED_DIR" \
   --data project_name="Reference Project" \
   --data project_slug="reference-project" \
   --data project_description="Reference rendering of the reusable agentic engineering guidance." \
-  --data adoption_date="2026-01-01" \
   --data primary_domain="Reusable agentic engineering guidance" \
   --data frontend="Project choice" \
   --data backend="Project choice" \
@@ -95,7 +94,6 @@ append_file "Policy Input Contracts" "$GENERATED_DIR/docs/contracts/policy-input
 append_file "Telemetry And Audit Event Contracts" "$GENERATED_DIR/docs/contracts/telemetry-events.md"
 append_file "Threat Model" "$GENERATED_DIR/docs/security/threat-model.md"
 append_file "ADR Guide" "$GENERATED_DIR/docs/adr/README.md"
-append_file "Initial Doctrine ADR" "$GENERATED_DIR/docs/adr/0001-adopt-agentic-engineering-doctrine.md"
 append_file "ADR Template" "$GENERATED_DIR/docs/templates/adr.md"
 append_file "Feature Brief Template" "$GENERATED_DIR/docs/templates/feature-brief.md"
 append_file "Agent Task Template" "$GENERATED_DIR/docs/templates/agent-task.md"

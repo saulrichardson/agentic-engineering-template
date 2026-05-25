@@ -49,7 +49,7 @@ For data changes, record:
 - migration command
 - expected data volume
 - backfill or cleanup step
-- compatibility expectation
+- migration or contract expectation
 - rollback or mitigation path
 - verification query or check
 

@@ -77,7 +77,7 @@ Ask:
 - what states exist?
 - what events move between states?
 - what constraints should the database or schema enforce?
-- what compatibility or migration path exists for current data?
+- what migration or alignment path exists for current data?
 
 Use `docs/contracts/state-machines.md` when lifecycle behavior becomes shared or
 important.

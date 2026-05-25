@@ -17,11 +17,6 @@ project_description:
   help: One-sentence project description.
   default: "A software project developed with autonomous coding agents."
 
-adoption_date:
-  type: str
-  help: Initial doctrine adoption date in YYYY-MM-DD format.
-  default: "{{ '%Y-%m-%d' | strftime }}"
-
 primary_domain:
   type: str
   help: Product or problem domain.

@@ -153,6 +153,21 @@ Some choices deserve durable explanation:
 
 Use ADRs for those choices. Keep ADRs short and decision-focused.
 
+## Forward Operating Model
+
+Prioritize the best forward-looking functionality and operating model for the
+project. Align code, data, tests, docs, and deployment around that model.
+
+Treat backward compatibility as an explicit product requirement rather than a
+default. Preserve old behavior only when the current task, project profile,
+public API commitment, migration plan, or ADR makes that requirement clear.
+
+When the clean design changes an existing interface, data shape, command, or
+workflow, make the new model coherent and update the affected callers,
+fixtures, docs, tests, and deployment notes in the same direction. Prefer one
+clear operating model over compatibility branches, hidden fallbacks, shims, or
+parallel concepts that make future work messy.
+
 ## Work Loop
 
 For meaningful work, follow this loop:
@@ -833,7 +848,7 @@ Match verification to risk:
 - docs-only: inspect rendered structure and links
 - UI: component check, screenshot, or browser smoke test
 - domain behavior: unit, property, or scenario tests
-- API: schema, handler, client, or compatibility tests
+- API: schema, handler, client, or contract tests
 - persistence: migration, constraint, rollback, or data-shape checks
 - policy/security: allow/deny tests and auditability check
 - workflow/integration: retry, timeout, idempotency, and failure-path checks
@@ -1387,15 +1402,6 @@ A technology choice is good when it improves the project properties that matter:
 Agents may choose a different tool when it better serves those properties.
 Record durable changes in `docs/project-profile.md` or an ADR.
 
-## Backward Compatibility
-
-Backward compatibility is a product decision.
-
-Preserve compatibility when the project profile, an ADR, a public API
-commitment, a migration plan, or the current task requires it. When the cleanest
-design changes a contract, record the migration, rollout, or replacement path
-that fits the risk.
-
 ## Stack Serves Architecture
 
 Architecture is the shape of the system more than the brand of the tools:
@@ -1518,7 +1524,7 @@ Ask:
 - what states exist?
 - what events move between states?
 - what constraints should the database or schema enforce?
-- what compatibility or migration path exists for current data?
+- what migration or alignment path exists for current data?
 
 Use `docs/contracts/state-machines.md` when lifecycle behavior becomes shared or
 important.
@@ -1630,7 +1636,7 @@ For data changes, record:
 - migration command
 - expected data volume
 - backfill or cleanup step
-- compatibility expectation
+- migration or contract expectation
 - rollback or mitigation path
 - verification query or check
 
@@ -2055,68 +2061,6 @@ ADRs should be short. A clear decision with context, consequences, and follow-up
 beats a long essay.
 
 Use `docs/templates/adr.md` as the starting point.
-
-
----
-
-## Initial Doctrine ADR
-
-_Source: `generated-project/docs/adr/0001-adopt-agentic-engineering-doctrine.md`_
-
-# ADR 0001: Adopt Agentic Engineering Guidance
-
-- status: accepted
-- date: 2026-01-01
-
-## Context
-
-This project will be developed with autonomous coding agents. Agents need enough
-context to make decisions, improve code, run checks, update docs, and prepare
-delivery with inherited knowledge of the project's goals.
-
-Agentic development works best when the repository contains:
-
-- a project profile with local facts and stack choices
-- a product-intent space for rough goals and examples
-- an operating guide for coding agents
-- lightweight architecture and contract docs
-- decision records for durable choices
-- practical verification and deployment guidance
-
-## Decision
-
-We adopt the generated agentic engineering guidance as the starting operating
-system for this repository.
-
-The core doctrine is:
-
-```text
-Autonomous coding agents inspect, decide, implement, test, document, and prepare
-delivery. Their work leaves evidence that future humans and agents can use:
-clear intent, coherent changes, useful checks, deployment context, and durable
-decisions.
-```
-
-Project-specific decisions may refine this guidance in `docs/project-profile.md`
-or future ADRs.
-
-## Consequences
-
-- Coding agents can make local implementation decisions directly.
-- Important durable decisions get recorded where future agents can find them.
-- Verification scales with risk and blast radius.
-- Deployment and operational notes are part of meaningful delivery work.
-- The project owns these generated docs and should adapt them as the product
-  becomes real.
-
-## Initial Stack Profile
-
-- frontend: Project choice
-- backend domain core: Project choice
-- workflow runtime: Project choice
-- durable database: Project choice
-- policy engine: Project choice
-- cloud target: Undecided
 
 
 ---
