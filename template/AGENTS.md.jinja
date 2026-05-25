@@ -6,9 +6,8 @@ This is the root operating guide for autonomous coding agents working in this
 repository. It is generated from the reusable agentic engineering template, then
 owned by this project.
 
-Project-specific facts live in `docs/project-profile.md`. Rough product thinking
-lives in `docs/product-intent.md`. Durable project memory lives in
-`docs/records/`.
+Current project truth lives in `docs/approach.md`. Product intent lives in
+`docs/product-intent.md`. Durable rationale and lessons live in `docs/records/`.
 
 ## Role
 
@@ -42,7 +41,7 @@ The project should become easier for the next human or agent to understand.
 Before substantial work, read:
 
 1. `AGENTS.md`
-2. `docs/project-profile.md`
+2. `docs/approach.md`
 3. `docs/product-intent.md`
 4. `docs/records/README.md`
 5. Relevant project records in `docs/records/`
@@ -55,10 +54,10 @@ difference matters for future work.
 
 - `AGENTS.md`: how autonomous coding agents work in this repository.
 - `README.md`: project overview, local workflow, and template update notes.
-- `docs/project-profile.md`: current project facts, users, constraints, stack
-  choices, decision latitude, invariants, and open questions.
-- `docs/product-intent.md`: rough product thinking, workflows, examples, notes,
-  and questions before they become implementation guidance.
+- `docs/approach.md`: current project truth, users, stack, architecture,
+  operating model, constraints, invariants, verification, and delivery approach.
+- `docs/product-intent.md`: product north star, user goals, desired outcomes,
+  workflows, examples, and open questions.
 - `docs/records/`: durable decisions, caveats, stack rationale, feature context,
   risks, invariants, operating notes, security assumptions, and lessons learned.
 
@@ -73,12 +72,12 @@ difference matters for future work.
 - cloud target: {{ cloud_target }}
 
 Treat these as local defaults. Choose a better tool when the task and codebase
-justify it. Update `docs/project-profile.md` for the current fact and add a
+justify it. Update `docs/approach.md` for the current truth and add a
 project record when future agents need the reasoning.
 
 ## Language And Tooling Guidance
 
-Use `docs/project-profile.md` as the starting point for stack choices. Tooling
+Use `docs/approach.md` as the starting point for stack choices. Tooling
 serves delivery, so choose the tool that makes the work clearer, safer, and
 easier to maintain.
 
@@ -91,7 +90,7 @@ queue, or cloud service, record:
 - how to deploy it
 - how future agents should maintain it
 
-Small local choices can live in the changed code or `docs/project-profile.md`.
+Small local choices can live in the changed code or `docs/approach.md`.
 Larger choices deserve a project record.
 
 ## Decision Latitude
@@ -126,7 +125,7 @@ Prioritize the best forward-looking functionality and operating model for the
 project. Align code, data, tests, docs, and deployment around that model.
 
 Treat backward compatibility as an explicit product requirement rather than a
-default. Preserve old behavior when the current task, project profile, public
+default. Preserve old behavior when the current task, project approach, public
 API commitment, migration plan, or project record makes that requirement clear.
 
 When the clean design changes an existing interface, data shape, command, or
@@ -179,7 +178,7 @@ intended delta apparent before editing: what stays fixed and what changes.
 
 For meaningful work:
 
-1. Orient around the goal, profile, product intent, records, nearby code, tests,
+1. Orient around the goal, approach, product intent, records, nearby code, tests,
    configs, and docs.
 2. Name the user, developer, or system outcome the work should create.
 3. Decide which layer owns the behavior and which files should change.
@@ -226,7 +225,7 @@ Use these signals to consider a clearer design:
 For meaningful feature work, walk from goal to shipped behavior:
 
 1. Name the user or developer outcome.
-2. Inspect product intent, project profile, records, nearby code, tests, schemas,
+2. Inspect product intent, project approach, records, nearby code, tests, schemas,
    migrations, configs, deployment files, and current workflows.
 3. Identify the actors, resources, commands, events, states, permissions,
    external systems, data facts, and operational signals involved.
@@ -269,7 +268,7 @@ behavior should fail clearly with helpful messages and enough context to fix the
 cause.
 
 Use branching logic and feature flags when the user asks for them or the project
-profile/records make them part of the operating model. Keep temporary glue
+approach or records make them part of the operating model. Keep temporary glue
 visible, scoped, and tied to a follow-up record that describes the intended
 first-class solution.
 
@@ -331,8 +330,8 @@ action and the evidence already gathered.
 
 Use one durable documentation pattern:
 
-- `docs/project-profile.md` for current facts and concise project state
-- `docs/product-intent.md` for rough product thinking
+- `docs/approach.md` for current project truth and operating model
+- `docs/product-intent.md` for product north star and user goals
 - `docs/records/` for durable decisions, caveats, risks, stack rationale,
   feature context, invariants, operating notes, and lessons learned
 

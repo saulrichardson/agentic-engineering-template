@@ -21,7 +21,7 @@ need_file AGENTS.md
 need_file README.md
 need_file .copier-answers.yml
 need_file docs/README.md
-need_file docs/project-profile.md
+need_file docs/approach.md
 need_file docs/product-intent.md
 need_file docs/records/README.md
 need_dir docs/records
@@ -69,8 +69,20 @@ if ! grep -q 'Agentic Delivery Model' README.md; then
   fail "README.md is missing the agentic delivery model"
 fi
 
-if ! grep -q 'Agent Decision Latitude' docs/project-profile.md; then
-  fail "project profile is missing agent decision latitude"
+if ! grep -q 'Project Approach' docs/approach.md; then
+  fail "approach doc is missing the expected title"
+fi
+
+if ! grep -q 'current project truth' docs/approach.md; then
+  fail "approach doc is missing current-truth guidance"
+fi
+
+if ! grep -q 'Current Stack' docs/approach.md; then
+  fail "approach doc is missing stack guidance"
+fi
+
+if ! grep -q 'Operating Model' docs/approach.md; then
+  fail "approach doc is missing operating model guidance"
 fi
 
 if ! grep -q 'Project Records' docs/records/README.md; then
@@ -83,6 +95,10 @@ fi
 
 if ! grep -q 'Documentation Map' AGENTS.md; then
   fail "AGENTS.md is missing the documentation map"
+fi
+
+if ! grep -q 'docs/approach.md' AGENTS.md; then
+  fail "AGENTS.md is missing approach guidance"
 fi
 
 if ! grep -q 'docs/product-intent.md' AGENTS.md; then

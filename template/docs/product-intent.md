@@ -1,27 +1,32 @@
 # Product Intent
 
-This is the project-owned place for describing what the product is trying to
-become.
+This file communicates what the product is trying to become.
 
-Use it for raw thoughts, product narrative, desired functionality, workflow
-ideas, constraints, examples, open questions, and notes that are still forming.
+Use it as the product north star: the user goals, desired outcomes, workflows,
+examples, and open questions that explain what the project should accomplish.
+It may stay rough while the product is being understood.
 
-This file may be messy while the product is being understood. It should help
-humans and coding agents see the goal behind the work.
+Coding agents should update this file as they learn what the user wants. Keep it
+focused on product direction and user intent, not technical architecture or
+implementation details.
 
-## Raw Notes
+Use `docs/approach.md` for the current product and technical operating model.
+Use `docs/records/` for durable rationale, dated decisions, caveats, and
+lessons.
 
-Add unstructured thoughts here.
+## North Star
 
-- <note>
+What should this product ultimately help users or developers accomplish?
 
 ## Product Narrative
 
 What are we building, for whom, and why?
 
-## Desired Functionality
+## Desired Outcomes
 
-What should the product let users or developers do?
+What should become possible for users or developers?
+
+- <outcome>
 
 ## Users And Jobs
 
@@ -37,34 +42,31 @@ What should the product feel like to use?
 
 What should be fast, obvious, forgiving, precise, or powerful?
 
-## Boundaries And Non-Goals
-
-What should stay out of scope?
-
-What behavior would make the product confusing, unsafe, or untrustworthy?
-
 ## Examples
 
 Representative examples, scenarios, sample inputs, sample outputs, or sketches:
 
 - <example>
 
+## Boundaries And Non-Goals
+
+What should stay out of scope?
+
+What behavior would make the product confusing, unsafe, or untrustworthy?
+
 ## Open Questions
 
 - <question>
 
-## Promote Stable Facts
+## Promote Stable Understanding
 
-When a note here becomes stable and important, move or summarize it into the
-right durable artifact:
+When a product idea becomes important to implementation, promote it into the
+right place:
 
-- `docs/project-profile.md` for concise project facts, constraints, users,
-  stack choices, invariants, and decision latitude
-- `docs/records/` for durable decisions, caveats, stack rationale, feature
-  context, policy or ownership assumptions, state and workflow guidance,
-  telemetry guidance, security or abuse-risk notes, deployment notes, and
-  lessons learned
+- `docs/approach.md` for current project truth, stack, architecture, operating
+  model, constraints, and verification approach
+- `docs/records/` for durable rationale, decisions, caveats, and lessons
+- code and tests when behavior depends on it
 
-Coding agents may use this file to understand intent. Important behavior should
-also appear in code, tests, project records, or the project profile when
-implementation depends on it.
+This file should keep the goal visible. The rest of the repository should make
+that goal real.

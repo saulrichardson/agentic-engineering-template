@@ -31,9 +31,8 @@ This is the root operating guide for autonomous coding agents working in this
 repository. It is generated from the reusable agentic engineering template, then
 owned by this project.
 
-Project-specific facts live in `docs/project-profile.md`. Rough product thinking
-lives in `docs/product-intent.md`. Durable project memory lives in
-`docs/records/`.
+Current project truth lives in `docs/approach.md`. Product intent lives in
+`docs/product-intent.md`. Durable rationale and lessons live in `docs/records/`.
 
 ## Role
 
@@ -67,7 +66,7 @@ The project should become easier for the next human or agent to understand.
 Before substantial work, read:
 
 1. `AGENTS.md`
-2. `docs/project-profile.md`
+2. `docs/approach.md`
 3. `docs/product-intent.md`
 4. `docs/records/README.md`
 5. Relevant project records in `docs/records/`
@@ -80,10 +79,10 @@ difference matters for future work.
 
 - `AGENTS.md`: how autonomous coding agents work in this repository.
 - `README.md`: project overview, local workflow, and template update notes.
-- `docs/project-profile.md`: current project facts, users, constraints, stack
-  choices, decision latitude, invariants, and open questions.
-- `docs/product-intent.md`: rough product thinking, workflows, examples, notes,
-  and questions before they become implementation guidance.
+- `docs/approach.md`: current project truth, users, stack, architecture,
+  operating model, constraints, invariants, verification, and delivery approach.
+- `docs/product-intent.md`: product north star, user goals, desired outcomes,
+  workflows, examples, and open questions.
 - `docs/records/`: durable decisions, caveats, stack rationale, feature context,
   risks, invariants, operating notes, security assumptions, and lessons learned.
 
@@ -98,12 +97,12 @@ difference matters for future work.
 - cloud target: Undecided
 
 Treat these as local defaults. Choose a better tool when the task and codebase
-justify it. Update `docs/project-profile.md` for the current fact and add a
+justify it. Update `docs/approach.md` for the current truth and add a
 project record when future agents need the reasoning.
 
 ## Language And Tooling Guidance
 
-Use `docs/project-profile.md` as the starting point for stack choices. Tooling
+Use `docs/approach.md` as the starting point for stack choices. Tooling
 serves delivery, so choose the tool that makes the work clearer, safer, and
 easier to maintain.
 
@@ -116,7 +115,7 @@ queue, or cloud service, record:
 - how to deploy it
 - how future agents should maintain it
 
-Small local choices can live in the changed code or `docs/project-profile.md`.
+Small local choices can live in the changed code or `docs/approach.md`.
 Larger choices deserve a project record.
 
 ## Decision Latitude
@@ -151,7 +150,7 @@ Prioritize the best forward-looking functionality and operating model for the
 project. Align code, data, tests, docs, and deployment around that model.
 
 Treat backward compatibility as an explicit product requirement rather than a
-default. Preserve old behavior when the current task, project profile, public
+default. Preserve old behavior when the current task, project approach, public
 API commitment, migration plan, or project record makes that requirement clear.
 
 When the clean design changes an existing interface, data shape, command, or
@@ -204,7 +203,7 @@ intended delta apparent before editing: what stays fixed and what changes.
 
 For meaningful work:
 
-1. Orient around the goal, profile, product intent, records, nearby code, tests,
+1. Orient around the goal, approach, product intent, records, nearby code, tests,
    configs, and docs.
 2. Name the user, developer, or system outcome the work should create.
 3. Decide which layer owns the behavior and which files should change.
@@ -251,7 +250,7 @@ Use these signals to consider a clearer design:
 For meaningful feature work, walk from goal to shipped behavior:
 
 1. Name the user or developer outcome.
-2. Inspect product intent, project profile, records, nearby code, tests, schemas,
+2. Inspect product intent, project approach, records, nearby code, tests, schemas,
    migrations, configs, deployment files, and current workflows.
 3. Identify the actors, resources, commands, events, states, permissions,
    external systems, data facts, and operational signals involved.
@@ -294,7 +293,7 @@ behavior should fail clearly with helpful messages and enough context to fix the
 cause.
 
 Use branching logic and feature flags when the user asks for them or the project
-profile/records make them part of the operating model. Keep temporary glue
+approach or records make them part of the operating model. Keep temporary glue
 visible, scoped, and tied to a follow-up record that describes the intended
 first-class solution.
 
@@ -356,8 +355,8 @@ action and the evidence already gathered.
 
 Use one durable documentation pattern:
 
-- `docs/project-profile.md` for current facts and concise project state
-- `docs/product-intent.md` for rough product thinking
+- `docs/approach.md` for current project truth and operating model
+- `docs/product-intent.md` for product north star and user goals
 - `docs/records/` for durable decisions, caveats, risks, stack rationale,
   feature context, invariants, operating notes, and lessons learned
 
@@ -392,10 +391,10 @@ owned by this project and should evolve with the product.
 ## What Exists Now
 
 - `AGENTS.md`: root operating guide for autonomous coding agents
-- `docs/project-profile.md`: current project facts, selected stack, constraints,
-  decision latitude, and open questions
-- `docs/product-intent.md`: rough product narrative, workflow ideas, examples,
-  open questions, and notes
+- `docs/approach.md`: current project truth, selected stack, architecture,
+  operating model, constraints, verification, and delivery approach
+- `docs/product-intent.md`: product north star, user goals, desired outcomes,
+  workflows, examples, and open questions
 - `docs/records/`: durable project records for decisions, caveats, stack
   rationale, risks, invariants, feature context, operating notes, and lessons
   learned
@@ -410,12 +409,13 @@ Start each meaningful slice by clarifying:
 3. The product behavior or developer workflow that should change
 4. The data, state, policy, side effects, or deployment path involved
 5. The tests, checks, examples, or operational signals that prove the result
-6. The project record future agents should inherit, when the learning matters
+6. The approach update or project record future agents should inherit, when the
+   learning matters
 
 Then build the smallest coherent version that moves the project forward. Add
 structure when a real boundary appears. Keep simple work simple.
 
-## Current Stack Profile
+## Current Stack
 
 - frontend: Project choice
 - backend domain core: Project choice
@@ -424,9 +424,9 @@ structure when a real boundary appears. Keep simple work simple.
 - policy engine: Project choice
 - cloud target: Undecided
 
-These are starting choices. Record meaningful deviations in
-`docs/project-profile.md` and add a project record under `docs/records/` when
-future agents need the reasoning.
+These are starting choices. Keep `docs/approach.md` aligned with the current
+truth and add a project record under `docs/records/` when future agents need the
+reasoning.
 
 ## Agentic Delivery Model
 
@@ -519,198 +519,153 @@ _Source: `generated-project/docs/README.md`_
 This directory contains project-local context for `Reference Project`.
 
 `../AGENTS.md` is the operating guide for autonomous coding agents. The files
-here hold the facts, intent, and durable records that make that guidance local
-to this project.
+here explain what the product should accomplish, how the project works today,
+and what durable decisions future agents should inherit.
 
 ## Read Order
 
 1. `../AGENTS.md`
-2. `project-profile.md`
+2. `approach.md`
 3. `product-intent.md`
 4. `records/README.md`
 5. Relevant project records in `records/`
 
-## Ownership Model
+## Operating Model
 
-The reusable template gives the project a starting point. The project owns the
-generated files after creation.
+Use `approach.md` for current project truth: what the project is, who it serves,
+the selected stack, the current architecture, ownership boundaries, constraints,
+invariants, verification expectations, and delivery approach.
 
-Use `project-profile.md` for concise current facts: users, constraints, stack
-choices, decision latitude, invariants, and open questions.
+Use `product-intent.md` for the product north star: the user goals, desired
+outcomes, workflows, examples, and open questions that explain what the product
+is supposed to accomplish. Coding agents should update it as they better
+understand what the user wants.
 
-Use `product-intent.md` for rough notes about what the product is trying to do.
-Promote stable facts from that file into `project-profile.md`, project records,
-tests, or code when implementation starts depending on them.
+Use `records/` for durable project memory: why a decision was made, what caveat
+matters, what tradeoff was accepted, what lesson was learned, and what future
+agents should remember.
 
-Use `records/` for durable project knowledge: decisions, caveats, stack
-rationale, security assumptions, operating notes, feature context, invariants,
-risks, and lessons learned.
+## Practical Rule
 
-## Practical Use
-
-Small tasks can use these docs lightly. Read the relevant context, make the
-change, verify it, and leave a concise explanation.
-
-Larger tasks should name the goal, affected system area, verification plan,
-deployment implication, and project record before the work spreads across many
-files.
+- Current truth or operating model: `approach.md`
+- Product goal or user intent: `product-intent.md`
+- Rationale, history, caveats, or lessons: `records/`
+- Agent behavior and working rules: `../AGENTS.md`
 
 
 ---
 
-## Generated Project Profile
+## Generated Project Approach
 
-_Source: `generated-project/docs/project-profile.md`_
+_Source: `generated-project/docs/approach.md`_
 
-# Project Profile
+# Project Approach
 
 Project: Reference Project
 
 Reference rendering of the reusable agentic engineering guidance.
 
-## Template Source
+This file is the current project truth.
 
-This project was generated with Copier from the reusable agentic engineering
-template.
+Use it to understand what the project is, who it serves, how it is shaped, what
+stack it uses, what constraints matter, and how coding agents should extend it.
 
-The durable template metadata is stored in `.copier-answers.yml`. Copier owns
-that file. Update it manually when the template repository moves and `_src_path`
-must change.
+Use `docs/product-intent.md` for the product north star and user goals. Use
+`docs/records/` for durable rationale, dated decisions, caveats, and lessons.
 
-## Product Domain
+## Project Summary
 
-- primary domain: Reusable agentic engineering guidance
+- domain: Reusable agentic engineering guidance
+- primary users:
+- core jobs:
+- current product stage:
 
-## Primary Users
+## Product Direction
 
-- <user or actor>
+Summarize the current product goal in a few lines. Keep the fuller evolving
+north star, desired outcomes, examples, and user intent in
+`docs/product-intent.md`.
 
-## Core Jobs
-
-- <job the system helps users or developers accomplish>
-
-## Agent Decision Latitude
-
-Coding agents may make local implementation decisions directly when they improve
-the goal and fit the surrounding code.
-
-Use this section for standing latitude. Add a project record under
-`docs/records/` when a decision affects:
-
-- public API
-- data model
-- deployment model
-- authorization or tenant model
-- major framework or language choice
-- long-lived operational workflow
-- broad ownership boundary
-
-## Tenant And Ownership Model
-
-- tenant boundary:
-- ownership model:
-- sharing model:
-
-## Data Sensitivity
-
-- sensitive data classes:
-- retention constraints:
-- audit or review expectations:
-
-## Selected Stack
+## Current Stack
 
 - frontend: Project choice
 - backend domain core: Project choice
 - workflow runtime: Project choice
 - durable database: Project choice
-- policy engine: Project choice
-- cloud target: Undecided
+- policy or authorization model: Project choice
+- cloud or deployment target: Undecided
+- build command:
+- test command:
+- deploy command:
 
-## Preferred Implementation Stack
+These are current project choices. When the stack changes, update this file for
+the current truth and add a project record when future agents need the reasoning.
 
-Coding agents should treat this as the project-local preferred language and tool
-profile for production code.
+## Operating Model
 
-- frontend and UI code: Project choice
-- backend/domain code: Project choice
-- workflow code: Project choice
-- persistence and migrations: Project choice plus project-selected migration
-  tools
-- policy code: Project choice
-- repository automation: POSIX shell first, with another scripting language when
-  it better serves maintainability
+Describe how work moves through the system today.
 
-When the preferred stack fits poorly, choose the next best option that
-accomplishes the goal. Record the boundary it owns, build/test commands,
-deployment expectations, and maintenance owner when the choice matters beyond
-the local change in `docs/records/`.
+```text
+user or developer intent
+  -> interface or entry point
+  -> product behavior
+  -> data or state
+  -> side effects
+  -> observable result
+  -> delivery or operation
+```
 
-## Tooling
+Use this section for the project-level model, not for every feature detail.
 
-Record local compiler, package-manager, formatter, editor, bundler, test-runner,
-and deployment CLIs here as they become real project dependencies.
+## Architecture And Ownership
 
-| Tool | Purpose | Install command | Common command | Notes |
-| --- | --- | --- | --- | --- |
-|  |  |  |  |  |
+Describe the current system shape at a level future agents can act on.
 
-## Local Guidance Overrides
+- main applications or services:
+- important directories:
+- ownership boundaries:
+- where product rules live:
+- where durable data and migrations live:
+- where workflows or background work live:
+- where integrations and side effects live:
+- where deployment and operations live:
 
-Unspecified.
+## Data, State, And Invariants
 
-When a project-specific decision intentionally changes the reusable guidance,
-record the current rule here and put the reasoning in `docs/records/` when
-future agents need the history.
+- durable source of truth:
+- key entities or resources:
+- important states:
+- critical invariants:
+- migration or data-change approach:
 
-## Project-Specific Constraints
+## Security, Ownership, And Policy
 
-Unspecified.
+- user, account, or tenant boundary:
+- ownership model:
+- sensitive data:
+- authorization approach:
+- audit or review expectations:
 
-Use this section for constraints such as regulatory requirements, data residency,
-tenant model, critical user workflows, third-party systems, deployment limits,
-performance targets, or support commitments.
-
-## Approval And Coordination
-
-- actions that deserve explicit coordination:
-- reviewer or decision owner:
-- expected response path:
-- operational handoff:
-
-## External Systems
+## External Systems And Side Effects
 
 | System | Purpose | Data shared | Side effects | Owner |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
-## Irreversible Or High-Blast-Radius Actions
+## Constraints And Non-Goals
 
-- <action>
+- project constraints:
+- explicit non-goals:
+- actions that require coordination:
+- high-blast-radius or irreversible actions:
 
-## Critical Invariants
+## Verification And Delivery
 
-- <invariant>
-
-## First Vertical Slice
-
-Define the first runnable product slice here before adding broad application
-structure.
-
-For an ordinary product feature:
-
-```text
-user intent -> interface -> application command -> domain behavior -> durable result -> visible feedback
-```
-
-For a developer tool:
-
-```text
-developer goal -> command or script -> project state change -> verification output -> documented usage
-```
-
-## Out Of Scope
-
-- <out-of-scope item>
+- expected local checks:
+- expected manual checks:
+- migration or data checks:
+- deployment or smoke checks:
+- operational signals:
 
 ## Open Questions
 
@@ -719,6 +674,13 @@ developer goal -> command or script -> project state change -> verification outp
 - What actions deserve explicit coordination?
 - What external systems can the application touch?
 - What should be observable from day one?
+
+## Related Records
+
+Link records that explain why the current approach was chosen or what caveats
+future agents should remember.
+
+- `docs/records/YYYY-MM-DD-topic.md`
 
 
 ---
@@ -729,28 +691,33 @@ _Source: `generated-project/docs/product-intent.md`_
 
 # Product Intent
 
-This is the project-owned place for describing what the product is trying to
-become.
+This file communicates what the product is trying to become.
 
-Use it for raw thoughts, product narrative, desired functionality, workflow
-ideas, constraints, examples, open questions, and notes that are still forming.
+Use it as the product north star: the user goals, desired outcomes, workflows,
+examples, and open questions that explain what the project should accomplish.
+It may stay rough while the product is being understood.
 
-This file may be messy while the product is being understood. It should help
-humans and coding agents see the goal behind the work.
+Coding agents should update this file as they learn what the user wants. Keep it
+focused on product direction and user intent, not technical architecture or
+implementation details.
 
-## Raw Notes
+Use `docs/approach.md` for the current product and technical operating model.
+Use `docs/records/` for durable rationale, dated decisions, caveats, and
+lessons.
 
-Add unstructured thoughts here.
+## North Star
 
-- <note>
+What should this product ultimately help users or developers accomplish?
 
 ## Product Narrative
 
 What are we building, for whom, and why?
 
-## Desired Functionality
+## Desired Outcomes
 
-What should the product let users or developers do?
+What should become possible for users or developers?
+
+- <outcome>
 
 ## Users And Jobs
 
@@ -766,37 +733,34 @@ What should the product feel like to use?
 
 What should be fast, obvious, forgiving, precise, or powerful?
 
-## Boundaries And Non-Goals
-
-What should stay out of scope?
-
-What behavior would make the product confusing, unsafe, or untrustworthy?
-
 ## Examples
 
 Representative examples, scenarios, sample inputs, sample outputs, or sketches:
 
 - <example>
 
+## Boundaries And Non-Goals
+
+What should stay out of scope?
+
+What behavior would make the product confusing, unsafe, or untrustworthy?
+
 ## Open Questions
 
 - <question>
 
-## Promote Stable Facts
+## Promote Stable Understanding
 
-When a note here becomes stable and important, move or summarize it into the
-right durable artifact:
+When a product idea becomes important to implementation, promote it into the
+right place:
 
-- `docs/project-profile.md` for concise project facts, constraints, users,
-  stack choices, invariants, and decision latitude
-- `docs/records/` for durable decisions, caveats, stack rationale, feature
-  context, policy or ownership assumptions, state and workflow guidance,
-  telemetry guidance, security or abuse-risk notes, deployment notes, and
-  lessons learned
+- `docs/approach.md` for current project truth, stack, architecture, operating
+  model, constraints, and verification approach
+- `docs/records/` for durable rationale, decisions, caveats, and lessons
+- code and tests when behavior depends on it
 
-Coding agents may use this file to understand intent. Important behavior should
-also appear in code, tests, project records, or the project profile when
-implementation depends on it.
+This file should keep the goal visible. The rest of the repository should make
+that goal real.
 
 
 ---

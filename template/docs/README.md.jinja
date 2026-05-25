@@ -3,38 +3,35 @@
 This directory contains project-local context for `{{ project_name }}`.
 
 `../AGENTS.md` is the operating guide for autonomous coding agents. The files
-here hold the facts, intent, and durable records that make that guidance local
-to this project.
+here explain what the product should accomplish, how the project works today,
+and what durable decisions future agents should inherit.
 
 ## Read Order
 
 1. `../AGENTS.md`
-2. `project-profile.md`
+2. `approach.md`
 3. `product-intent.md`
 4. `records/README.md`
 5. Relevant project records in `records/`
 
-## Ownership Model
+## Operating Model
 
-The reusable template gives the project a starting point. The project owns the
-generated files after creation.
+Use `approach.md` for current project truth: what the project is, who it serves,
+the selected stack, the current architecture, ownership boundaries, constraints,
+invariants, verification expectations, and delivery approach.
 
-Use `project-profile.md` for concise current facts: users, constraints, stack
-choices, decision latitude, invariants, and open questions.
+Use `product-intent.md` for the product north star: the user goals, desired
+outcomes, workflows, examples, and open questions that explain what the product
+is supposed to accomplish. Coding agents should update it as they better
+understand what the user wants.
 
-Use `product-intent.md` for rough notes about what the product is trying to do.
-Promote stable facts from that file into `project-profile.md`, project records,
-tests, or code when implementation starts depending on them.
+Use `records/` for durable project memory: why a decision was made, what caveat
+matters, what tradeoff was accepted, what lesson was learned, and what future
+agents should remember.
 
-Use `records/` for durable project knowledge: decisions, caveats, stack
-rationale, security assumptions, operating notes, feature context, invariants,
-risks, and lessons learned.
+## Practical Rule
 
-## Practical Use
-
-Small tasks can use these docs lightly. Read the relevant context, make the
-change, verify it, and leave a concise explanation.
-
-Larger tasks should name the goal, affected system area, verification plan,
-deployment implication, and project record before the work spreads across many
-files.
+- Current truth or operating model: `approach.md`
+- Product goal or user intent: `product-intent.md`
+- Rationale, history, caveats, or lessons: `records/`
+- Agent behavior and working rules: `../AGENTS.md`

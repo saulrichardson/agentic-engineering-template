@@ -77,7 +77,7 @@ append_file() {
 append_file "Generated Project Operating Guide" "$GENERATED_DIR/AGENTS.md"
 append_file "Generated Project README" "$GENERATED_DIR/README.md"
 append_file "Generated Documentation Index" "$GENERATED_DIR/docs/README.md"
-append_file "Generated Project Profile" "$GENERATED_DIR/docs/project-profile.md"
+append_file "Generated Project Approach" "$GENERATED_DIR/docs/approach.md"
 append_file "Generated Product Intent" "$GENERATED_DIR/docs/product-intent.md"
 append_file "Project Records" "$GENERATED_DIR/docs/records/README.md"
 

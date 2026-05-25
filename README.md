@@ -4,9 +4,9 @@ This repository is a Copier template for starting software projects that will be
 planned, built, tested, documented, and shipped with autonomous coding agents.
 
 It provides documentation rather than application scaffold code. It gives each
-new project a local operating guide, project profile, product-intent space, and
-one durable project record system that helps coding agents act with context and
-judgment.
+new project a local operating guide, current approach document, product-intent
+space, and one durable project record system that helps coding agents act with
+context and judgment.
 
 The purpose is high-agency engineering:
 
@@ -31,7 +31,7 @@ The useful response is to make the project easier to understand and change.
 Good agentic projects give agents:
 
 - a clear product goal
-- explicit local stack facts
+- explicit current project approach
 - visible domain concepts
 - a map from user intent to shipped behavior
 - lightweight project records
@@ -41,9 +41,9 @@ Good agentic projects give agents:
 
 The template favors momentum with evidence. Agents are free to make local
 engineering decisions, reshape code, add tests, improve docs, and prepare
-deployment when the repository context supports that work. Larger choices become
-durable through project-profile updates or project records so future agents
-inherit the reasoning.
+deployment when the repository context supports that work. Current truth lives
+in the approach document. Larger choices become durable through project records
+so future agents inherit the reasoning.
 
 ## Primary Audience
 
@@ -104,8 +104,10 @@ That means:
 - deployment work is a first-class part of engineering
 - small tasks stay lightweight
 - durable decisions are recorded where future agents will find them
-- the project profile explains local stack and domain choices
-- product intent has a place to be messy before it becomes implementation
+- the approach document explains the current stack, architecture, operating
+  model, and constraints
+- product intent keeps the product north star visible while understanding
+  evolves
 
 The stack can change. The local reasoning should stay discoverable.
 
@@ -116,16 +118,16 @@ Each generated project gets local, editable files. The project owns them.
 Generated projects should use the docs in this order:
 
 1. `AGENTS.md`
-2. `docs/project-profile.md`
+2. `docs/approach.md`
 3. `docs/product-intent.md`
 4. `docs/records/README.md`
 5. Relevant project records in `docs/records/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
-`docs/project-profile.md` records local facts, stack choices, decision latitude,
-constraints, users, external systems, and open questions.
-`docs/product-intent.md` is a freeform working area for goals, workflows,
-examples, questions, and rough product thinking.
+`docs/approach.md` records current project truth: users, stack, architecture,
+operating model, constraints, verification, delivery, and open questions.
+`docs/product-intent.md` communicates the product north star, user goals,
+desired outcomes, workflows, examples, and open questions.
 `docs/records/` is the one durable record system for decisions, caveats, stack
 rationale, risks, invariants, feature context, operating notes, and lessons
 learned.
@@ -141,7 +143,7 @@ README.md
 .gitignore
 docs/
   README.md
-  project-profile.md
+  approach.md
   product-intent.md
   records/
     README.md
@@ -177,7 +179,7 @@ agents.
 Strong template changes include:
 
 - clearer first-principles explanations
-- better project-profile prompts
+- better approach-document prompts
 - better guidance for feature planning inside `AGENTS.md`
 - better project-record prompts
 - sharper agent execution guidance inside `AGENTS.md`
@@ -259,7 +261,7 @@ template/
   .gitignore.jinja
   docs/
     README.md.jinja
-    project-profile.md.jinja
+    approach.md.jinja
     product-intent.md
     records/
   scripts/

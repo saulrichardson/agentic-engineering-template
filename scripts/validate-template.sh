@@ -41,7 +41,7 @@ copier copy "$SOURCE_DIR" "$CHECK_DIR" \
 
 "$CHECK_DIR/scripts/doctor.sh"
 
-if ! grep -q 'frontend: PureScript' "$CHECK_DIR/docs/project-profile.md"; then
+if ! grep -q 'frontend: PureScript' "$CHECK_DIR/docs/approach.md"; then
   printf 'generated project is missing the PureScript frontend choice\n' >&2
   exit 1
 fi

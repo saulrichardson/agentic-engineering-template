@@ -27,9 +27,10 @@ project boundary genuinely needs it.
 - Prefer variables in `copier.yml` over hard-coded project identity.
 - Keep `AGENTS.md.jinja` short enough that future agents read it.
 - Put reusable operating guidance in `AGENTS.md.jinja`.
+- Put current project truth, stack, architecture, constraints, and delivery
+  approach in `docs/approach.md`.
 - Put durable decisions, caveats, stack rationale, risks, operating notes,
   security assumptions, feature context, and lessons learned in `docs/records/`.
-- Put project-local specialization in `docs/project-profile.md`.
 - Keep normal use free of submodule requirements.
 - Keep Copier update compatibility intact.
 

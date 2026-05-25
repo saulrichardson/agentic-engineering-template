@@ -11,10 +11,10 @@ owned by this project and should evolve with the product.
 ## What Exists Now
 
 - `AGENTS.md`: root operating guide for autonomous coding agents
-- `docs/project-profile.md`: current project facts, selected stack, constraints,
-  decision latitude, and open questions
-- `docs/product-intent.md`: rough product narrative, workflow ideas, examples,
-  open questions, and notes
+- `docs/approach.md`: current project truth, selected stack, architecture,
+  operating model, constraints, verification, and delivery approach
+- `docs/product-intent.md`: product north star, user goals, desired outcomes,
+  workflows, examples, and open questions
 - `docs/records/`: durable project records for decisions, caveats, stack
   rationale, risks, invariants, feature context, operating notes, and lessons
   learned
@@ -29,12 +29,13 @@ Start each meaningful slice by clarifying:
 3. The product behavior or developer workflow that should change
 4. The data, state, policy, side effects, or deployment path involved
 5. The tests, checks, examples, or operational signals that prove the result
-6. The project record future agents should inherit, when the learning matters
+6. The approach update or project record future agents should inherit, when the
+   learning matters
 
 Then build the smallest coherent version that moves the project forward. Add
 structure when a real boundary appears. Keep simple work simple.
 
-## Current Stack Profile
+## Current Stack
 
 - frontend: {{ frontend }}
 - backend domain core: {{ backend }}
@@ -43,9 +44,9 @@ structure when a real boundary appears. Keep simple work simple.
 - policy engine: {{ policy_engine }}
 - cloud target: {{ cloud_target }}
 
-These are starting choices. Record meaningful deviations in
-`docs/project-profile.md` and add a project record under `docs/records/` when
-future agents need the reasoning.
+These are starting choices. Keep `docs/approach.md` aligned with the current
+truth and add a project record under `docs/records/` when future agents need the
+reasoning.
 
 ## Agentic Delivery Model
 
