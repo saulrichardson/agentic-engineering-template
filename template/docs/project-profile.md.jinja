@@ -30,7 +30,8 @@ must change.
 Coding agents may make local implementation decisions directly when they improve
 the goal and fit the surrounding code.
 
-Record decisions here or in an ADR when they affect:
+Use this section for standing latitude. Add a project record under
+`docs/records/` when a decision affects:
 
 - public API
 - data model
@@ -78,7 +79,7 @@ profile for production code.
 When the preferred stack fits poorly, choose the next best option that
 accomplishes the goal. Record the boundary it owns, build/test commands,
 deployment expectations, and maintenance owner when the choice matters beyond
-the local change.
+the local change in `docs/records/`.
 
 ## Tooling
 
@@ -94,8 +95,8 @@ and deployment CLIs here as they become real project dependencies.
 Unspecified.
 
 When a project-specific decision intentionally changes the reusable guidance,
-record it here briefly and add an ADR under `docs/adr/` when future agents need
-the reasoning.
+record the current rule here and put the reasoning in `docs/records/` when
+future agents need the history.
 
 ## Project-Specific Constraints
 

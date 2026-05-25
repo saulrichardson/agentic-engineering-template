@@ -39,8 +39,8 @@ trail:
 - the operational or deployment consequence
 - the local decision that future agents should inherit
 
-Small choices belong in the implementation. Durable choices belong in
-`docs/project-profile.md` or an ADR.
+Small choices belong in the implementation. Current project facts belong in
+`docs/project-profile.md`. Durable context belongs in `docs/records/`.
 
 ## First-Class Change Rule
 
@@ -57,7 +57,7 @@ Important concepts often deserve names in one or more places:
 - workflow event
 - test
 - telemetry or audit event
-- docs or ADR
+- docs or project record
 
 A future agent should be able to find the concept where the system actually
 uses it.
@@ -74,7 +74,7 @@ goal
   -> code and documentation change
   -> tests or checks
   -> delivery notes
-  -> ADR or profile update when useful
+  -> project record or profile update when useful
 ```
 
 The path keeps work tied to outcome and evidence. It scales down to a one-line
@@ -105,7 +105,7 @@ Use lightweight judgment:
 
 - local, reversible choices can happen in code
 - shared behavior deserves tests and documentation
-- hard-to-reverse choices deserve an ADR
+- hard-to-reverse choices deserve a project record
 - operationally sensitive choices deserve deployment notes
 - ambiguous product choices deserve a question or a small set of options
 
@@ -201,10 +201,9 @@ Use:
 
 - `docs/product-intent.md` for rough product thinking
 - `docs/project-profile.md` for local facts and stack decisions
-- `docs/contracts/` for shared behavior surfaces
-- `docs/templates/feature-brief.md` for meaningful feature planning
-- `docs/adr/` for durable choices future agents may question
-- `docs/security/threat-model.md` for sensitive access, data, or operations
+- `docs/records/` for durable decisions, caveats, stack rationale, feature
+  context, invariants, risks, security assumptions, operating notes, and lessons
+  learned
 
 Docs can be short. Accuracy and placement matter more than length.
 
@@ -225,7 +224,8 @@ A high-agency implementation path:
 7. Add tests for valid invite, expired invite, duplicate invite, and permission
    behavior.
 8. Add telemetry or audit events if the project needs operational visibility.
-9. Record any new architecture, policy, or deployment decision in the right doc.
+9. Record any new architecture, policy, or deployment decision in
+   `docs/records/` when future agents need the reasoning.
 
 The exact technology is local. The enduring idea is that the feature becomes
 visible, testable, deployable, and understandable.

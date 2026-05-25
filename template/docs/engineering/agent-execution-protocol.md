@@ -41,7 +41,8 @@ Local choices can happen directly:
 - local docs
 - formatting and mechanical cleanup near the change
 
-Durable choices deserve a note in `docs/project-profile.md` or an ADR:
+Durable choices deserve a note in `docs/project-profile.md` or
+`docs/records/`:
 
 - public API
 - database schema
@@ -55,8 +56,8 @@ Durable choices deserve a note in `docs/project-profile.md` or an ADR:
 ## Work Loop
 
 1. Orient
-   Read `AGENTS.md`, `docs/project-profile.md`, relevant ADRs, nearby code,
-   tests, configs, and docs.
+   Read `AGENTS.md`, `docs/project-profile.md`, relevant project records,
+   nearby code, tests, configs, and docs.
 
 2. Understand the goal
    Name the user, developer, or system outcome the work should create.
@@ -108,7 +109,7 @@ Classify work by blast radius:
 | --- | --- | --- |
 | Small | Local docs, wording, tests, styling, or helper code | targeted check or careful inspection |
 | Medium | User-visible behavior, shared module, API shape, domain rule, or config | tests plus manual or integration check when useful |
-| Large | Persistence, deployment, security, public API, infrastructure, or broad refactor | focused plan, tests, migration/deploy notes, ADR when durable |
+| Large | Persistence, deployment, security, public API, infrastructure, or broad refactor | focused plan, tests, migration/deploy notes, project record when durable |
 
 Use the smallest process that gives the next reviewer confidence.
 
@@ -138,7 +139,7 @@ Report what helps the user or reviewer evaluate the work:
 - checks run
 - checks skipped and why
 - deployment or migration notes
-- ADR or doc updates
+- project record or doc updates
 - residual risk
 - useful next step
 

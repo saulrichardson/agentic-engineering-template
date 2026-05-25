@@ -5,8 +5,8 @@ planned, built, tested, documented, and shipped with autonomous coding agents.
 
 It provides documentation rather than application scaffold code. It gives each
 new project a local operating guide, project profile, product-intent space,
-engineering doctrine, architecture map, decision-record structure, and practical
-templates that help coding agents act with context and judgment.
+engineering doctrine, architecture placement guide, and one durable project
+record system that helps coding agents act with context and judgment.
 
 The purpose is high-agency engineering:
 
@@ -31,10 +31,10 @@ The useful response is to make the project easier to understand and change.
 Good agentic projects give agents:
 
 - a clear product goal
-- an explicit local stack profile
+- explicit local stack facts
 - visible domain concepts
 - a map from user intent to shipped behavior
-- lightweight decision records
+- lightweight project records
 - practical verification expectations
 - deployment and operational context
 - room to choose the implementation path that best serves the goal
@@ -42,8 +42,8 @@ Good agentic projects give agents:
 The template favors momentum with evidence. Agents are free to make local
 engineering decisions, reshape code, add tests, improve docs, and prepare
 deployment when the repository context supports that work. Larger choices become
-durable through project-profile updates or ADRs so future agents inherit the
-reasoning.
+durable through project-profile updates or project records so future agents
+inherit the reasoning.
 
 ## Primary Audience
 
@@ -66,7 +66,7 @@ goal
   -> code and documentation change
   -> tests or checks
   -> delivery notes
-  -> durable decision record when useful
+  -> project record when useful
 ```
 
 For product behavior, the project stays legible by keeping the path from intent
@@ -99,7 +99,7 @@ That means:
 
 - agents start from the goal and inspect the current repository
 - implementation choices serve the product and the existing codebase
-- important concepts appear in code, docs, tests, or ADRs
+- important concepts appear in code, docs, tests, or project records
 - verification matches the actual risk and blast radius
 - deployment work is a first-class part of engineering
 - small tasks stay lightweight
@@ -118,23 +118,20 @@ Generated projects should use the docs in this order:
 1. `AGENTS.md`
 2. `docs/project-profile.md`
 3. `docs/product-intent.md`
-4. `docs/engineering/agent-execution-protocol.md`
-5. `docs/engineering/doctrine.md`
-6. `docs/architecture/system-map.md`
-7. `docs/architecture/stack-profile.md`
-8. Relevant contracts in `docs/contracts/`
-9. Relevant threat model in `docs/security/`
-10. Relevant ADRs in `docs/adr/`
-11. Relevant templates in `docs/templates/`
+4. `docs/records/README.md`
+5. `docs/engineering/agent-execution-protocol.md`
+6. `docs/engineering/doctrine.md`
+7. `docs/architecture/system-map.md`
+8. Relevant project records in `docs/records/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` records local facts, stack choices, decision latitude,
 constraints, users, external systems, and open questions.
 `docs/product-intent.md` is a freeform working area for goals, workflows,
 examples, questions, and rough product thinking.
-`docs/architecture/stack-profile.md` records preferred implementation tools and
-the substitution logic agents use when another tool better serves the task.
-ADRs record decisions that future agents might otherwise question or undo.
+`docs/records/` is the one durable record system for decisions, caveats, stack
+rationale, risks, invariants, feature context, operating notes, and lessons
+learned.
 
 ## What Gets Generated
 
@@ -149,29 +146,14 @@ docs/
   README.md
   project-profile.md
   product-intent.md
+  records/
+    README.md
   engineering/
     agent-execution-protocol.md
     doctrine.md
     feature-development.md
   architecture/
     system-map.md
-    stack-profile.md
-  contracts/
-    README.md
-    state-machines.md
-    workflow-events.md
-    policy-inputs.md
-    telemetry-events.md
-  security/
-    threat-model.md
-  adr/
-    README.md
-  templates/
-    adr.md
-    feature-brief.md
-    agent-task.md
-    threat-model.md
-    state-machine.md
 scripts/
   doctor.sh
 ```
@@ -206,7 +188,7 @@ Strong template changes include:
 - clearer first-principles explanations
 - better project-profile prompts
 - better feature planning questions
-- better ADR prompts
+- better project-record prompts
 - sharper agent execution guidance
 - more useful verification and deployment walkthroughs
 - simpler generated project structure
@@ -286,11 +268,10 @@ template/
   .gitignore.jinja
   docs/
     project-profile.md.jinja
+    product-intent.md
+    records/
     engineering/
     architecture/
-    contracts/
-    adr/
-    templates/
   scripts/
     doctor.sh.jinja
 ```

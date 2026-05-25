@@ -22,29 +22,14 @@ need_file README.md
 need_file .copier-answers.yml
 need_file docs/project-profile.md
 need_file docs/product-intent.md
+need_file docs/records/README.md
 need_file docs/engineering/agent-execution-protocol.md
 need_file docs/engineering/doctrine.md
 need_file docs/engineering/feature-development.md
 need_file docs/architecture/system-map.md
-need_file docs/architecture/stack-profile.md
-need_file docs/contracts/README.md
-need_file docs/contracts/state-machines.md
-need_file docs/contracts/workflow-events.md
-need_file docs/contracts/policy-inputs.md
-need_file docs/contracts/telemetry-events.md
-need_file docs/security/threat-model.md
-need_file docs/adr/README.md
-need_file docs/templates/adr.md
-need_file docs/templates/feature-brief.md
-need_file docs/templates/agent-task.md
-need_file docs/templates/threat-model.md
-need_file docs/templates/state-machine.md
+need_dir docs/records
 need_dir docs/engineering
 need_dir docs/architecture
-need_dir docs/contracts
-need_dir docs/security
-need_dir docs/adr
-need_dir docs/templates
 
 if grep -RIn --exclude='.copier-answers.yml' --exclude-dir='.git' '{% raw %}{{\|}}\|{%\|%}{% endraw %}' AGENTS.md README.md docs >/tmp/agentic-template-unrendered.$$ 2>/dev/null; then
   cat /tmp/agentic-template-unrendered.$$
@@ -77,8 +62,12 @@ if ! grep -q 'Agent Decision Latitude' docs/project-profile.md; then
   fail "project profile is missing agent decision latitude"
 fi
 
-if ! grep -q 'Substitution Principle' docs/architecture/stack-profile.md; then
-  fail "stack profile is missing the substitution principle"
+if ! grep -q 'Project Records' docs/records/README.md; then
+  fail "project records guide is missing the expected title"
+fi
+
+if ! grep -q 'one standard way to document' docs/records/README.md; then
+  fail "project records guide is missing the single-record-system guidance"
 fi
 
 if ! grep -q 'Documentation Map' AGENTS.md; then
@@ -87,10 +76,6 @@ fi
 
 if ! grep -q 'docs/product-intent.md' AGENTS.md; then
   fail "AGENTS.md is missing product-intent guidance"
-fi
-
-if ! grep -q 'Implementation Language Guidance' docs/architecture/stack-profile.md; then
-  fail "stack profile is missing the implementation language guidance"
 fi
 
 if ! grep -q 'Evidence Over Assumption' AGENTS.md; then

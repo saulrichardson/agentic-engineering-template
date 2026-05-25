@@ -60,13 +60,11 @@ right durable artifact:
 
 - `docs/project-profile.md` for concise project facts, constraints, users,
   stack choices, invariants, and decision latitude
-- `docs/templates/feature-brief.md` for a specific feature before implementation
-- `docs/adr/` for architecture, stack, policy, persistence, workflow, or
-  deployment decisions
-- `docs/contracts/` for state machines, policy inputs, workflow events, and
-  telemetry events
-- `docs/security/threat-model.md` for security and abuse-risk assumptions
+- `docs/records/` for durable decisions, caveats, stack rationale, feature
+  context, policy or ownership assumptions, state and workflow guidance,
+  telemetry guidance, security or abuse-risk notes, deployment notes, and
+  lessons learned
 
 Coding agents may use this file to understand intent. Important behavior should
-also appear in code, tests, contracts, feature briefs, ADRs, or the project
-profile when implementation depends on it.
+also appear in code, tests, project records, or the project profile when
+implementation depends on it.

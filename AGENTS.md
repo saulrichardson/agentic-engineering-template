@@ -17,7 +17,7 @@ Their work leaves evidence: clear intent, coherent changes, useful checks,
 deployment context, and decisions that future agents can understand.
 ```
 
-Keep the template focused on principles, operating structure, decision records,
+Keep the template focused on principles, operating structure, project records,
 and project-local customization points. Add framework code only when a reusable
 project boundary genuinely needs it.
 
@@ -27,12 +27,10 @@ project boundary genuinely needs it.
 - Prefer variables in `copier.yml` over hard-coded project identity.
 - Keep `AGENTS.md.jinja` short enough that future agents read it.
 - Put reusable doctrine in `docs/engineering/`.
-- Put operational contracts in `docs/contracts/`.
-- Put threat-model guidance in `docs/security/` and templates in
-  `docs/templates/`.
-- Put architectural maps and stack guidance in `docs/architecture/`.
+- Put durable decisions, caveats, stack rationale, risks, operating notes,
+  security assumptions, feature context, and lessons learned in `docs/records/`.
+- Put architectural placement guidance in `docs/architecture/`.
 - Put project-local specialization in `docs/project-profile.md`.
-- Use ADRs for decisions that future agents might reasonably question.
 - Keep normal use free of submodule requirements.
 - Keep Copier update compatibility intact.
 

@@ -1,6 +1,6 @@
 # Documentation
 
-This directory contains the reusable guidance and project-local decisions for
+This directory contains the reusable guidance and project-local records for
 `{{ project_name }}`.
 
 ## Read Order
@@ -8,28 +8,24 @@ This directory contains the reusable guidance and project-local decisions for
 1. `../AGENTS.md`
 2. `project-profile.md`
 3. `product-intent.md`
-4. `engineering/agent-execution-protocol.md`
-5. `engineering/doctrine.md`
-6. `architecture/system-map.md`
-7. `architecture/stack-profile.md`
-8. Relevant contracts in `contracts/`
-9. Relevant threat model in `security/`
-10. Relevant ADRs in `adr/`
-11. Relevant templates in `templates/`
+4. `records/README.md`
+5. `engineering/agent-execution-protocol.md`
+6. `engineering/doctrine.md`
+7. `architecture/system-map.md`
+8. Relevant project records in `records/`
 
 ## Ownership Model
 
-The reusable guidance gives the project a strong starting point. The project
-owns the generated files after creation.
+The reusable guidance gives the project a starting point. The project owns the
+generated files after creation.
 
 Use `product-intent.md` for rough notes about what the product is trying to do.
-Promote stable facts from that file into `project-profile.md`, contracts,
-feature briefs, ADRs, tests, or code when implementation starts depending on
-them.
+Promote stable facts from that file into `project-profile.md`, project records,
+tests, or code when implementation starts depending on them.
 
-Use ADRs when a local decision changes architecture, persistence, public API,
-deployment strategy, major tooling, security posture, or another choice future
-agents will reasonably question.
+Use `records/` for durable project knowledge: decisions, caveats, stack
+rationale, security assumptions, operating notes, feature context, invariants,
+risks, and lessons learned.
 
 ## Practical Use
 
@@ -37,5 +33,5 @@ Small tasks can use these docs lightly. Read the relevant context, make the
 change, verify it, and leave a concise explanation.
 
 Larger tasks should name the goal, affected system area, verification plan,
-deployment implication, and decision record before the work spreads across many
+deployment implication, and project record before the work spreads across many
 files.

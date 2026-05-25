@@ -5,7 +5,7 @@ agents move from product intent to working software while preserving the core
 idea.
 
 Small features can answer these questions quickly. Large features can use
-`docs/templates/feature-brief.md`.
+project records in `docs/records/` when they need durable planning context.
 
 ## 1. Name The Goal
 
@@ -22,7 +22,7 @@ Inspect:
 
 - `docs/product-intent.md`
 - `docs/project-profile.md`
-- relevant ADRs
+- relevant project records
 - nearby code
 - existing tests
 - schemas, migrations, configs, and deployment files
@@ -43,7 +43,8 @@ Name the concepts the feature introduces or changes:
 - external systems
 - operational signals
 
-Important concepts should become visible in code, tests, docs, or contracts.
+Important concepts should become visible in code, tests, docs, or project
+records.
 
 ## 4. Choose The Natural Home
 
@@ -79,8 +80,7 @@ Ask:
 - what constraints should the database or schema enforce?
 - what migration or alignment path exists for current data?
 
-Use `docs/contracts/state-machines.md` when lifecycle behavior becomes shared or
-important.
+Add a project record when lifecycle behavior becomes shared or important.
 
 ## 7. Define Authority
 
@@ -91,8 +91,8 @@ Ask:
 - what ownership or tenant boundary applies?
 - what audit or review event should exist?
 
-Use `docs/contracts/policy-inputs.md` when policy becomes shared across modules,
-services, or workflows.
+Add a project record when policy becomes shared across modules, services, or
+workflows.
 
 ## 8. Define Side Effects
 
@@ -105,7 +105,8 @@ Ask:
 - what timeout or failure state is useful?
 
 Represent important side-effect behavior in code, tests, workflow events,
-telemetry, deployment notes, or an ADR when future agents need the decision.
+telemetry, deployment notes, or a project record when future agents need the
+decision.
 
 ## 9. Define Observability
 
@@ -116,7 +117,7 @@ Ask:
 - what logs or metrics help operate it?
 - what audit event helps reconstruct important behavior?
 
-Use `docs/contracts/telemetry-events.md` for shared event names.
+Add a project record for shared event names or operating signals.
 
 ## 10. Verify And Ship
 
@@ -129,4 +130,4 @@ Choose checks that prove the feature:
 - workflow or worker tests for retries and failure paths
 - build and deploy checks for release readiness
 
-Then update docs or ADRs where future agents need the decision.
+Then update docs or project records where future agents need the decision.

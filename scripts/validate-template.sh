@@ -46,11 +46,6 @@ if ! grep -q 'frontend: PureScript' "$CHECK_DIR/docs/project-profile.md"; then
   exit 1
 fi
 
-if ! grep -q '| Frontend | PureScript |' "$CHECK_DIR/docs/architecture/stack-profile.md"; then
-  printf 'generated stack profile is missing PureScript as the frontend reference default\n' >&2
-  exit 1
-fi
-
 if ! grep -q 'output/' "$CHECK_DIR/.gitignore"; then
   printf 'generated PureScript project is missing compiler output ignores\n' >&2
   exit 1

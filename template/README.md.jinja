@@ -11,21 +11,18 @@ owned by this project and should evolve with the product.
 ## What Exists Now
 
 - `AGENTS.md`: root operating guide for autonomous coding agents
-- `docs/project-profile.md`: local stack, constraints, decision latitude, and
-  project facts
-- `docs/product-intent.md`: freeform product narrative, workflow ideas,
-  examples, open questions, and notes
-- `docs/architecture/system-map.md`: path from goal to implementation and from
-  user intent to product behavior
-- `docs/architecture/stack-profile.md`: selected tools and substitution logic
+- `docs/project-profile.md`: current project facts, selected stack, constraints,
+  decision latitude, and open questions
+- `docs/product-intent.md`: rough product narrative, workflow ideas, examples,
+  open questions, and notes
+- `docs/records/`: durable project records for decisions, caveats, stack
+  rationale, risks, invariants, feature context, operating notes, and lessons
+  learned
+- `docs/architecture/system-map.md`: placement guide for deciding where changes
+  belong
 - `docs/engineering/agent-execution-protocol.md`: practical agent work loop
 - `docs/engineering/doctrine.md`: general agentic engineering doctrine
 - `docs/engineering/feature-development.md`: feature development walkthrough
-- `docs/contracts/`: shared state, workflow, policy, integration, and telemetry
-  contracts
-- `docs/security/threat-model.md`: security and abuse-risk working document
-- `docs/adr/`: architecture decision records
-- `docs/templates/`: reusable planning templates
 - `scripts/doctor.sh`: local documentation/template health check
 
 ## How To Work In This Repository
@@ -37,7 +34,7 @@ Start each meaningful slice by clarifying:
 3. The product behavior or developer workflow that should change
 4. The data, state, policy, side effects, or deployment path involved
 5. The tests, checks, examples, or operational signals that prove the result
-6. The decision record future agents should inherit, when the choice matters
+6. The project record future agents should inherit, when the learning matters
 
 Then build the smallest coherent version that moves the project forward. Add
 structure when a real boundary appears. Keep simple work simple.
@@ -52,7 +49,8 @@ structure when a real boundary appears. Keep simple work simple.
 - cloud target: {{ cloud_target }}
 
 These are starting choices. Record meaningful deviations in
-`docs/project-profile.md` or a new ADR under `docs/adr/`.
+`docs/project-profile.md` and add a project record under `docs/records/` when
+future agents need the reasoning.
 
 ## Agentic Delivery Model
 
@@ -66,8 +64,8 @@ Agents in this repository are expected to act with initiative:
 - prepare deployment notes when the work reaches operations
 
 The project values working software plus evidence. Evidence can be a test run,
-manual check, screenshot, migration dry run, build output, trace, log, small ADR,
-or direct explanation grounded in the repository.
+manual check, screenshot, migration dry run, build output, trace, log, project
+record, or direct explanation grounded in the repository.
 
 ## Suggested Implementation Layout
 

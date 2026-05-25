@@ -6,8 +6,8 @@ This file is the root operating guide for autonomous coding agents working in
 this repository. It is generated from the reusable agentic engineering template,
 then owned by this project.
 
-Project-specific decisions override the base guidance when they are recorded in
-`docs/project-profile.md` or an ADR under `docs/adr/`.
+Project-specific guidance lives in `docs/project-profile.md` and durable project
+records under `docs/records/`.
 
 ## North Star
 
@@ -21,9 +21,9 @@ write tests, improve documentation, run checks, and prepare deployment.
 goal -> context -> decision -> implementation -> verification -> delivery notes
 ```
 
-Prefer momentum with judgment. Add ceremony when the change is hard to reverse,
-has broad blast radius, changes public behavior, touches production data, or
-creates a decision future agents will need to understand.
+Prefer momentum with judgment. Add durable notes when the change is hard to
+reverse, has broad blast radius, changes public behavior, touches production
+data, or creates guidance future agents should inherit.
 
 ## Read Order
 
@@ -32,12 +32,11 @@ Before substantial work, read these files:
 1. `AGENTS.md`
 2. `docs/project-profile.md`
 3. `docs/product-intent.md`
-4. `docs/engineering/agent-execution-protocol.md`
-5. `docs/engineering/doctrine.md`
-6. `docs/architecture/system-map.md`
-7. `docs/architecture/stack-profile.md`
-8. Relevant contract docs in `docs/contracts/`
-9. Relevant threat model, feature brief, ADR, or local module documentation
+4. `docs/records/README.md`
+5. `docs/engineering/agent-execution-protocol.md`
+6. `docs/engineering/doctrine.md`
+7. `docs/architecture/system-map.md`
+8. Relevant project records in `docs/records/`
 
 If the repository has implementation code, inspect the code before changing it.
 Treat source files as current when they differ from docs, then update docs when
@@ -45,45 +44,28 @@ the difference matters for future work.
 
 ## Documentation Map
 
-Use this map when you need a specific kind of guidance:
+Use this map when you need context:
 
-- `AGENTS.md`: root operating guide, read order, decision latitude, and
-  expected coding-agent behavior.
+- `AGENTS.md`: root operating guide, read order, decision latitude, and expected
+  coding-agent behavior.
 - `README.md`: project overview, documentation set, repository workflow, and
   template update instructions.
-- `docs/project-profile.md`: project-local facts, stack choices, decision
-  latitude, users, tenant model, sensitive data, external systems, irreversible
-  actions, critical invariants, and open questions.
-- `docs/product-intent.md`: freeform product narrative and raw notes about what
-  the product should do, who it serves, desired workflows, examples, non-goals,
-  and questions before they become formal decisions.
+- `docs/project-profile.md`: current project facts, stack choices, constraints,
+  users, decision latitude, and open questions.
+- `docs/product-intent.md`: rough product thinking, workflows, examples, and
+  questions before they become implementation guidance.
+- `docs/records/`: the single durable record system for decisions, caveats,
+  stack rationale, risks, invariants, feature context, operating notes, and
+  lessons learned.
 - `docs/engineering/agent-execution-protocol.md`: practical work loop,
   instruction interpretation, change sizing, verification, and reporting.
-- `docs/engineering/doctrine.md`: durable first-principles engineering doctrine
+- `docs/engineering/doctrine.md`: durable first-principles engineering guidance
   for autonomous coding-agent work.
 - `docs/engineering/feature-development.md`: feature-planning walkthrough from
   intent through data, behavior, verification, and rollout.
 - `docs/architecture/system-map.md`: placement guide for deciding where product
   behavior, tooling, data, side effects, observability, and deployment work
   belong.
-- `docs/architecture/stack-profile.md`: selected implementation tools,
-  substitution rules, and when to add a new layer.
-- `docs/contracts/README.md`: index for durable system contracts that other
-  code, agents, workflows, tools, policies, or integrations depend on.
-- `docs/contracts/state-machines.md`: lifecycle states, events, guards,
-  terminal states, transition ownership, and test expectations.
-- `docs/contracts/workflow-events.md`: workflow event names, retry semantics,
-  idempotency behavior, and failure handling.
-- `docs/contracts/policy-inputs.md`: authority dimensions, policy decision
-  inputs, allow/deny results, and policy audit events.
-- `docs/contracts/telemetry-events.md`: trace, metric, log, and audit event
-  names needed to reconstruct important behavior.
-- `docs/security/threat-model.md`: security and abuse-risk questions for coding
-  agent access, product behavior, data, credentials, deployment, and operations.
-- `docs/adr/README.md`: when to write architecture decision records and what
-  decisions benefit from durable explanation.
-- `docs/templates/`: reusable briefs for ADRs, features, agent tasks, threat
-  models, and state machines.
 
 ## Project Snapshot
 
@@ -96,8 +78,8 @@ Use this map when you need a specific kind of guidance:
 - cloud target: {{ cloud_target }}
 
 Treat these as local defaults. Choose a better tool when the task and codebase
-justify it, then record the reason in `docs/project-profile.md` or an ADR when
-the decision affects future work.
+justify it. Update `docs/project-profile.md` for the current fact and add a
+project record when future agents need the reasoning.
 
 ## Agent Autonomy
 
@@ -106,11 +88,11 @@ Coding agents may make ordinary engineering decisions directly:
 - choose internal names, helper functions, and file organization
 - add tests, scripts, fixtures, examples, and small docs updates
 - refactor nearby code when it clarifies the requested change
-- install or use project dependencies that already fit the stack
+- install or use project dependencies that fit the stack and task
 - run formatters, tests, build commands, and local verification tools
 - prepare deployment artifacts and operational notes
 
-Some choices deserve durable explanation:
+Some choices deserve a project record:
 
 - public API shape
 - database schema or migration strategy
@@ -119,8 +101,9 @@ Some choices deserve durable explanation:
 - major framework, language, or cloud service choice
 - irreversible production operation
 - broad refactor that changes ownership boundaries
+- caveat, risk, or lesson future agents should remember
 
-Use ADRs for those choices. Keep ADRs short and decision-focused.
+Keep records short and decision-focused.
 
 ## Forward Operating Model
 
@@ -129,7 +112,8 @@ project. Align code, data, tests, docs, and deployment around that model.
 
 Treat backward compatibility as an explicit product requirement rather than a
 default. Preserve old behavior only when the current task, project profile,
-public API commitment, migration plan, or ADR makes that requirement clear.
+public API commitment, migration plan, or project record makes that requirement
+clear.
 
 When the clean design changes an existing interface, data shape, command, or
 workflow, make the new model coherent and update the affected callers,
@@ -142,8 +126,8 @@ parallel concepts that make future work messy.
 For meaningful work, follow this loop:
 
 1. Orient
-   Read the goal, project profile, product intent, nearby code, tests, and
-   relevant docs.
+   Read the goal, project profile, product intent, nearby code, tests, relevant
+   docs, and relevant project records.
 
 2. Form a working theory
    Decide what the system is trying to do, where the change belongs, and what
@@ -156,11 +140,11 @@ For meaningful work, follow this loop:
 4. Verify
    Run the narrowest useful checks first. Broaden verification when the change
    crosses public behavior, persistence, policy, workflows, deployment, or
-   shared contracts.
+   shared behavior.
 
 5. Leave evidence
    Summarize what changed, what was checked, what decisions were made, and what
-   remains open.
+   remains open. Add or update a project record when the learning should persist.
 
 ## Evidence Over Assumption
 
@@ -173,8 +157,7 @@ Ground implementation decisions in repository artifacts:
 - migrations
 - logs
 - docs
-- ADRs
-- contract files
+- project records
 - representative data examples
 
 Treat assumptions as working theories. Confirm them through code, tests, docs,
@@ -185,9 +168,9 @@ is strongest when the tests exercise the actual goal and execution path.
 
 ## Language And Tooling Guidance
 
-Use `docs/architecture/stack-profile.md` as the starting point. Tooling serves
-delivery, so choose the tool that makes the work clearer, safer, and easier to
-maintain.
+Use `docs/project-profile.md` as the starting point for stack choices. Tooling
+serves delivery, so choose the tool that makes the work clearer, safer, and
+easier to maintain.
 
 When substituting a language, framework, runtime, package manager, database,
 queue, or cloud service, record:
@@ -199,7 +182,7 @@ queue, or cloud service, record:
 - how future agents should maintain it
 
 Small local choices can live in the changed code or `docs/project-profile.md`.
-Larger choices deserve an ADR.
+Larger choices deserve a project record.
 
 ## Delivery And Deployment
 
@@ -224,19 +207,14 @@ action and the evidence already gathered.
 
 ## Documentation Updates
 
-Update docs when the change creates knowledge future agents need:
+Use one durable documentation pattern:
 
-- `docs/project-profile.md` for local facts, stack choices, constraints, and
-  decision latitude
-- `docs/product-intent.md` for product ideas, examples, open questions, and
-  rough workflows
-- `docs/architecture/system-map.md` for meaningful changes to system shape
-- `docs/contracts/` for shared states, policies, workflows, side effects, or
-  telemetry events
-- `docs/security/threat-model.md` for security-sensitive access or behavior
-- `docs/adr/` for durable choices future agents might question
+- `docs/project-profile.md` for current facts and concise project state
+- `docs/product-intent.md` for rough product thinking
+- `docs/records/` for durable decisions, caveats, risks, stack rationale,
+  feature context, invariants, operating notes, and lessons learned
 
-Keep documentation close to the decision. Prefer a short accurate update over a
+Keep documentation close to the decision. Prefer a short accurate record over a
 large stale explanation.
 
 ## Final Response Shape
@@ -245,7 +223,7 @@ For completed work, report:
 
 - what changed
 - how it was verified
-- decisions recorded or left open
+- decisions or records added
 - deployment notes when relevant
 - residual risk when it helps the next reviewer
 
