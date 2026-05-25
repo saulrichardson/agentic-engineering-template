@@ -119,14 +119,13 @@ Generated projects should use the docs in this order:
 2. `docs/project-profile.md`
 3. `docs/product-intent.md`
 4. `docs/engineering/agent-execution-protocol.md`
-5. `docs/engineering/definition-of-done.md`
-6. `docs/engineering/doctrine.md`
-7. `docs/architecture/system-map.md`
-8. `docs/architecture/stack-profile.md`
-9. Relevant contracts in `docs/contracts/`
-10. Relevant threat model in `docs/security/`
-11. Relevant ADRs in `docs/adr/`
-12. Relevant templates in `docs/templates/`
+5. `docs/engineering/doctrine.md`
+6. `docs/architecture/system-map.md`
+7. `docs/architecture/stack-profile.md`
+8. Relevant contracts in `docs/contracts/`
+9. Relevant threat model in `docs/security/`
+10. Relevant ADRs in `docs/adr/`
+11. Relevant templates in `docs/templates/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` records local facts, stack choices, decision latitude,
@@ -152,7 +151,6 @@ docs/
   product-intent.md
   engineering/
     agent-execution-protocol.md
-    definition-of-done.md
     doctrine.md
     feature-development.md
   architecture/

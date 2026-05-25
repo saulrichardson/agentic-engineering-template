@@ -58,12 +58,11 @@ Before substantial work, read these files:
 2. `docs/project-profile.md`
 3. `docs/product-intent.md`
 4. `docs/engineering/agent-execution-protocol.md`
-5. `docs/engineering/definition-of-done.md`
-6. `docs/engineering/doctrine.md`
-7. `docs/architecture/system-map.md`
-8. `docs/architecture/stack-profile.md`
-9. Relevant contract docs in `docs/contracts/`
-10. Relevant threat model, feature brief, ADR, or local module documentation
+5. `docs/engineering/doctrine.md`
+6. `docs/architecture/system-map.md`
+7. `docs/architecture/stack-profile.md`
+8. Relevant contract docs in `docs/contracts/`
+9. Relevant threat model, feature brief, ADR, or local module documentation
 
 If the repository has implementation code, inspect the code before changing it.
 Treat source files as current when they differ from docs, then update docs when
@@ -85,8 +84,6 @@ Use this map when you need a specific kind of guidance:
   and questions before they become formal decisions.
 - `docs/engineering/agent-execution-protocol.md`: practical work loop,
   instruction interpretation, change sizing, verification, and reporting.
-- `docs/engineering/definition-of-done.md`: completion criteria for behavior,
-  tests, docs, deployment notes, and residual risk.
 - `docs/engineering/doctrine.md`: durable first-principles engineering doctrine
   for autonomous coding-agent work.
 - `docs/engineering/feature-development.md`: feature-planning walkthrough from
@@ -307,8 +304,6 @@ owned by this project and should evolve with the product.
   user intent to product behavior
 - `docs/architecture/stack-profile.md`: selected tools and substitution logic
 - `docs/engineering/agent-execution-protocol.md`: practical agent work loop
-- `docs/engineering/definition-of-done.md`: completion criteria by risk and
-  delivery stage
 - `docs/engineering/doctrine.md`: general agentic engineering doctrine
 - `docs/engineering/feature-development.md`: feature development walkthrough
 - `docs/contracts/`: shared state, workflow, policy, integration, and telemetry
@@ -441,14 +436,13 @@ This directory contains the reusable guidance and project-local decisions for
 2. `project-profile.md`
 3. `product-intent.md`
 4. `engineering/agent-execution-protocol.md`
-5. `engineering/definition-of-done.md`
-6. `engineering/doctrine.md`
-7. `architecture/system-map.md`
-8. `architecture/stack-profile.md`
-9. Relevant contracts in `contracts/`
-10. Relevant threat model in `security/`
-11. Relevant ADRs in `adr/`
-12. Relevant templates in `templates/`
+5. `engineering/doctrine.md`
+6. `architecture/system-map.md`
+7. `architecture/stack-profile.md`
+8. Relevant contracts in `contracts/`
+9. Relevant threat model in `security/`
+10. Relevant ADRs in `adr/`
+11. Relevant templates in `templates/`
 
 ## Ownership Model
 
@@ -870,87 +864,6 @@ Report what helps the user or reviewer evaluate the work:
 
 Small work can close with one concise paragraph. Larger work benefits from a
 short structured summary.
-
-
----
-
-## Definition Of Done
-
-_Source: `generated-project/docs/engineering/definition-of-done.md`_
-
-# Definition Of Done
-
-Done means the goal is satisfied and the project has enough evidence to trust
-the result.
-
-Use this definition with judgment. A typo fix needs little ceremony. A schema,
-security, deployment, or public behavior change needs stronger proof.
-
-## Core Completion Criteria
-
-A change is done when:
-
-- the requested outcome works in the current repository
-- the implementation fits the surrounding code and project profile
-- relevant tests, builds, checks, or inspections have been run
-- docs or ADRs are updated when future agents need the context
-- deployment, migration, or operational consequences are known
-- the final report states what changed and how it was verified
-
-## Behavior
-
-For behavior changes, confirm:
-
-- the main success path works
-- important edge cases are handled
-- errors are explicit and useful
-- public interfaces match callers or documented contracts
-- state and data changes are represented in the natural system layer
-
-## Verification
-
-Verification can include:
-
-- automated tests
-- type checks
-- lint or format checks
-- build commands
-- migration dry runs
-- local browser or CLI smoke checks
-- manual inspection of generated output
-- logs, traces, or screenshots
-- small reproducible examples
-
-The best verification exercises the path that matters to the task.
-
-## Documentation
-
-Update documentation when the change creates durable knowledge:
-
-- new product behavior
-- new command or workflow
-- new dependency or stack choice
-- new data shape or migration rule
-- new deployment requirement
-- new security or operational assumption
-- new decision future agents may question
-
-Keep docs concise and close to the decision.
-
-## Delivery
-
-For deployment-facing changes, include:
-
-- build command
-- test command
-- required environment variables
-- migration or data step
-- deploy command or pipeline
-- smoke check
-- rollback or mitigation path
-
-When credentials or production access are required, record the exact handoff and
-the evidence already gathered.
 
 
 ---
