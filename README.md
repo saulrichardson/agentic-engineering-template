@@ -4,9 +4,9 @@ This repository is a Copier template for starting software projects that will be
 planned, built, tested, documented, and shipped with autonomous coding agents.
 
 It provides documentation rather than application scaffold code. It gives each
-new project a local operating guide, project profile, product-intent space,
-engineering doctrine, architecture placement guide, and one durable project
-record system that helps coding agents act with context and judgment.
+new project a local operating guide, project profile, product-intent space, and
+one durable project record system that helps coding agents act with context and
+judgment.
 
 The purpose is high-agency engineering:
 
@@ -119,10 +119,7 @@ Generated projects should use the docs in this order:
 2. `docs/project-profile.md`
 3. `docs/product-intent.md`
 4. `docs/records/README.md`
-5. `docs/engineering/agent-execution-protocol.md`
-6. `docs/engineering/doctrine.md`
-7. `docs/architecture/system-map.md`
-8. Relevant project records in `docs/records/`
+5. Relevant project records in `docs/records/`
 
 `AGENTS.md` is the root operating guide for future coding agents.
 `docs/project-profile.md` records local facts, stack choices, decision latitude,
@@ -148,12 +145,6 @@ docs/
   product-intent.md
   records/
     README.md
-  engineering/
-    agent-execution-protocol.md
-    doctrine.md
-    feature-development.md
-  architecture/
-    system-map.md
 scripts/
   doctor.sh
 ```
@@ -178,7 +169,7 @@ template repo = reusable guidance source
 generated project = local truth
 ```
 
-## How To Evolve The Doctrine
+## How To Evolve The Guidance
 
 Changes to this template should improve broadly reusable guidance for coding
 agents.
@@ -187,9 +178,9 @@ Strong template changes include:
 
 - clearer first-principles explanations
 - better project-profile prompts
-- better feature planning questions
+- better guidance for feature planning inside `AGENTS.md`
 - better project-record prompts
-- sharper agent execution guidance
+- sharper agent execution guidance inside `AGENTS.md`
 - more useful verification and deployment walkthroughs
 - simpler generated project structure
 - improved Copier validation
@@ -267,11 +258,10 @@ template/
   README.md.jinja
   .gitignore.jinja
   docs/
+    README.md.jinja
     project-profile.md.jinja
     product-intent.md
     records/
-    engineering/
-    architecture/
   scripts/
     doctor.sh.jinja
 ```

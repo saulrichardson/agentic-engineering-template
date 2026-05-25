@@ -1,7 +1,10 @@
 # Documentation
 
-This directory contains the reusable guidance and project-local records for
-`{{ project_name }}`.
+This directory contains project-local context for `{{ project_name }}`.
+
+`../AGENTS.md` is the operating guide for autonomous coding agents. The files
+here hold the facts, intent, and durable records that make that guidance local
+to this project.
 
 ## Read Order
 
@@ -9,15 +12,15 @@ This directory contains the reusable guidance and project-local records for
 2. `project-profile.md`
 3. `product-intent.md`
 4. `records/README.md`
-5. `engineering/agent-execution-protocol.md`
-6. `engineering/doctrine.md`
-7. `architecture/system-map.md`
-8. Relevant project records in `records/`
+5. Relevant project records in `records/`
 
 ## Ownership Model
 
-The reusable guidance gives the project a starting point. The project owns the
+The reusable template gives the project a starting point. The project owns the
 generated files after creation.
+
+Use `project-profile.md` for concise current facts: users, constraints, stack
+choices, decision latitude, invariants, and open questions.
 
 Use `product-intent.md` for rough notes about what the product is trying to do.
 Promote stable facts from that file into `project-profile.md`, project records,

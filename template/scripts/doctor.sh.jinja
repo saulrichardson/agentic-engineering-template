@@ -20,16 +20,11 @@ need_dir() {
 need_file AGENTS.md
 need_file README.md
 need_file .copier-answers.yml
+need_file docs/README.md
 need_file docs/project-profile.md
 need_file docs/product-intent.md
 need_file docs/records/README.md
-need_file docs/engineering/agent-execution-protocol.md
-need_file docs/engineering/doctrine.md
-need_file docs/engineering/feature-development.md
-need_file docs/architecture/system-map.md
 need_dir docs/records
-need_dir docs/engineering
-need_dir docs/architecture
 
 if grep -RIn --exclude='.copier-answers.yml' --exclude-dir='.git' '{% raw %}{{\|}}\|{%\|%}{% endraw %}' AGENTS.md README.md docs >/tmp/agentic-template-unrendered.$$ 2>/dev/null; then
   cat /tmp/agentic-template-unrendered.$$
@@ -43,7 +38,7 @@ if ! grep -q '_src_path:' .copier-answers.yml; then
 fi
 
 if ! grep -q 'Autonomous coding agents are trusted collaborators' AGENTS.md; then
-  fail "AGENTS.md is missing the high-agency doctrine"
+  fail "AGENTS.md is missing the high-agency guidance"
 fi
 
 if ! grep -q 'Language And Tooling Guidance' AGENTS.md; then
@@ -52,6 +47,18 @@ fi
 
 if ! grep -q 'Forward Operating Model' AGENTS.md; then
   fail "AGENTS.md is missing the forward operating model guidance"
+fi
+
+if ! grep -q 'Where Work Belongs' AGENTS.md; then
+  fail "AGENTS.md is missing placement guidance"
+fi
+
+if ! grep -q 'Feature Work' AGENTS.md; then
+  fail "AGENTS.md is missing feature work guidance"
+fi
+
+if ! grep -q 'Verification' AGENTS.md; then
+  fail "AGENTS.md is missing verification guidance"
 fi
 
 if ! grep -q 'Agentic Delivery Model' README.md; then
@@ -78,24 +85,12 @@ if ! grep -q 'docs/product-intent.md' AGENTS.md; then
   fail "AGENTS.md is missing product-intent guidance"
 fi
 
-if ! grep -q 'Evidence Over Assumption' AGENTS.md; then
-  fail "AGENTS.md is missing evidence-over-assumption guidance"
+if ! grep -q 'Evidence And Verification' AGENTS.md; then
+  fail "AGENTS.md is missing evidence and verification guidance"
 fi
 
-if ! grep -q 'Instruction Interpretation Mode' docs/engineering/agent-execution-protocol.md; then
-  fail "agent execution protocol is missing instruction interpretation mode"
-fi
-
-if ! grep -q 'First-Class Change Rule' docs/engineering/doctrine.md; then
-  fail "engineering doctrine is missing the first-class change rule"
-fi
-
-if ! grep -q 'Root Cause Before Patch' docs/engineering/agent-execution-protocol.md; then
-  fail "agent execution protocol is missing root-cause guidance"
-fi
-
-if ! grep -q 'Reporting Judgment' docs/engineering/agent-execution-protocol.md; then
-  fail "agent execution protocol is missing reporting judgment guidance"
+if ! grep -q 'Use literal mode' AGENTS.md; then
+  fail "AGENTS.md is missing request interpretation guidance"
 fi
 
 if grep -RIn --exclude-dir='.git' --exclude='.copier-answers.yml' 'runtime-agent\|agentic-runtime\|llm-outputs\|ToolProposal\|prompt injection' AGENTS.md README.md docs >/tmp/agentic-template-runtime.$$ 2>/dev/null; then

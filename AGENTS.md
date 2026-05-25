@@ -6,9 +6,9 @@ guidance for autonomous coding agents.
 Generated project files live under `template/`. Files outside `template/` are
 maintainer files for this template repository and stay local to this repository.
 
-## Core Doctrine
+## Core Guidance
 
-Preserve this doctrine across template changes:
+Preserve this guidance across template changes:
 
 ```text
 Autonomous coding agents are collaborators with initiative.
@@ -26,10 +26,9 @@ project boundary genuinely needs it.
 - Keep generated files portable across product domains.
 - Prefer variables in `copier.yml` over hard-coded project identity.
 - Keep `AGENTS.md.jinja` short enough that future agents read it.
-- Put reusable doctrine in `docs/engineering/`.
+- Put reusable operating guidance in `AGENTS.md.jinja`.
 - Put durable decisions, caveats, stack rationale, risks, operating notes,
   security assumptions, feature context, and lessons learned in `docs/records/`.
-- Put architectural placement guidance in `docs/architecture/`.
 - Put project-local specialization in `docs/project-profile.md`.
 - Keep normal use free of submodule requirements.
 - Keep Copier update compatibility intact.
