@@ -156,7 +156,6 @@ docs/
     doctrine.md
     feature-development.md
     deployment-readiness.md
-    formal-methods.md
   architecture/
     system-map.md
     stack-profile.md

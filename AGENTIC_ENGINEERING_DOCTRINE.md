@@ -93,8 +93,6 @@ Use this map when you need a specific kind of guidance:
   intent through data, behavior, verification, and rollout.
 - `docs/engineering/deployment-readiness.md`: deployment readiness checklist for
   environments, data, secrets, observability, rollback, and operation.
-- `docs/engineering/formal-methods.md`: advanced verification options for
-  critical invariants and subtle state spaces.
 - `docs/architecture/system-map.md`: coding-agent delivery path, product
   behavior path, layer responsibilities, common objects, and design signals.
 - `docs/architecture/stack-profile.md`: selected implementation tools,
@@ -312,8 +310,6 @@ owned by this project and should evolve with the product.
 - `docs/engineering/doctrine.md`: general agentic engineering doctrine
 - `docs/engineering/feature-development.md`: feature development walkthrough
 - `docs/engineering/deployment-readiness.md`: deployment readiness guide
-- `docs/engineering/formal-methods.md`: advanced verification guidance for
-  critical invariants
 - `docs/contracts/`: shared state, workflow, policy, integration, and telemetry
   contracts
 - `docs/security/threat-model.md`: security and abuse-risk working document
@@ -1352,7 +1348,6 @@ Add a layer when it helps the product:
 
 - add policy when permissions become meaningful
 - add workflows when work is long-running, retryable, or externally dependent
-- add deep verification when an invariant is critical and subtle
 - add infrastructure automation when manual setup becomes repetitive
 - add shared integration boundaries when side effects spread
 - add observability when behavior needs operational reconstruction
@@ -1607,61 +1602,6 @@ A deployment-facing final report should include:
 - what migration or data step exists
 - what smoke check confirms success
 - what rollback or mitigation path exists
-
-
----
-
-## Deep Verification Guidance
-
-_Source: `generated-project/docs/engineering/formal-methods.md`_
-
-# Deep Verification
-
-Use deep verification when ordinary tests leave important uncertainty.
-
-This file covers property tests, model-based tests, state-machine tests,
-lightweight specs, model checking, and proof-oriented tools. The project can use
-any technique that clarifies the invariant and gives future agents better
-feedback.
-
-## When To Reach For It
-
-Deep verification is useful for:
-
-- money movement
-- authorization and ownership
-- concurrency
-- idempotency
-- migrations that preserve invariants
-- workflow retries and compensation
-- scheduling
-- distributed state
-- data transformations with subtle edge cases
-
-## Useful Techniques
-
-- table-driven tests for known cases
-- property tests for broad input spaces
-- state-machine tests for lifecycle behavior
-- model-based tests for implementation/spec agreement
-- lightweight written specs for algorithms or protocols
-- TLA+, Alloy, or similar model checking for concurrent workflows
-- Dafny, Lean, Coq, or similar tools for proof-worthy invariants
-
-Choose the smallest technique that makes the risk easier to reason about.
-
-## How To Document A Deep Check
-
-Record:
-
-- invariant being protected
-- model or property being tested
-- command to run it
-- relationship between the model and production code
-- known limits of the check
-- owner for keeping it useful
-
-Place durable notes in the relevant contract, feature brief, or ADR.
 
 
 ---
