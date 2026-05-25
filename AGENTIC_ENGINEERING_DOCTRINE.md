@@ -105,9 +105,6 @@ Use this map when you need a specific kind of guidance:
   code, agents, workflows, tools, policies, or integrations depend on.
 - `docs/contracts/state-machines.md`: lifecycle states, events, guards,
   terminal states, transition ownership, and test expectations.
-- `docs/contracts/tool-registry.md`: external integration and side-effect
-  capabilities, including inputs, outputs, owners, timeouts, idempotency, and
-  audit events.
 - `docs/contracts/workflow-events.md`: workflow event names, retry semantics,
   idempotency behavior, and failure handling.
 - `docs/contracts/policy-inputs.md`: authority dimensions, policy decision
@@ -702,8 +699,8 @@ right durable artifact:
 - `docs/templates/feature-brief.md` for a specific feature before implementation
 - `docs/adr/` for architecture, stack, policy, persistence, workflow, or
   deployment decisions
-- `docs/contracts/` for state machines, policy inputs, integration
-  capabilities, workflow events, and telemetry events
+- `docs/contracts/` for state machines, policy inputs, workflow events, and
+  telemetry events
 - `docs/security/threat-model.md` for security and abuse-risk assumptions
 
 Coding agents may use this file to understand intent. Important behavior should
@@ -1009,7 +1006,6 @@ Important concepts often deserve names in one or more places:
 - policy input
 - database constraint
 - workflow event
-- integration capability
 - test
 - telemetry or audit event
 - docs or ADR
@@ -1094,9 +1090,6 @@ Good side-effect work has:
 - retry or failure behavior
 - idempotency where useful
 - audit or trace event for important effects
-
-Use `docs/contracts/tool-registry.md` when an integration or side-effect
-capability becomes shared or operationally important.
 
 ## Persistence
 
@@ -1300,14 +1293,12 @@ Workflows coordinate long-running, retryable, externally dependent, or
 human-coordinated work. They make waiting, retries, compensation, and final
 state visible.
 
-### Side-Effect Capability
+### Side Effects
 
-A side-effect capability mutates the world outside the current process:
-external API, email, file write, payment, command execution, cloud mutation,
-queue publish, or notification.
-
-Shared side-effect capabilities should have clear inputs, outputs, owner,
-timeout, idempotency behavior, and observability.
+Side effects mutate the world outside the current process: external API calls,
+email, file writes, payments, command execution, cloud mutations, queue
+publishes, or notifications. Keep important side effects visible in the code,
+tests, workflow history, and telemetry that operate them.
 
 ### Observability
 
@@ -1556,8 +1547,8 @@ Ask:
 - what should be idempotent?
 - what timeout or failure state is useful?
 
-Use `docs/contracts/tool-registry.md` when an integration becomes a shared
-capability.
+Represent important side-effect behavior in code, tests, workflow events,
+telemetry, deployment notes, or an ADR when future agents need the decision.
 
 ## 9. Define Observability
 
@@ -1753,7 +1744,6 @@ or easy for future agents to misread.
 
 - `state-machines.md`: lifecycle states, events, guards, terminal states, and
   transition ownership
-- `tool-registry.md`: external integrations and side-effect capabilities
 - `workflow-events.md`: durable workflow events, retries, idempotency, and
   failure behavior
 - `policy-inputs.md`: policy inputs, authority dimensions, decisions, and audit
@@ -1767,7 +1757,6 @@ Add or update a contract when:
 
 - several modules depend on the same behavior
 - a state change needs a clear lifecycle
-- an integration mutates external systems
 - a workflow crosses process or time boundaries
 - a permission decision affects user trust or data access
 - an operational event helps reconstruct production behavior
@@ -1821,49 +1810,6 @@ current state + event + facts + policy = next state or rejection
 
 Keep lifecycle changes easy to find. A transition function, domain service, or
 workflow step should own each important state change.
-
-
----
-
-## Integration And Side-Effect Capability Catalog
-
-_Source: `generated-project/docs/contracts/tool-registry.md`_
-
-# Integration And Side-Effect Capability Catalog
-
-Use this catalog for shared integrations or side-effect capabilities.
-
-A capability is any reusable way to mutate the world or depend on an external
-system: email, payment, file write, external API, command execution, queue
-publish, notification, cloud mutation, or data export.
-
-## Registry
-
-| Capability | Purpose | Input | Output | Owner | Side effect | Idempotency | Timeout | Observable event | Failure states |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `sendInvitationEmail` | Notify an invited user | `InvitationEmailInput` | delivery result | notifications worker | email send | invitation id | 10s | `invitation_email_sent` | failed, bounced |
-| `syncCustomerRecord` | Update CRM copy of customer data | `CustomerSyncInput` | sync result | integrations worker | external API write | customer id + version | 30s | `customer_sync_completed` | failed, skipped |
-
-## Core Capability Fields
-
-For each capability, define:
-
-- purpose
-- typed or documented input
-- output or result state
-- owner
-- permission or policy expectation
-- side effect
-- idempotency behavior
-- timeout
-- observable event
-- failure states
-
-## Capability Guidance
-
-Shared capabilities should be narrow enough to reason about and broad enough to
-replace repeated one-off integrations. When a capability is high impact, pair it
-with tests, operational notes, and a threat-model entry.
 
 
 ---
@@ -2101,7 +2047,7 @@ Good ADR subjects:
   workflow engine, policy engine, or cloud service
 - changing a public API
 - changing a state machine
-- introducing a new external integration or side-effect capability
+- introducing a meaningful external integration or side effect
 - changing policy or approval behavior
 - changing persistence ownership or constraints
 - changing deployment or infrastructure strategy
@@ -2653,7 +2599,6 @@ docs/
   contracts/
     README.md
     state-machines.md
-    tool-registry.md
     workflow-events.md
     policy-inputs.md
     telemetry-events.md

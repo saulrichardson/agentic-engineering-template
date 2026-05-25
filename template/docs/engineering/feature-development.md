@@ -104,8 +104,8 @@ Ask:
 - what should be idempotent?
 - what timeout or failure state is useful?
 
-Use `docs/contracts/tool-registry.md` when an integration becomes a shared
-capability.
+Represent important side-effect behavior in code, tests, workflow events,
+telemetry, deployment notes, or an ADR when future agents need the decision.
 
 ## 9. Define Observability
 

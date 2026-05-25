@@ -115,7 +115,6 @@ append_file "Deployment Readiness" "$GENERATED_DIR/docs/engineering/deployment-r
 append_file "Deep Verification Guidance" "$GENERATED_DIR/docs/engineering/formal-methods.md"
 append_file "Contract Catalog" "$GENERATED_DIR/docs/contracts/README.md"
 append_file "State Machine Contracts" "$GENERATED_DIR/docs/contracts/state-machines.md"
-append_file "Integration And Side-Effect Capability Catalog" "$GENERATED_DIR/docs/contracts/tool-registry.md"
 append_file "Workflow Event Contracts" "$GENERATED_DIR/docs/contracts/workflow-events.md"
 append_file "Policy Input Contracts" "$GENERATED_DIR/docs/contracts/policy-inputs.md"
 append_file "Telemetry And Audit Event Contracts" "$GENERATED_DIR/docs/contracts/telemetry-events.md"

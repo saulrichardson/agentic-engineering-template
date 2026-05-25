@@ -63,8 +63,8 @@ right durable artifact:
 - `docs/templates/feature-brief.md` for a specific feature before implementation
 - `docs/adr/` for architecture, stack, policy, persistence, workflow, or
   deployment decisions
-- `docs/contracts/` for state machines, policy inputs, integration
-  capabilities, workflow events, and telemetry events
+- `docs/contracts/` for state machines, policy inputs, workflow events, and
+  telemetry events
 - `docs/security/threat-model.md` for security and abuse-risk assumptions
 
 Coding agents may use this file to understand intent. Important behavior should

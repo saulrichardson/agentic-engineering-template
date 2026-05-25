@@ -55,7 +55,6 @@ Important concepts often deserve names in one or more places:
 - policy input
 - database constraint
 - workflow event
-- integration capability
 - test
 - telemetry or audit event
 - docs or ADR
@@ -140,9 +139,6 @@ Good side-effect work has:
 - retry or failure behavior
 - idempotency where useful
 - audit or trace event for important effects
-
-Use `docs/contracts/tool-registry.md` when an integration or side-effect
-capability becomes shared or operationally important.
 
 ## Persistence
 

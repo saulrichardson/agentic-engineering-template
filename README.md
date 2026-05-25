@@ -163,7 +163,6 @@ docs/
   contracts/
     README.md
     state-machines.md
-    tool-registry.md
     workflow-events.md
     policy-inputs.md
     telemetry-events.md

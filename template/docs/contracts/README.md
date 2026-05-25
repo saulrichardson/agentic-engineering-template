@@ -10,7 +10,6 @@ or easy for future agents to misread.
 
 - `state-machines.md`: lifecycle states, events, guards, terminal states, and
   transition ownership
-- `tool-registry.md`: external integrations and side-effect capabilities
 - `workflow-events.md`: durable workflow events, retries, idempotency, and
   failure behavior
 - `policy-inputs.md`: policy inputs, authority dimensions, decisions, and audit
@@ -24,7 +23,6 @@ Add or update a contract when:
 
 - several modules depend on the same behavior
 - a state change needs a clear lifecycle
-- an integration mutates external systems
 - a workflow crosses process or time boundaries
 - a permission decision affects user trust or data access
 - an operational event helps reconstruct production behavior

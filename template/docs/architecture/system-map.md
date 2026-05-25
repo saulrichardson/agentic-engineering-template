@@ -103,14 +103,12 @@ Workflows coordinate long-running, retryable, externally dependent, or
 human-coordinated work. They make waiting, retries, compensation, and final
 state visible.
 
-### Side-Effect Capability
+### Side Effects
 
-A side-effect capability mutates the world outside the current process:
-external API, email, file write, payment, command execution, cloud mutation,
-queue publish, or notification.
-
-Shared side-effect capabilities should have clear inputs, outputs, owner,
-timeout, idempotency behavior, and observability.
+Side effects mutate the world outside the current process: external API calls,
+email, file writes, payments, command execution, cloud mutations, queue
+publishes, or notifications. Keep important side effects visible in the code,
+tests, workflow history, and telemetry that operate them.
 
 ### Observability
 

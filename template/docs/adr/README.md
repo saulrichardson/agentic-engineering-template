@@ -10,7 +10,7 @@ Good ADR subjects:
   workflow engine, policy engine, or cloud service
 - changing a public API
 - changing a state machine
-- introducing a new external integration or side-effect capability
+- introducing a meaningful external integration or side effect
 - changing policy or approval behavior
 - changing persistence ownership or constraints
 - changing deployment or infrastructure strategy
