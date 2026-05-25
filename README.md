@@ -1,321 +1,89 @@
-# Agentic Engineering Template
+# Agentic Engineering Starter Pack
 
-This repository is a Copier template for starting software projects that will be
-planned, built, tested, documented, and shipped with autonomous coding agents.
+This repository is a copyable documentation starter pack for software projects
+built with autonomous coding agents.
 
-It provides documentation rather than application scaffold code. It gives each
-new project a local operating guide, current approach document, product-intent
-space, and one durable project record system that helps coding agents act with
-context and judgment.
+It is intentionally simple. There is no project generator, template engine, or
+single-file review artifact. The useful thing is the starter documentation under
+`starter/`.
 
-The purpose is high-agency engineering:
+## What This Provides
 
-```text
-Autonomous coding agents are collaborators with initiative.
-They inspect, decide, implement, test, document, and prepare delivery.
-Their work leaves evidence: clear intent, coherent changes, useful checks,
-deployment context, and decisions that future agents can understand.
-```
+The starter gives a new or existing project four durable surfaces:
 
-The template is product-domain independent. It works for web apps, APIs,
-infrastructure, internal tools, databases, user interfaces, workflows, libraries,
-and services. Application-embedded agent guidance belongs in a separate
-documentation set; this template focuses on coding agents working in a
-repository.
+- `AGENTS.md`: how coding agents should work in the repository.
+- `docs/approach.md`: current project truth, including stack, architecture,
+  operating model, constraints, verification, and delivery approach.
+- `docs/product-intent.md`: product north star, user goals, desired outcomes,
+  workflows, examples, and open questions.
+- `docs/records/`: durable rationale, dated decisions, caveats, tradeoffs, and
+  lessons future agents should inherit.
 
-## Why This Exists
-
-Autonomous coding agents can move faster than the surrounding project context.
-The useful response is to make the project easier to understand and change.
-
-Good agentic projects give agents:
-
-- a clear product goal
-- explicit current project approach
-- visible domain concepts
-- a map from user intent to shipped behavior
-- lightweight project records
-- practical verification expectations
-- deployment and operational context
-- room to choose the implementation path that best serves the goal
-
-The template favors momentum with evidence. Agents are free to make local
-engineering decisions, reshape code, add tests, improve docs, and prepare
-deployment when the repository context supports that work. Current truth lives
-in the approach document. Larger choices become durable through project records
-so future agents inherit the reasoning.
-
-## Primary Audience
-
-The primary audience is autonomous coding agents and the humans collaborating
-with them.
-
-Coding agents write, modify, test, review, document, and deliver the codebase.
-They need principles that scale across domains while leaving space for local
-judgment. These docs are guiding principles for that judgment.
-
-## What This Template Teaches
-
-The generated documentation trains agents to work from outcome to evidence:
+The core model is:
 
 ```text
-goal
-  -> repository context
-  -> working theory
-  -> implementation choice
-  -> code and documentation change
-  -> tests or checks
-  -> delivery notes
-  -> project record when useful
+AGENTS.md = agent behavior
+docs/approach.md = current project truth
+docs/product-intent.md = product north star
+docs/records/ = durable project memory
 ```
 
-For product behavior, the project stays legible by keeping the path from intent
-to consequence visible:
+## Use In A Project
 
-```text
-user intent
-  -> interface or entry point
-  -> domain model
-  -> policy or permission decision
-  -> state or data change
-  -> side effect when needed
-  -> observable result
-  -> deployment path
+Copy the starter files into a project:
+
+```bash
+cp -R starter/. /path/to/project/
 ```
 
-The point is a codebase that remains easy for future agents to extend because
-the important ideas have names, homes, tests, and
-operational context.
-
-## The Core Mental Model
-
-The generated project docs are organized around one mental model:
-
-```text
-software whose intent stays legible to autonomous coding agents
-```
-
-That means:
-
-- agents start from the goal and inspect the current repository
-- implementation choices serve the product and the existing codebase
-- important concepts appear in code, docs, tests, or project records
-- verification matches the actual risk and blast radius
-- deployment work is a first-class part of engineering
-- small tasks stay lightweight
-- durable decisions are recorded where future agents will find them
-- the approach document explains the current stack, architecture, operating
-  model, and constraints
-- product intent keeps the product north star visible while understanding
-  evolves
-
-The stack can change. The local reasoning should stay discoverable.
-
-## How A Project Should Use The Generated Docs
-
-Each generated project gets local, editable files. The project owns them.
-
-Generated projects should use the docs in this order:
-
-1. `AGENTS.md`
-2. `docs/approach.md`
-3. `docs/product-intent.md`
-4. `docs/records/README.md`
-5. Relevant project records in `docs/records/`
-
-`AGENTS.md` is the root operating guide for future coding agents.
-`docs/approach.md` records current project truth: users, stack, architecture,
-operating model, constraints, verification, delivery, and open questions.
-`docs/product-intent.md` communicates the product north star, user goals,
-desired outcomes, workflows, examples, and open questions.
-`docs/records/` is the one durable record system for decisions, caveats, stack
-rationale, risks, invariants, feature context, operating notes, and lessons
-learned.
-
-## What Gets Generated
-
-A generated project receives this documentation set:
+Then edit the placeholders in:
 
 ```text
 AGENTS.md
 README.md
-.copier-answers.yml
-.gitignore
-docs/
+docs/approach.md
+docs/product-intent.md
+```
+
+If the target project already has a `README.md`, merge the useful operating
+model section from `starter/README.md` instead of replacing the existing README.
+
+## Starter Layout
+
+```text
+starter/
+  AGENTS.md
   README.md
-  approach.md
-  product-intent.md
-  records/
-    README.md
-scripts/
-  doctor.sh
-```
-
-The generated docs are starting material. Projects adapt them locally as the
-product becomes real.
-
-## Why Copier
-
-Copier gives the right ownership model:
-
-- generated projects get real local files
-- each project answers its own stack and domain questions
-- `.copier-answers.yml` records the template source, version, and answers
-- future template improvements can be pulled with `copier update`
-- local project decisions appear in normal Git diffs
-
-In short:
-
-```text
-template repo = reusable guidance source
-generated project = local truth
-```
-
-## How To Evolve The Guidance
-
-Changes to this template should improve broadly reusable guidance for coding
-agents.
-
-Strong template changes include:
-
-- clearer first-principles explanations
-- better approach-document prompts
-- better guidance for feature planning inside `AGENTS.md`
-- better project-record prompts
-- sharper agent execution guidance inside `AGENTS.md`
-- more useful verification and deployment walkthroughs
-- simpler generated project structure
-- improved Copier validation
-
-Project-specific business terminology, stack commitments, and implementation
-details belong in generated projects. Promote a local decision back into this
-template when it has clear value across many repositories.
-
-## Template Mechanics
-
-The rest of this README is operational. It explains how to generate, update,
-validate, version, and maintain the template.
-
-### Create A New Project
-
-From GitHub:
-
-```bash
-copier copy gh:saulrichardson/agentic-engineering-template /path/to/new-project
-```
-
-From a local checkout:
-
-```bash
-copier copy /Users/saulrichardson/projects/agentic-engineering-template /path/to/new-project
-```
-
-For non-interactive generation:
-
-```bash
-copier copy gh:saulrichardson/agentic-engineering-template /path/to/new-project \
-  --data project_name="New Project" \
-  --data project_slug="new-project" \
-  --data project_description="Short project description." \
-  --data primary_domain="Project domain" \
-  --data frontend="TypeScript/React" \
-  --data backend="Rust" \
-  --data workflow_runtime="Project choice" \
-  --data database="PostgreSQL" \
-  --data policy_engine="Application policy module" \
-  --data cloud_target="AWS"
-```
-
-Stack answers are freeform. Use the project's actual intended tool choices.
-
-### Update An Existing Project
-
-Inside a generated project:
-
-```bash
-copier check-update
-copier update
-```
-
-If a project was generated from a local template path and should now update from
-GitHub, edit `.copier-answers.yml`:
-
-```yaml
-_src_path: gh:saulrichardson/agentic-engineering-template
-```
-
-Then run:
-
-```bash
-copier check-update
-copier update
-```
-
-### Template Layout
-
-```text
-copier.yml
-template/
-  AGENTS.md.jinja
-  README.md.jinja
-  .gitignore.jinja
   docs/
-    README.md.jinja
-    approach.md.jinja
+    README.md
+    approach.md
     product-intent.md
     records/
-  scripts/
-    doctor.sh.jinja
+      README.md
 ```
 
-Files under `template/` are copied or rendered into generated projects. Files at
-the repository root maintain this template.
+## How The Docs Work
 
-Files ending in `.jinja` are rendered by Copier. The final generated file drops
-the `.jinja` suffix. For example:
+Use `AGENTS.md` to define how coding agents interpret goals, make decisions,
+verify work, and report outcomes.
 
-```text
-template/README.md.jinja -> README.md
-template/scripts/doctor.sh.jinja -> scripts/doctor.sh
-```
+Use `docs/approach.md` to keep the current product and technical operating model
+accurate. This is where agents document the current stack, architecture,
+ownership boundaries, constraints, verification approach, and delivery model.
 
-Static docs with zero project variables stay as plain `.md` files.
+Use `docs/product-intent.md` to keep the product goal visible. It should explain
+what the product should accomplish for users or developers. Coding agents should
+update it as they learn what the user wants.
 
-### Validate The Template
+Use `docs/records/` when future agents need durable reasoning: why a choice was
+made, what caveat matters, what tradeoff was accepted, or what lesson should
+change future work.
 
-Generate a temporary project from the current worktree and run its local doctor
-check:
+## Maintainer Notes
 
-```bash
-scripts/validate-template.sh
-```
+Keep the pack small. Add guidance only when it helps coding agents make better
+project decisions across many repositories.
 
-### Single-File Reader Artifact
-
-To create one pass-around Markdown artifact from the repository docs:
-
-```bash
-scripts/assemble-single-artifact.sh
-```
-
-By default, this writes:
-
-```text
-AGENTIC_ENGINEERING_DOCTRINE.md
-```
-
-The script renders a temporary reference project first, then assembles the
-reader artifact from normal Markdown files rather than `.jinja` template source.
-It places technical setup and Copier mechanics at the end.
-
-### Versioning
-
-Tag template releases:
-
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
-
-Generated projects should update deliberately from tagged versions or a reviewed
-branch.
+Prefer improving the four core surfaces over adding new documentation
+categories. The goal is a starter that can be copied into a project and quickly
+made local.

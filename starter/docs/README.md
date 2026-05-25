@@ -1,6 +1,6 @@
 # Documentation
 
-This directory contains project-local context for `{{ project_name }}`.
+This directory contains project-local context for `<project name>`.
 
 `../AGENTS.md` is the operating guide for autonomous coding agents. The files
 here explain what the product should accomplish, how the project works today,

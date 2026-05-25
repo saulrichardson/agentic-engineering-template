@@ -1,14 +1,14 @@
-# Template Maintainer Guide
+# Starter Maintainer Guide
 
-This repository is a Copier template for seeding new projects with reusable
-guidance for autonomous coding agents.
+This repository maintains a copyable documentation starter pack for projects
+worked on by autonomous coding agents.
 
-Generated project files live under `template/`. Files outside `template/` are
-maintainer files for this template repository and stay local to this repository.
+The starter files live under `starter/`. Files outside `starter/` maintain this
+repository and are not part of the pack copied into projects.
 
 ## Core Guidance
 
-Preserve this guidance across template changes:
+Preserve this guidance across starter changes:
 
 ```text
 Autonomous coding agents are collaborators with initiative.
@@ -17,30 +17,29 @@ Their work leaves evidence: clear intent, coherent changes, useful checks,
 deployment context, and decisions that future agents can understand.
 ```
 
-Keep the template focused on principles, operating structure, project records,
-and project-local customization points. Add framework code only when a reusable
-project boundary genuinely needs it.
+Keep the repository focused on portable documentation. Add framework code,
+generators, or scripts only when they clearly improve the starter-pack workflow.
 
 ## Maintainer Rules
 
-- Keep generated files portable across product domains.
-- Prefer variables in `copier.yml` over hard-coded project identity.
-- Keep `AGENTS.md.jinja` short enough that future agents read it.
-- Put reusable operating guidance in `AGENTS.md.jinja`.
+- Keep `starter/` portable across product domains.
+- Keep `starter/AGENTS.md` strong enough to guide coding agents and short enough
+  that future agents read it.
 - Put current project truth, stack, architecture, constraints, and delivery
-  approach in `docs/approach.md`.
+  approach in `starter/docs/approach.md`.
+- Put product north star, user goals, desired outcomes, workflows, and examples
+  in `starter/docs/product-intent.md`.
 - Put durable decisions, caveats, stack rationale, risks, operating notes,
-  security assumptions, feature context, and lessons learned in `docs/records/`.
-- Keep normal use free of submodule requirements.
-- Keep Copier update compatibility intact.
+  security assumptions, feature context, and lessons learned in
+  `starter/docs/records/`.
+- Avoid adding new documentation categories unless they remove real ambiguity.
 
 ## Verification
 
-After editing the template, generate a temporary project from the current
-worktree and run its local doctor check:
+After editing the starter, inspect the file list and scan for template-engine
+markers or stale generator language:
 
 ```bash
-scripts/validate-template.sh
+find starter -maxdepth 4 -type f | sort
+rg -n '\{\{|\}\}|[Cc]opier|AGENTIC[_]ENGINEERING[_]DOCTRINE' starter README.md
 ```
-
-Then inspect the generated files for accidental template leakage.

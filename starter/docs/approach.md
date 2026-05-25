@@ -1,8 +1,8 @@
 # Project Approach
 
-Project: {{ project_name }}
+Project: <project name>
 
-{{ project_description }}
+<project description>
 
 This file is the current project truth.
 
@@ -14,7 +14,7 @@ Use `docs/product-intent.md` for the product north star and user goals. Use
 
 ## Project Summary
 
-- domain: {{ primary_domain }}
+- domain: <primary domain>
 - primary users:
 - core jobs:
 - current product stage:
@@ -27,12 +27,12 @@ north star, desired outcomes, examples, and user intent in
 
 ## Current Stack
 
-- frontend: {{ frontend }}
-- backend domain core: {{ backend }}
-- workflow runtime: {{ workflow_runtime }}
-- durable database: {{ database }}
-- policy or authorization model: {{ policy_engine }}
-- cloud or deployment target: {{ cloud_target }}
+- frontend: <frontend choice>
+- backend domain core: <backend or domain language>
+- workflow runtime: <workflow runtime>
+- durable database: <database>
+- policy or authorization model: <policy or authorization model>
+- cloud or deployment target: <cloud or deployment target>
 - build command:
 - test command:
 - deploy command:
