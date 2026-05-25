@@ -1,88 +1,51 @@
 # Agentic Engineering Starter Pack
 
-This repository is a copyable documentation starter pack for software projects
-built with autonomous coding agents.
+This repository is a small documentation starter pack for software projects
+developed with autonomous coding agents.
 
-It is intentionally simple. There is no project generator, template engine, or
-single-file review artifact. The useful thing is the starter documentation under
-`starter/`.
+The useful thing is the documentation under `starter/`. Copy it into a project,
+make it local, and let it become the shared operating model for humans and
+coding agents working in that repository.
 
-## What This Provides
+## Core Idea
 
-The starter gives a new or existing project four durable surfaces:
+Coding agents work best when the repository gives them a small amount of stable
+context:
 
-- `AGENTS.md`: how coding agents should work in the repository.
-- `docs/product-intent.md`: what the product is trying to accomplish.
-- `docs/approach.md`: the current stack, architecture, operating model,
-  constraints, verification path, and delivery model.
-- `docs/records/`: durable rationale, dated decisions, caveats, tradeoffs, and
-  lessons future agents should inherit.
+- what the product is trying to become
+- how the project works today
+- how agents should interpret goals and make decisions
+- what durable decisions, caveats, and lessons future agents should inherit
 
-The core model is:
-
-```text
-AGENTS.md = agent behavior
-docs/product-intent.md = product north star
-docs/approach.md = current project truth
-docs/records/ = durable project memory
-```
-
-## Use In A Project
-
-Copy the starter files into a project:
-
-```bash
-cp -R starter/. /path/to/project/
-```
-
-Then edit the placeholders in:
+The starter keeps those ideas in four places:
 
 ```text
-AGENTS.md
-README.md
-docs/product-intent.md
-docs/approach.md
+AGENTS.md              agent operating guide
+docs/product-intent.md product north star
+docs/approach.md       current project approach
+docs/records/          durable project memory
 ```
 
-If the target project already has a `README.md`, merge the useful operating
-model section from `starter/README.md` instead of replacing the existing README.
+## How To Use It
 
-## Starter Layout
+Copy the contents of `starter/` into a new or existing project.
 
-```text
-starter/
-  AGENTS.md
-  README.md
-  docs/
-    README.md
-    approach.md
-    product-intent.md
-    records/
-      README.md
-```
+Then replace the placeholders with the project's real context. The docs should
+start simple and become more specific as the product, architecture, and working
+model become clearer.
 
-## How The Docs Work
+The copied docs are meant to be read and updated by coding agents as they work.
+They should help agents act with initiative while staying grounded in the
+project's actual goals, code, decisions, and constraints.
 
-Use `AGENTS.md` to define how coding agents interpret goals, make decisions,
-verify work, and report outcomes.
+## What To Keep
 
-Use `docs/product-intent.md` to keep the product goal visible. It should explain
-what the product should accomplish for users or developers. Coding agents should
-update it as they learn what the user wants.
-
-Use `docs/approach.md` to keep the current product and technical operating model
-accurate. This is where agents document the current stack, architecture,
-constraints, verification path, and delivery model.
-
-Use `docs/records/` when future agents need durable reasoning: why a choice was
-made, what caveat matters, what tradeoff was accepted, or what lesson should
-change future work.
-
-## Maintainer Notes
-
-Keep the pack small. Add guidance only when it helps coding agents make better
-project decisions across many repositories.
+Keep the starter small and general.
 
 Prefer improving the four core surfaces over adding new documentation
-categories. The goal is a starter that can be copied into a project and quickly
-made local.
+categories. Add more structure only when it helps future agents understand the
+project and make better decisions.
+
+The goal is not to create a process manual. The goal is to give each project
+enough shared context that coding agents can build, verify, document, and
+deliver work without relying on hidden chat history.
