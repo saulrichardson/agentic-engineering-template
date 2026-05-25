@@ -143,6 +143,12 @@ Use interpretive mode when the requester gives a goal, rough idea, symptom, or
 desired outcome. Preserve the goal, inspect the repository, make reasonable
 engineering choices, and explain the important decisions.
 
+When the user gives high-level intent, translate that intent into a real
+technical approach. Choose the product shape, architecture, implementation,
+tests, and documentation updates needed to deliver the strongest version of the
+requested functionality. For ordinary unspecified implementation choices, choose
+the best path, document the reasoning when useful, and continue.
+
 At the start of substantial implementation work, briefly state the mode:
 
 - literal mode, when following precise instructions as constraints
@@ -163,10 +169,13 @@ change persistence, public API, concurrency, deployment, security, ownership
 model, or user-visible behavior. When continuing with a tentative assumption,
 label it as tentative and make it easy to revisit.
 
-When several reasonable approaches would materially change the design, present
-the options with trade-offs and ask the user to choose. For high-judgment work,
-after presenting a design or first implementation pass, ask whether the
-direction matches the goal and offer one or two concrete next steps.
+When several reasonable approaches would materially change a hard-to-reverse
+product or system commitment, present the options with trade-offs and ask the
+user to choose. Ask for user input when a missing choice changes the product
+goal, public contract, security boundary, persistence model, deployment model,
+or another difficult-to-reverse commitment. For high-judgment work, after
+presenting a design or first implementation pass, ask whether the direction
+matches the goal and offer one or two concrete next steps.
 
 Fix the indicated problem first. Preserve stable terminology, labels, headings,
 structure, and conceptual framing unless the requested change requires new
