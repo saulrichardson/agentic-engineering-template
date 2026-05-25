@@ -64,7 +64,7 @@ append_file() {
 append_readme_before_mechanics() {
   {
     printf '\n\n---\n\n'
-    printf '## Pedagogical Overview\n\n'
+    printf '## Template Repository Overview\n\n'
     printf '_Source: `README.md`, before `## Template Mechanics`._\n\n'
     awk '
       /^## Template Mechanics$/ { exit }
@@ -86,9 +86,10 @@ append_readme_mechanics() {
 }
 
 {
-  printf '# Agentic Engineering Guide\n\n'
-  printf 'This is a single-file reader artifact assembled from the reusable agentic engineering template.\n\n'
-  printf 'It is meant to be passed to someone who needs one coherent artifact rather than a repository tree.\n\n'
+  printf '# Generated Project Agent View\n\n'
+  printf 'This is a single-file reference rendering of what an autonomous coding agent will see after this Copier template is applied to a new project.\n\n'
+  printf 'The generated project sections come first and follow the same orientation path used by generated `AGENTS.md`.\n\n'
+  printf 'Template maintainer context and Copier mechanics are placed at the end.\n\n'
   printf 'Generated from the current template repository contents.\n\n'
   printf 'Template repository: https://github.com/saulrichardson/agentic-engineering-template\n\n'
   printf 'Reference rendering notes:\n\n'
@@ -96,12 +97,11 @@ append_readme_mechanics() {
   printf '%s\n' '- Primary domain: Reusable agentic engineering guidance'
   printf '%s\n' '- Cloud target: Undecided'
   printf '%s\n' '- The generated project sections use reference values where project-specific answers are required.'
-  printf '%s\n' '- Technical setup and Copier mechanics are intentionally placed at the end.'
+  printf '%s\n' '- This file is a review artifact; generated projects receive the individual files shown below, not this combined file.'
 } > "$OUT_PATH"
 
-append_readme_before_mechanics
-
 append_file "Generated Project Operating Guide" "$GENERATED_DIR/AGENTS.md"
+append_file "Generated Project README" "$GENERATED_DIR/README.md"
 append_file "Generated Documentation Index" "$GENERATED_DIR/docs/README.md"
 append_file "Generated Project Profile" "$GENERATED_DIR/docs/project-profile.md"
 append_file "Generated Product Intent" "$GENERATED_DIR/docs/product-intent.md"
@@ -127,6 +127,8 @@ append_file "Feature Brief Template" "$GENERATED_DIR/docs/templates/feature-brie
 append_file "Agent Task Template" "$GENERATED_DIR/docs/templates/agent-task.md"
 append_file "Threat Model Template" "$GENERATED_DIR/docs/templates/threat-model.md"
 append_file "State Machine Template" "$GENERATED_DIR/docs/templates/state-machine.md"
+
+append_readme_before_mechanics
 append_file "Template Maintainer Guide" "$ROOT_DIR/AGENTS.md"
 
 append_readme_mechanics

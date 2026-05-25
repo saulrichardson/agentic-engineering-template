@@ -1,8 +1,10 @@
-# Agentic Engineering Guide
+# Generated Project Agent View
 
-This is a single-file reader artifact assembled from the reusable agentic engineering template.
+This is a single-file reference rendering of what an autonomous coding agent will see after this Copier template is applied to a new project.
 
-It is meant to be passed to someone who needs one coherent artifact rather than a repository tree.
+The generated project sections come first and follow the same orientation path used by generated `AGENTS.md`.
+
+Template maintainer context and Copier mechanics are placed at the end.
 
 Generated from the current template repository contents.
 
@@ -14,239 +16,7 @@ Reference rendering notes:
 - Primary domain: Reusable agentic engineering guidance
 - Cloud target: Undecided
 - The generated project sections use reference values where project-specific answers are required.
-- Technical setup and Copier mechanics are intentionally placed at the end.
-
-
----
-
-## Pedagogical Overview
-
-_Source: `README.md`, before `## Template Mechanics`._
-
-# Agentic Engineering Template
-
-This repository is a Copier template for starting software projects that will be
-planned, built, tested, documented, and shipped with autonomous coding agents.
-
-It provides documentation rather than application scaffold code. It gives each
-new project a local operating guide, project profile, product-intent space,
-engineering doctrine, architecture map, decision-record structure, and practical
-templates that help coding agents act with context and judgment.
-
-The purpose is high-agency engineering:
-
-```text
-Autonomous coding agents are collaborators with initiative.
-They inspect, decide, implement, test, document, and prepare delivery.
-Their work leaves evidence: clear intent, coherent changes, useful checks,
-deployment context, and decisions that future agents can understand.
-```
-
-The template is product-domain independent. It works for web apps, APIs,
-infrastructure, internal tools, databases, user interfaces, workflows, libraries,
-and services. Application-embedded agent guidance belongs in a separate
-documentation set; this template focuses on coding agents working in a
-repository.
-
-## Why This Exists
-
-Autonomous coding agents can move faster than the surrounding project context.
-The useful response is to make the project easier to understand and change.
-
-Good agentic projects give agents:
-
-- a clear product goal
-- an explicit local stack profile
-- visible domain concepts
-- a map from user intent to shipped behavior
-- lightweight decision records
-- practical verification expectations
-- deployment and operational context
-- room to choose the implementation path that best serves the goal
-
-The template favors momentum with evidence. Agents are free to make local
-engineering decisions, reshape code, add tests, improve docs, and prepare
-deployment when the repository context supports that work. Larger choices become
-durable through project-profile updates or ADRs so future agents inherit the
-reasoning.
-
-## Primary Audience
-
-The primary audience is autonomous coding agents and the humans collaborating
-with them.
-
-Coding agents write, modify, test, review, document, and deliver the codebase.
-They need principles that scale across domains while leaving space for local
-judgment. These docs are guiding principles for that judgment.
-
-## What This Template Teaches
-
-The generated documentation trains agents to work from outcome to evidence:
-
-```text
-goal
-  -> repository context
-  -> working theory
-  -> implementation choice
-  -> code and documentation change
-  -> tests or checks
-  -> delivery notes
-  -> durable decision record when useful
-```
-
-For product behavior, the project stays legible by keeping the path from intent
-to consequence visible:
-
-```text
-user intent
-  -> interface or entry point
-  -> domain model
-  -> policy or permission decision
-  -> state or data change
-  -> side effect when needed
-  -> observable result
-  -> deployment path
-```
-
-The point is a codebase that remains easy for future agents to extend because
-the important ideas have names, homes, tests, and
-operational context.
-
-## The Core Mental Model
-
-The generated project docs are organized around one mental model:
-
-```text
-software whose intent stays legible to autonomous coding agents
-```
-
-That means:
-
-- agents start from the goal and inspect the current repository
-- implementation choices serve the product and the existing codebase
-- important concepts appear in code, docs, tests, or ADRs
-- verification matches the actual risk and blast radius
-- deployment work is a first-class part of engineering
-- small tasks stay lightweight
-- durable decisions are recorded where future agents will find them
-- the project profile explains local stack and domain choices
-- product intent has a place to be messy before it becomes implementation
-
-The stack can change. The local reasoning should stay discoverable.
-
-## How A Project Should Use The Generated Docs
-
-Each generated project gets local, editable files. The project owns them.
-
-Generated projects should use the docs in this order:
-
-1. `AGENTS.md`
-2. `docs/project-profile.md`
-3. `docs/product-intent.md`
-4. `docs/engineering/agent-execution-protocol.md`
-5. `docs/engineering/definition-of-done.md`
-6. `docs/engineering/doctrine.md`
-7. `docs/architecture/system-map.md`
-8. `docs/architecture/stack-profile.md`
-9. Relevant contracts in `docs/contracts/`
-10. Relevant threat model in `docs/security/`
-11. Relevant ADRs in `docs/adr/`
-12. Relevant templates in `docs/templates/`
-
-`AGENTS.md` is the root operating guide for future coding agents.
-`docs/project-profile.md` records local facts, stack choices, decision latitude,
-constraints, users, external systems, and open questions.
-`docs/product-intent.md` is a freeform working area for goals, workflows,
-examples, questions, and rough product thinking.
-`docs/architecture/stack-profile.md` records preferred implementation tools and
-the substitution logic agents use when another tool better serves the task.
-ADRs record decisions that future agents might otherwise question or undo.
-
-## What Gets Generated
-
-A generated project receives this documentation set:
-
-```text
-AGENTS.md
-README.md
-.copier-answers.yml
-.gitignore
-docs/
-  README.md
-  project-profile.md
-  product-intent.md
-  engineering/
-    agent-execution-protocol.md
-    definition-of-done.md
-    doctrine.md
-    feature-development.md
-    deployment-readiness.md
-    formal-methods.md
-  architecture/
-    system-map.md
-    stack-profile.md
-  contracts/
-    README.md
-    state-machines.md
-    tool-registry.md
-    workflow-events.md
-    policy-inputs.md
-    telemetry-events.md
-  security/
-    threat-model.md
-  adr/
-    README.md
-    0001-adopt-agentic-engineering-doctrine.md
-  templates/
-    adr.md
-    feature-brief.md
-    agent-task.md
-    threat-model.md
-    state-machine.md
-scripts/
-  doctor.sh
-```
-
-The generated docs are starting material. Projects adapt them locally as the
-product becomes real.
-
-## Why Copier
-
-Copier gives the right ownership model:
-
-- generated projects get real local files
-- each project answers its own stack and domain questions
-- `.copier-answers.yml` records the template source, version, and answers
-- future template improvements can be pulled with `copier update`
-- local project decisions appear in normal Git diffs
-
-In short:
-
-```text
-template repo = reusable guidance source
-generated project = local truth
-```
-
-## How To Evolve The Doctrine
-
-Changes to this template should improve broadly reusable guidance for coding
-agents.
-
-Strong template changes include:
-
-- clearer first-principles explanations
-- better project-profile prompts
-- better feature planning questions
-- better ADR prompts
-- sharper agent execution guidance
-- more useful verification and deployment walkthroughs
-- simpler generated project structure
-- improved Copier validation
-
-Project-specific business terminology, stack commitments, and implementation
-details belong in generated projects. Promote a local decision back into this
-template when it has clear value across many repositories.
-
+- This file is a review artifact; generated projects receive the individual files shown below, not this combined file.
 
 
 ---
@@ -498,6 +268,153 @@ For completed work, report:
 - residual risk when it helps the next reviewer
 
 Keep the response concise and specific.
+
+
+---
+
+## Generated Project README
+
+_Source: `generated-project/README.md`_
+
+# Reference Project
+
+Reference rendering of the reusable agentic engineering guidance.
+
+Domain: Reusable agentic engineering guidance
+
+This repository follows the reusable agentic engineering guidance generated by
+the `agentic-engineering-template` Copier template. The generated docs are now
+owned by this project and should evolve with the product.
+
+## What Exists Now
+
+- `AGENTS.md`: root operating guide for autonomous coding agents
+- `docs/project-profile.md`: local stack, constraints, decision latitude, and
+  project facts
+- `docs/product-intent.md`: freeform product narrative, workflow ideas,
+  examples, open questions, and notes
+- `docs/architecture/system-map.md`: path from goal to implementation and from
+  user intent to product behavior
+- `docs/architecture/stack-profile.md`: selected tools and substitution logic
+- `docs/engineering/agent-execution-protocol.md`: practical agent work loop
+- `docs/engineering/definition-of-done.md`: completion criteria by risk and
+  delivery stage
+- `docs/engineering/doctrine.md`: general agentic engineering doctrine
+- `docs/engineering/feature-development.md`: feature development walkthrough
+- `docs/engineering/deployment-readiness.md`: deployment readiness guide
+- `docs/engineering/formal-methods.md`: advanced verification guidance for
+  critical invariants
+- `docs/contracts/`: shared state, workflow, policy, integration, and telemetry
+  contracts
+- `docs/security/threat-model.md`: security and abuse-risk working document
+- `docs/adr/`: architecture decision records
+- `docs/templates/`: reusable planning templates
+- `scripts/doctor.sh`: local documentation/template health check
+
+## How To Work In This Repository
+
+Start each meaningful slice by clarifying:
+
+1. The user, task, or system goal the work should serve
+2. The current code and docs that already express the idea
+3. The product behavior or developer workflow that should change
+4. The data, state, policy, side effects, or deployment path involved
+5. The tests, checks, examples, or operational signals that prove the result
+6. The decision record future agents should inherit, when the choice matters
+
+Then build the smallest coherent version that moves the project forward. Add
+structure when a real boundary appears. Keep simple work simple.
+
+## Current Stack Profile
+
+- frontend: Project choice
+- backend domain core: Project choice
+- workflow runtime: Project choice
+- durable database: Project choice
+- policy engine: Project choice
+- cloud target: Undecided
+
+These are starting choices. Record meaningful deviations in
+`docs/project-profile.md` or a new ADR under `docs/adr/`.
+
+## Agentic Delivery Model
+
+Agents in this repository are expected to act with initiative:
+
+- inspect the relevant code before changing it
+- choose implementation paths that fit the project
+- refactor nearby code when it improves the result
+- add tests and scripts that make the behavior easier to trust
+- update docs when the change creates reusable knowledge
+- prepare deployment notes when the work reaches operations
+
+The project values working software plus evidence. Evidence can be a test run,
+manual check, screenshot, migration dry run, build output, trace, log, small ADR,
+or direct explanation grounded in the repository.
+
+## Suggested Implementation Layout
+
+When application code is introduced, prefer a structure that makes ownership
+easy to see:
+
+```text
+apps/
+  frontend/
+services/
+  api/
+  workers/
+domain/
+workflows/
+policy/
+migrations/
+infra/
+tools/
+docs/
+```
+
+Adjust names and layers to match the actual product. The useful separation is:
+
+- user-facing interface
+- backend or service entry points
+- domain behavior
+- persistence and migrations
+- background or workflow execution
+- policy and permissions
+- infrastructure and deployment
+- operational tooling
+- reusable documentation
+
+## Template Updates
+
+This project was generated with Copier. To check local documentation health:
+
+```bash
+scripts/doctor.sh
+```
+
+To pull future template improvements:
+
+```bash
+copier check-update
+copier update
+```
+
+If the template source later moves to GitHub, update `_src_path` in
+`.copier-answers.yml` before running `copier update`.
+
+## Next Practical Step
+
+The first useful product slice often looks like:
+
+```text
+user intent -> interface -> application command -> domain behavior -> durable result -> visible feedback
+```
+
+For a developer tool, the same idea becomes:
+
+```text
+developer goal -> command or script -> project state change -> verification output -> documented usage
+```
 
 
 ---
@@ -2563,6 +2480,238 @@ _Source: `generated-project/docs/templates/state-machine.md`_
 ## Open Questions
 
 - <question>
+
+
+---
+
+## Template Repository Overview
+
+_Source: `README.md`, before `## Template Mechanics`._
+
+# Agentic Engineering Template
+
+This repository is a Copier template for starting software projects that will be
+planned, built, tested, documented, and shipped with autonomous coding agents.
+
+It provides documentation rather than application scaffold code. It gives each
+new project a local operating guide, project profile, product-intent space,
+engineering doctrine, architecture map, decision-record structure, and practical
+templates that help coding agents act with context and judgment.
+
+The purpose is high-agency engineering:
+
+```text
+Autonomous coding agents are collaborators with initiative.
+They inspect, decide, implement, test, document, and prepare delivery.
+Their work leaves evidence: clear intent, coherent changes, useful checks,
+deployment context, and decisions that future agents can understand.
+```
+
+The template is product-domain independent. It works for web apps, APIs,
+infrastructure, internal tools, databases, user interfaces, workflows, libraries,
+and services. Application-embedded agent guidance belongs in a separate
+documentation set; this template focuses on coding agents working in a
+repository.
+
+## Why This Exists
+
+Autonomous coding agents can move faster than the surrounding project context.
+The useful response is to make the project easier to understand and change.
+
+Good agentic projects give agents:
+
+- a clear product goal
+- an explicit local stack profile
+- visible domain concepts
+- a map from user intent to shipped behavior
+- lightweight decision records
+- practical verification expectations
+- deployment and operational context
+- room to choose the implementation path that best serves the goal
+
+The template favors momentum with evidence. Agents are free to make local
+engineering decisions, reshape code, add tests, improve docs, and prepare
+deployment when the repository context supports that work. Larger choices become
+durable through project-profile updates or ADRs so future agents inherit the
+reasoning.
+
+## Primary Audience
+
+The primary audience is autonomous coding agents and the humans collaborating
+with them.
+
+Coding agents write, modify, test, review, document, and deliver the codebase.
+They need principles that scale across domains while leaving space for local
+judgment. These docs are guiding principles for that judgment.
+
+## What This Template Teaches
+
+The generated documentation trains agents to work from outcome to evidence:
+
+```text
+goal
+  -> repository context
+  -> working theory
+  -> implementation choice
+  -> code and documentation change
+  -> tests or checks
+  -> delivery notes
+  -> durable decision record when useful
+```
+
+For product behavior, the project stays legible by keeping the path from intent
+to consequence visible:
+
+```text
+user intent
+  -> interface or entry point
+  -> domain model
+  -> policy or permission decision
+  -> state or data change
+  -> side effect when needed
+  -> observable result
+  -> deployment path
+```
+
+The point is a codebase that remains easy for future agents to extend because
+the important ideas have names, homes, tests, and
+operational context.
+
+## The Core Mental Model
+
+The generated project docs are organized around one mental model:
+
+```text
+software whose intent stays legible to autonomous coding agents
+```
+
+That means:
+
+- agents start from the goal and inspect the current repository
+- implementation choices serve the product and the existing codebase
+- important concepts appear in code, docs, tests, or ADRs
+- verification matches the actual risk and blast radius
+- deployment work is a first-class part of engineering
+- small tasks stay lightweight
+- durable decisions are recorded where future agents will find them
+- the project profile explains local stack and domain choices
+- product intent has a place to be messy before it becomes implementation
+
+The stack can change. The local reasoning should stay discoverable.
+
+## How A Project Should Use The Generated Docs
+
+Each generated project gets local, editable files. The project owns them.
+
+Generated projects should use the docs in this order:
+
+1. `AGENTS.md`
+2. `docs/project-profile.md`
+3. `docs/product-intent.md`
+4. `docs/engineering/agent-execution-protocol.md`
+5. `docs/engineering/definition-of-done.md`
+6. `docs/engineering/doctrine.md`
+7. `docs/architecture/system-map.md`
+8. `docs/architecture/stack-profile.md`
+9. Relevant contracts in `docs/contracts/`
+10. Relevant threat model in `docs/security/`
+11. Relevant ADRs in `docs/adr/`
+12. Relevant templates in `docs/templates/`
+
+`AGENTS.md` is the root operating guide for future coding agents.
+`docs/project-profile.md` records local facts, stack choices, decision latitude,
+constraints, users, external systems, and open questions.
+`docs/product-intent.md` is a freeform working area for goals, workflows,
+examples, questions, and rough product thinking.
+`docs/architecture/stack-profile.md` records preferred implementation tools and
+the substitution logic agents use when another tool better serves the task.
+ADRs record decisions that future agents might otherwise question or undo.
+
+## What Gets Generated
+
+A generated project receives this documentation set:
+
+```text
+AGENTS.md
+README.md
+.copier-answers.yml
+.gitignore
+docs/
+  README.md
+  project-profile.md
+  product-intent.md
+  engineering/
+    agent-execution-protocol.md
+    definition-of-done.md
+    doctrine.md
+    feature-development.md
+    deployment-readiness.md
+    formal-methods.md
+  architecture/
+    system-map.md
+    stack-profile.md
+  contracts/
+    README.md
+    state-machines.md
+    tool-registry.md
+    workflow-events.md
+    policy-inputs.md
+    telemetry-events.md
+  security/
+    threat-model.md
+  adr/
+    README.md
+    0001-adopt-agentic-engineering-doctrine.md
+  templates/
+    adr.md
+    feature-brief.md
+    agent-task.md
+    threat-model.md
+    state-machine.md
+scripts/
+  doctor.sh
+```
+
+The generated docs are starting material. Projects adapt them locally as the
+product becomes real.
+
+## Why Copier
+
+Copier gives the right ownership model:
+
+- generated projects get real local files
+- each project answers its own stack and domain questions
+- `.copier-answers.yml` records the template source, version, and answers
+- future template improvements can be pulled with `copier update`
+- local project decisions appear in normal Git diffs
+
+In short:
+
+```text
+template repo = reusable guidance source
+generated project = local truth
+```
+
+## How To Evolve The Doctrine
+
+Changes to this template should improve broadly reusable guidance for coding
+agents.
+
+Strong template changes include:
+
+- clearer first-principles explanations
+- better project-profile prompts
+- better feature planning questions
+- better ADR prompts
+- sharper agent execution guidance
+- more useful verification and deployment walkthroughs
+- simpler generated project structure
+- improved Copier validation
+
+Project-specific business terminology, stack commitments, and implementation
+details belong in generated projects. Promote a local decision back into this
+template when it has clear value across many repositories.
+
 
 
 ---
