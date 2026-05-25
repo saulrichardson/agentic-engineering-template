@@ -117,6 +117,8 @@ Do not add branching logic, feature flags, or defensive compatibility paths unle
 
 For non-trivial work, summarize the goal and important assumptions before committing to a design or implementation. Keep the summary brief and grounded in the user's request.
 
+Prefer instructions that name the desired action directly. Start with the behavior agents should perform, the decision rule they should apply, or the default path they should take. Add exceptions only when they materially change that path or protect an important constraint. A good guide makes the next constructive step obvious.
+
 Preserve existing terminology, labels, headings, structure, and conceptual framing unless the user asks to change them or they are the problem being solved. Treat the user's transformation language as instruction, not candidate artifact text, unless the user explicitly wants that wording used.
 
 Fix the indicated problem before adjacent problems. Do not introduce unrelated structural, naming, tonal, or conceptual changes unless they are required to resolve the stated issue. If an adjacent change is necessary, say so before making it.
