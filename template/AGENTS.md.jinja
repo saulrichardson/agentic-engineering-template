@@ -66,10 +66,9 @@ Use this map when you need a specific kind of guidance:
   for autonomous coding-agent work.
 - `docs/engineering/feature-development.md`: feature-planning walkthrough from
   intent through data, behavior, verification, and rollout.
-- `docs/engineering/deployment-readiness.md`: deployment readiness checklist for
-  environments, data, secrets, observability, rollback, and operation.
-- `docs/architecture/system-map.md`: coding-agent delivery path, product
-  behavior path, layer responsibilities, common objects, and design signals.
+- `docs/architecture/system-map.md`: placement guide for deciding where product
+  behavior, tooling, data, side effects, observability, and deployment work
+  belong.
 - `docs/architecture/stack-profile.md`: selected implementation tools,
   substitution rules, and when to add a new layer.
 - `docs/contracts/README.md`: index for durable system contracts that other
@@ -211,6 +210,9 @@ Treat deployment as part of engineering.
 
 When a task reaches delivery territory, identify:
 
+- what is being released
+- which users, services, workflows, or developer commands are affected
+- which environment receives it first
 - build command
 - test command
 - migration or data step

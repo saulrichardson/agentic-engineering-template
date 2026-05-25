@@ -91,10 +91,9 @@ Use this map when you need a specific kind of guidance:
   for autonomous coding-agent work.
 - `docs/engineering/feature-development.md`: feature-planning walkthrough from
   intent through data, behavior, verification, and rollout.
-- `docs/engineering/deployment-readiness.md`: deployment readiness checklist for
-  environments, data, secrets, observability, rollback, and operation.
-- `docs/architecture/system-map.md`: coding-agent delivery path, product
-  behavior path, layer responsibilities, common objects, and design signals.
+- `docs/architecture/system-map.md`: placement guide for deciding where product
+  behavior, tooling, data, side effects, observability, and deployment work
+  belong.
 - `docs/architecture/stack-profile.md`: selected implementation tools,
   substitution rules, and when to add a new layer.
 - `docs/contracts/README.md`: index for durable system contracts that other
@@ -236,6 +235,9 @@ Treat deployment as part of engineering.
 
 When a task reaches delivery territory, identify:
 
+- what is being released
+- which users, services, workflows, or developer commands are affected
+- which environment receives it first
 - build command
 - test command
 - migration or data step
@@ -309,7 +311,6 @@ owned by this project and should evolve with the product.
   delivery stage
 - `docs/engineering/doctrine.md`: general agentic engineering doctrine
 - `docs/engineering/feature-development.md`: feature development walkthrough
-- `docs/engineering/deployment-readiness.md`: deployment readiness guide
 - `docs/contracts/`: shared state, workflow, policy, integration, and telemetry
   contracts
 - `docs/security/threat-model.md`: security and abuse-risk working document
@@ -1506,102 +1507,6 @@ Choose checks that prove the feature:
 - build and deploy checks for release readiness
 
 Then update docs or ADRs where future agents need the decision.
-
-
----
-
-## Deployment Readiness
-
-_Source: `generated-project/docs/engineering/deployment-readiness.md`_
-
-# Deployment Readiness
-
-Deployment is part of engineering. Use this guide when a change affects release,
-runtime configuration, infrastructure, data, background work, or operations.
-
-## Release Shape
-
-Describe:
-
-- what is being released
-- which users, services, or workflows are affected
-- which environment receives it first
-- how success will be observed
-- how the team returns to a stable state if needed
-
-## Build And Test
-
-Record the commands:
-
-- install dependencies:
-- format or lint:
-- type check:
-- unit tests:
-- integration tests:
-- build:
-- smoke test:
-
-Run the commands available in the local environment and capture blockers for the
-remaining ones.
-
-## Configuration And Secrets
-
-List:
-
-- required environment variables
-- secret names and owners
-- config files
-- feature flags
-- service accounts
-- external endpoints
-
-Confirm that local, staging, and production expectations are visible to future
-agents.
-
-## Data And Migrations
-
-For data changes, record:
-
-- migration command
-- expected data volume
-- backfill or cleanup step
-- migration or contract expectation
-- rollback or mitigation path
-- verification query or check
-
-## Infrastructure
-
-For infrastructure changes, record:
-
-- provider or platform
-- plan/diff command
-- apply/deploy command
-- state storage
-- permissions needed
-- rollback or replacement path
-- owner for follow-up operations
-
-## Observability
-
-Before release, identify:
-
-- logs to inspect
-- metrics to watch
-- traces or audit events to query
-- health check or smoke test
-- alert that should fire on failure
-
-## Handoff
-
-A deployment-facing final report should include:
-
-- what changed
-- what was verified
-- what command deploys it
-- what config or secrets are required
-- what migration or data step exists
-- what smoke check confirms success
-- what rollback or mitigation path exists
 
 
 ---

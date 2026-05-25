@@ -155,7 +155,6 @@ docs/
     definition-of-done.md
     doctrine.md
     feature-development.md
-    deployment-readiness.md
   architecture/
     system-map.md
     stack-profile.md
