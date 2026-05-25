@@ -1,45 +1,34 @@
 # System Map
 
-This map describes how work moves from goal to shipped behavior. It covers
-development-time work done by autonomous coding agents and ordinary runtime
-behavior inside the product.
+Use this file to decide where a change belongs.
 
-## Coding-Agent Delivery Path
+## The Question
 
-Coding-agent work should follow this path:
+Before editing, ask:
 
 ```text
-goal
-  -> repository context
-  -> working theory
-  -> implementation choice
-  -> code and documentation change
-  -> tests or checks
-  -> delivery notes
-  -> ADR or profile update when useful
+Where should this behavior live so the next agent can find it?
 ```
 
-This path keeps autonomous work tied to outcome and evidence. The exact amount
-of process scales with blast radius.
+The answer should guide the files you change, the tests you run, and the docs or
+deployment notes you leave behind.
 
-## Product Behavior Path
+## Product Path
 
-Every meaningful feature should be understood across the product path:
+For product behavior:
 
 ```text
 user intent
-  -> interface or entry point
-  -> application command
+  -> interface
+  -> entry point
   -> domain behavior
-  -> policy or permission decision
-  -> durable data
-  -> workflow or background work when useful
-  -> external side effect when useful
+  -> data/state
+  -> side effects
   -> observable result
-  -> deployment path
+  -> deployment
 ```
 
-Developer tooling follows the same pattern:
+For developer tooling:
 
 ```text
 developer goal
@@ -49,82 +38,27 @@ developer goal
   -> documented usage
 ```
 
-## Common Project Objects
+## Placement Guide
 
-Serious systems often benefit from first-class objects like:
-
-- `UserIntent`
-- `Command`
-- `DomainEvent`
-- `StateTransition`
-- `PolicyDecision`
-- `WorkflowRun`
-- `SideEffect`
-- `AuditEvent`
-- `IdempotencyKey`
-- `Deployment`
-- `HealthCheck`
-
-These names are examples. The principle is that meaningful concepts should be
-visible in code and data.
-
-## Layer Responsibilities
-
-### Interface
-
-The interface captures user or developer intent and represents system state. It
-guides the actor and translates actions into commands.
-
-### Entry Point
-
-An entry point can be an API handler, CLI command, job, webhook, worker, or UI
-action. It parses input, authenticates when needed, and calls the application or
-domain layer.
-
-### Domain Model
-
-The domain model defines the meaningful facts, objects, rules, and transitions.
-Important product rules should have a stable home here.
-
-### Policy
-
-Policy answers what an actor, service, workflow, or tool may do. It should be
-explicit enough to test and operate.
-
-### State And Persistence
-
-Important lifecycle changes should pass through clear transition logic. The
-database or durable store records facts the product relies on and enforces
-constraints where practical.
-
-### Workflow
-
-Workflows coordinate long-running, retryable, externally dependent, or
-human-coordinated work. They make waiting, retries, compensation, and final
-state visible.
-
-### Side Effects
-
-Side effects mutate the world outside the current process: external API calls,
-email, file writes, payments, command execution, cloud mutations, queue
-publishes, or notifications. Keep important side effects visible in the code,
-tests, workflow history, and telemetry that operate them.
-
-### Observability
-
-Telemetry reconstructs behavior across tasks, requests, workflows, policy
-decisions, side effects, database changes, deployments, tests, and audit events.
+- Interface: display, interaction, accessibility, client state, local feedback
+- Entry point: request parsing, CLI args, webhook intake, job trigger, routing
+- Domain: product rules, state changes, calculations, core decisions
+- Persistence: durable facts, migrations, constraints, data ownership
+- Workflow: background work, retries, scheduling, coordination, compensation
+- Policy: permissions, ownership, tenant boundaries, approvals
+- Side effects: external APIs, files, queues, notifications, cloud changes
+- Observability: logs, metrics, traces, audit events, health checks
+- Deployment: config, secrets, build, rollout, rollback, smoke checks
+- Documentation: project facts, feature intent, decisions, operating notes
 
 ## Redesign Signals
 
 Use these signals to consider a clearer design:
 
-- a coding agent needs unrelated files to understand one behavior
-- the same rule appears in several layers
-- lifecycle status changes from many places
-- side effects happen with unclear retry or failure behavior
-- authorization logic differs by entry point
-- migrations change ownership or invariants with missing durable explanation
-- workflow state is hard to resume or explain after failure
-- production behavior is difficult to reconstruct from records and telemetry
+- a rule appears in several places
+- behavior is hard to test without unrelated setup
+- data changes happen without a clear owner
+- side effects have unclear retry or failure behavior
+- errors are swallowed or only visible in logs
 - deployment steps live only in memory or chat history
+- a future agent would need chat history to understand the change
