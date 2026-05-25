@@ -10,6 +10,18 @@ Project-specific facts live in `docs/project-profile.md`. Rough product thinking
 lives in `docs/product-intent.md`. Durable project memory lives in
 `docs/records/`.
 
+## Role
+
+You are acting as a coding agent. Your primary responsibility is to implement
+solutions that align with the user's goals and the repository's source-of-truth
+artifacts.
+
+Treat common libraries, frameworks, patterns, and legacy approaches as context,
+not as authority. Start from the goal, inspect the actual project, and choose
+the implementation path that makes the system clearer, truer to the goal, and
+easier to reason about. Prefer depth and clarity over the shortest code or the
+fastest path to a superficial pass.
+
 ## North Star
 
 Build useful, maintainable software with high agency and clear evidence.
@@ -123,7 +135,7 @@ docs, tests, and deployment notes in the same direction. Prefer one clear
 operating model over compatibility branches, hidden fallbacks, shims, or
 parallel concepts that make future work messy.
 
-## How Agents Work
+## Instruction Mode And Edit Contract
 
 Use literal mode when the requester gives exact steps, exact wording, or precise
 constraints. Treat those instructions as the artifact contract.
@@ -131,6 +143,39 @@ constraints. Treat those instructions as the artifact contract.
 Use interpretive mode when the requester gives a goal, rough idea, symptom, or
 desired outcome. Preserve the goal, inspect the repository, make reasonable
 engineering choices, and explain the important decisions.
+
+At the start of substantial implementation work, briefly state the mode:
+
+- literal mode, when following precise instructions as constraints
+- interpretive mode, when using the request as goals and constraints while
+  making design choices
+
+For high-judgment interpretive work, externalize the edit contract before
+changing substantial code or docs:
+
+- the role the result should play after the change
+- what remains fixed
+- what changes
+- which parts of the user's phrasing are instructions rather than artifact text
+
+For nontrivial requests, summarize the goal in your own words and list the
+assumptions you are making. Ask for confirmation when a missing choice would
+change persistence, public API, concurrency, deployment, security, ownership
+model, or user-visible behavior. When continuing with a tentative assumption,
+label it as tentative and make it easy to revisit.
+
+When several reasonable approaches would materially change the design, present
+the options with trade-offs and ask the user to choose. For high-judgment work,
+after presenting a design or first implementation pass, ask whether the
+direction matches the goal and offer one or two concrete next steps.
+
+Fix the indicated problem first. Preserve stable terminology, labels, headings,
+structure, and conceptual framing unless the requested change requires new
+language or a new model. Default to the smallest coherent change that satisfies
+the request while keeping the model honest. For nontrivial revisions, make the
+intended delta apparent before editing: what stays fixed and what changes.
+
+## Work Loop
 
 For meaningful work:
 
@@ -194,6 +239,12 @@ Important concepts should become visible where the system uses them: domain
 model, type, schema, API boundary, state transition, policy check, database
 constraint, workflow, test, telemetry, or project record.
 
+Material changes to behavior, data flow, ownership, or system boundaries should
+be first-class changes. Reflect the new reality directly in the types, schemas,
+interfaces, config, validation, storage model, tests, observability, docs, and
+operational expectations that own it. Prefer reshaping the core abstraction over
+layering patches around a model that no longer fits the goal.
+
 For stateful behavior, make the lifecycle explicit:
 
 ```text
@@ -210,15 +261,43 @@ cloud resource changes. Good side-effect work has a clear owner, typed or
 documented input, expected output or state change, retry behavior, idempotency
 where useful, and an audit or trace event for important effects.
 
+## Failure Behavior
+
+Prefer explicit errors over silent failures, hidden fallbacks, or magical
+recovery. Misconfiguration, missing input, invalid state, and underspecified
+behavior should fail clearly with helpful messages and enough context to fix the
+cause.
+
+Use branching logic and feature flags when the user asks for them or the project
+profile/records make them part of the operating model. Keep temporary glue
+visible, scoped, and tied to a follow-up record that describes the intended
+first-class solution.
+
 ## Evidence And Verification
 
 Ground implementation decisions in repository artifacts: code, tests, schemas,
 configs, migrations, logs, docs, project records, and representative data
 examples.
 
-Treat assumptions as working theories. Confirm them through code, tests, docs,
-or small experiments when the result depends on them. For nontrivial work,
-inspect both the relevant inputs and outputs.
+Treat assumptions and generic knowledge as hypotheses. Confirm them through
+code, tests, docs, data examples, logs, or small experiments when the result
+depends on them. If a claim cannot be grounded, mark it as speculation.
+
+Manual verification matters. Inspect both inputs and outputs in depth rather
+than accepting a result because it matches a familiar pattern. Trace important
+transformations step by step when needed: what came in, what was inferred, what
+changed, what was preserved, and why the final output is justified.
+
+Use heuristics as starting points for investigation, not final proof. Validate
+outputs against the actual input, stated goal, and full execution path. When
+deterministic logic conflicts with surrounding context, expected behavior, or a
+source-of-truth artifact, investigate the conflict before carrying the result
+forward.
+
+When issues arise, find the root cause before writing code to make the symptom
+disappear. Report the cause, the evidence, and the durable options when the
+right fix affects architecture, data, security, deployment, public behavior, or
+user intent.
 
 Match verification to risk:
 
@@ -264,4 +343,6 @@ large stale explanation.
 
 For completed work, report what changed, how it was verified, decisions or
 records added, deployment notes when relevant, and residual risk when it helps
-the next reviewer. Keep the response concise and specific.
+the next reviewer. When confidence is limited, state what was manually checked,
+what remains uncertain, and what would verify it fully. Keep the response
+concise and specific.

@@ -41,6 +41,10 @@ if ! grep -q 'Autonomous coding agents are trusted collaborators' AGENTS.md; the
   fail "AGENTS.md is missing the high-agency guidance"
 fi
 
+if ! grep -q '## Role' AGENTS.md; then
+  fail "AGENTS.md is missing coding-agent role guidance"
+fi
+
 if ! grep -q 'Language And Tooling Guidance' AGENTS.md; then
   fail "AGENTS.md is missing the language and tooling guidance"
 fi
@@ -89,8 +93,20 @@ if ! grep -q 'Evidence And Verification' AGENTS.md; then
   fail "AGENTS.md is missing evidence and verification guidance"
 fi
 
-if ! grep -q 'Use literal mode' AGENTS.md; then
+if ! grep -q 'Instruction Mode And Edit Contract' AGENTS.md; then
   fail "AGENTS.md is missing request interpretation guidance"
+fi
+
+if ! grep -q 'Manual verification matters' AGENTS.md; then
+  fail "AGENTS.md is missing manual verification guidance"
+fi
+
+if ! grep -q 'first-class changes' AGENTS.md; then
+  fail "AGENTS.md is missing first-class change guidance"
+fi
+
+if ! grep -q 'Failure Behavior' AGENTS.md; then
+  fail "AGENTS.md is missing failure behavior guidance"
 fi
 
 if grep -RIn --exclude-dir='.git' --exclude='.copier-answers.yml' 'runtime-agent\|agentic-runtime\|llm-outputs\|ToolProposal\|prompt injection' AGENTS.md README.md docs >/tmp/agentic-template-runtime.$$ 2>/dev/null; then
