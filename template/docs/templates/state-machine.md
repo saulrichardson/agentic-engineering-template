@@ -1,49 +1,40 @@
 # State Machine: <name>
 
-- status: draft
+## Entity
+
+- entity:
 - owner:
-- date: YYYY-MM-DD
-
-## Purpose
-
-What lifecycle does this state machine protect?
 
 ## States
 
-- `created`
+- <state>
 
 ## Events
 
-- `EventName`
+- <event>
 
 ## Transitions
 
-| From | Event | Guard | To | Audit event |
-| --- | --- | --- | --- | --- |
-|  |  |  |  |  |
-
-## Invalid Transitions
-
-- <invalid transition>
+| Current state | Event | Guard or facts | Next state | Side effects | Tests |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
 
 ## Terminal States
 
-- <terminal state>
+- <state>
 
-## Retry, Cancellation, And Compensation
+## Persistence
 
-- retry behavior:
-- cancellation behavior:
-- compensation behavior:
+- table or store:
+- state column or representation:
+- constraints:
 
-## Invariants
+## Observability
 
-- <invariant that must always hold>
+- audit event:
+- log or trace:
+- metric:
 
-## Tests
+## Open Questions
 
-- valid transition:
-- invalid transition:
-- terminal state:
-- duplicate event:
-- concurrency/idempotency:
+- <question>

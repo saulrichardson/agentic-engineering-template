@@ -1,34 +1,44 @@
 # Policy Input Contracts
 
-Policy must be explicit and testable outside prompt text. This file records the
-inputs policy decisions rely on.
+Use this file for permission and authority decisions that matter across the
+system.
+
+Policy can live in application code, a policy module, a rules engine, database
+constraints, or a service boundary. The important part is that inputs and
+decisions are visible and testable.
 
 ## Authority Dimensions
 
-- authenticated actor
-- tenant or organization scope
-- user role or membership
-- coding-agent or runtime-agent delegation scope
-- workflow identity
-- tool capability
-- resource ownership
-- data sensitivity
-- approval state
+Record the dimensions this project uses:
+
+- actor identity
+- role or membership
+- tenant or ownership boundary
+- resource classification
+- action
 - environment
+- feature flag or rollout state
+- approval or coordination state
 
-## Policy Decision Registry
+## Policy Registry
 
-| Decision | Input fields | Allowed result | Denied result | Audit event |
+| Decision | Inputs | Allow result | Deny result | Audit event |
 | --- | --- | --- | --- | --- |
-| `can_start_agent_run` | actor, tenant, intent type | allow | deny | `policy_agent_run_checked` |
-| `can_retrieve_document` | actor, tenant, document labels, task scope | allow | deny | `policy_retrieval_checked` |
-| `can_execute_capability` | actor, workflow, capability, approval state | allow | deny | `policy_capability_execution_checked` |
+| `can_invite_team_member` | actor, team, target email, role | invitation command allowed | denied with reason | `team_invite_policy_checked` |
+| `can_export_report` | actor, tenant, report type, data class | export allowed | denied with reason | `report_export_policy_checked` |
 
-## Rules
+## Core Fields
 
-- default deny where practical
-- frontend visibility is not authorization
-- autonomous-agent or LLM output is not a policy input unless explicitly modeled
-  as untrusted data
-- policy decisions should be logged without leaking secrets
-- approval is separate from authorization
+For each policy decision, record:
+
+- decision name
+- inputs
+- allow result
+- deny result
+- audit or trace event
+- tests or examples
+
+## Guidance
+
+Permission decisions should be easy to call from every entry point that needs
+them. Tests should include representative allow and deny cases.

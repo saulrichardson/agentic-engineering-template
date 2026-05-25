@@ -1,16 +1,14 @@
-# ADR: <short decision title>
+# ADR <number>: <decision title>
 
-- status: proposed
+- status: proposed | accepted | superseded
 - date: YYYY-MM-DD
-- owners: <names or roles>
+- owner: <name or role>
 
 ## Context
 
-What problem are we solving? What constraints matter?
+What goal, constraint, risk, or opportunity created this decision?
 
-If this ADR adds a language, framework, runtime, package manager, database,
-queue, workflow engine, policy engine, or cloud service, name the exact boundary
-it owns and why the existing selected stack is insufficient.
+What facts from the repository matter?
 
 ## Decision
 
@@ -18,29 +16,12 @@ What are we choosing?
 
 ## Rationale
 
-Why does this decision preserve or improve the system boundaries?
-
-Consider:
-
-- typed boundaries
-- explicit authority
-- durable state
-- recoverable workflows
-- constrained side effects
-- observable execution
-- reproducible deployment
-
-## Alternatives Considered
-
-What else did we consider, and why did we not choose it?
+Why does this choice best serve the project now?
 
 ## Consequences
 
-What becomes easier? What becomes harder? What risks or follow-up work remain?
+- <benefit, cost, tradeoff, migration, or operational consequence>
 
-For toolchain decisions, include the package manager, CI checks, deployment
-path, maintenance owner, and rollback or removal story.
+## Follow-Up
 
-## Verification
-
-How will we know this decision is working?
+- <task or owner>

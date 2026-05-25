@@ -1,165 +1,132 @@
 # System Map
 
-This map describes how work moves from intent to durable consequence. It covers
-both development-time work done by autonomous coding agents and runtime behavior
-inside the application.
+This map describes how work moves from goal to shipped behavior. It covers
+development-time work done by autonomous coding agents and ordinary runtime
+behavior inside the product.
 
-## Coding-Agent Development Path
+## Coding-Agent Delivery Path
 
 Coding-agent work should follow this path:
 
 ```text
-task intent
+goal
   -> repository context
-  -> change classification
-  -> design boundary
-  -> implementation plan
-  -> code change
-  -> tests / verification
-  -> review evidence
-  -> documentation / ADR if needed
-  -> deployability check
+  -> working theory
+  -> implementation choice
+  -> code and documentation change
+  -> tests or checks
+  -> delivery notes
+  -> ADR or profile update when useful
 ```
 
-This path prevents agents from optimizing only for local code changes or passing
-tests. A change is not complete until its boundary, risk, verification, and
-review evidence are clear.
+This path keeps autonomous work tied to outcome and evidence. The exact amount
+of process scales with blast radius.
 
-## General Runtime Path
+## Product Behavior Path
 
-Every feature should be understood across the full stack:
+Every meaningful feature should be understood across the product path:
 
 ```text
 user intent
-  -> frontend state
-  -> API boundary
-  -> domain model
-  -> policy / authorization
-  -> state transition
-  -> durable persistence
-  -> workflow orchestration
-  -> external side effects
-  -> observability
-  -> deployment / infrastructure
+  -> interface or entry point
+  -> application command
+  -> domain behavior
+  -> policy or permission decision
+  -> durable data
+  -> workflow or background work when useful
+  -> external side effect when useful
+  -> observable result
+  -> deployment path
 ```
 
-No LLM is required for this path to matter. Ordinary profile updates, billing
-jobs, admin tools, reporting workflows, and infrastructure changes all need
-explicit boundaries.
-
-## Runtime-Agent Path
-
-When the product itself contains an LLM or runtime agent, use this specialized
-path:
+Developer tooling follows the same pattern:
 
 ```text
-user intent
-  -> typed intent object
-  -> runtime agent proposes plan
-  -> plan is parsed into typed command candidates
-  -> policy checks authority
-  -> state machine checks validity
-  -> approval is requested when required
-  -> workflow executes durable steps
-  -> database records state change
-  -> outbox or tool gateway performs side effects
-  -> telemetry records the full trace
+developer goal
+  -> command or script
+  -> project state change
+  -> verification output
+  -> documented usage
 ```
 
-The runtime agent proposes. Deterministic software decides and executes.
+## Common Project Objects
 
-## Common Domain Objects
-
-Serious systems often need first-class objects like:
+Serious systems often benefit from first-class objects like:
 
 - `UserIntent`
+- `Command`
+- `DomainEvent`
 - `StateTransition`
 - `PolicyDecision`
 - `WorkflowRun`
 - `SideEffect`
 - `AuditEvent`
 - `IdempotencyKey`
-- `ApprovalRequest`
+- `Deployment`
+- `HealthCheck`
 
-Runtime-agent systems may also need:
-
-- `AgentRun`
-- `AgentPlan`
-- `LLMCall`
-- `RetrievedContext`
-- `ToolProposal`
-- `ToolInvocation`
-- `ApprovalDecision`
-
-These names are examples, not mandatory types. The principle is that meaningful
-concepts should be visible in the code and data model.
+These names are examples. The principle is that meaningful concepts should be
+visible in code and data.
 
 ## Layer Responsibilities
 
-### Frontend
+### Interface
 
-The frontend captures user intent and represents system state. It may guide the
-user and prevent obvious mistakes, but it is not trusted for security,
-authorization, pricing, workflow validity, or final business decisions.
+The interface captures user or developer intent and represents system state. It
+guides the actor and translates actions into commands.
 
-### API Boundary
+### Entry Point
 
-The API boundary authenticates the actor, validates request shape, turns input
-into typed commands, and calls the application/domain layer. API handlers should
-be thin.
+An entry point can be an API handler, CLI command, job, webhook, worker, or UI
+action. It parses input, authenticates when needed, and calls the application or
+domain layer.
 
 ### Domain Model
 
 The domain model defines the meaningful facts, objects, rules, and transitions.
-Business rules should live here, not in prompts, UI conditionals, migrations, or
-route handlers.
+Important product rules should have a stable home here.
 
 ### Policy
 
-Policy answers what an actor, service, workflow, coding agent, runtime agent, or
-tool may do. It should be explicit, testable, and separate from prompt text.
+Policy answers what an actor, service, workflow, or tool may do. It should be
+explicit enough to test and operate.
 
-### State Transition
+### State And Persistence
 
-Important lifecycle changes should pass through transition functions or services
-that check guards, enforce invariants, and produce auditable events.
-
-### Persistence
-
-The database records durable truth and enforces durable invariants with
-constraints wherever practical.
+Important lifecycle changes should pass through clear transition logic. The
+database or durable store records facts the product relies on and enforces
+constraints where practical.
 
 ### Workflow
 
-Durable workflows coordinate long-running and retryable work. They should make
-waiting, retries, compensation, approval, and final state visible.
+Workflows coordinate long-running, retryable, externally dependent, or
+human-coordinated work. They make waiting, retries, compensation, and final
+state visible.
 
 ### Side-Effect Capability
 
-A side-effect capability is any controlled way to mutate the world: external
-API, email, file write, payment, command execution, cloud mutation, queue
-publish, or runtime-agent tool.
+A side-effect capability mutates the world outside the current process:
+external API, email, file write, payment, command execution, cloud mutation,
+queue publish, or notification.
 
-Side-effect capabilities should be narrow, typed, policy-checked, timed out,
-idempotent where possible, and auditable.
+Shared side-effect capabilities should have clear inputs, outputs, owner,
+timeout, idempotency behavior, and observability.
 
 ### Observability
 
-Telemetry reconstructs behavior across tasks, requests, workflows, model calls,
-policy decisions, side effects, database changes, tests, deployments, and audit
-events.
+Telemetry reconstructs behavior across tasks, requests, workflows, policy
+decisions, side effects, database changes, deployments, tests, and audit events.
 
-## Design Smells
+## Redesign Signals
 
-- a coding agent changes behavior without classifying risk
-- a generated change crosses a boundary without tests or review evidence
-- a route handler owns complex business rules
-- a lifecycle status is assigned from many places
-- a side effect happens before a durable event is recorded
-- authorization differs between frontend and backend
-- a database migration changes ownership or invariants without an ADR
-- a workflow cannot be resumed or explained after a crash
-- a runtime LLM can directly mutate state
-- a runtime tool accepts arbitrary SQL, shell, URL, or email content
-- retrieval can access data outside the user or tenant scope
-- production incidents cannot be reconstructed from durable records and traces
+Use these signals to consider a clearer design:
+
+- a coding agent needs unrelated files to understand one behavior
+- the same rule appears in several layers
+- lifecycle status changes from many places
+- side effects happen with unclear retry or failure behavior
+- authorization logic differs by entry point
+- migrations change ownership or invariants with missing durable explanation
+- workflow state is hard to resume or explain after failure
+- production behavior is difficult to reconstruct from records and telemetry
+- deployment steps live only in memory or chat history

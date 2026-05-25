@@ -25,7 +25,6 @@ need_file docs/product-intent.md
 need_file docs/engineering/agent-execution-protocol.md
 need_file docs/engineering/definition-of-done.md
 need_file docs/engineering/doctrine.md
-need_file docs/engineering/agentic-runtime.md
 need_file docs/engineering/feature-development.md
 need_file docs/engineering/deployment-readiness.md
 need_file docs/engineering/formal-methods.md
@@ -34,7 +33,6 @@ need_file docs/architecture/stack-profile.md
 need_file docs/contracts/README.md
 need_file docs/contracts/state-machines.md
 need_file docs/contracts/tool-registry.md
-need_file docs/contracts/llm-outputs.md
 need_file docs/contracts/workflow-events.md
 need_file docs/contracts/policy-inputs.md
 need_file docs/contracts/telemetry-events.md
@@ -45,7 +43,6 @@ need_file docs/templates/adr.md
 need_file docs/templates/feature-brief.md
 need_file docs/templates/agent-task.md
 need_file docs/templates/threat-model.md
-need_file docs/templates/tool-capability.md
 need_file docs/templates/state-machine.md
 need_dir docs/engineering
 need_dir docs/architecture
@@ -62,27 +59,27 @@ fi
 rm -f /tmp/agentic-template-unrendered.$$
 
 if ! grep -q '_src_path:' .copier-answers.yml; then
-  fail ".copier-answers.yml does not record _src_path"
+  fail ".copier-answers.yml is missing _src_path"
 fi
 
-if ! grep -q 'Autonomous agents may propose code, plans, and actions' AGENTS.md; then
-  fail "AGENTS.md is missing the core doctrine boundary"
+if ! grep -q 'Autonomous coding agents are trusted collaborators' AGENTS.md; then
+  fail "AGENTS.md is missing the high-agency doctrine"
 fi
 
 if ! grep -q 'Language And Tooling Guidance' AGENTS.md; then
   fail "AGENTS.md is missing the language and tooling guidance"
 fi
 
-if ! grep -q 'Tooling Boundary' README.md; then
-  fail "README.md is missing the tooling boundary"
+if ! grep -q 'Agentic Delivery Model' README.md; then
+  fail "README.md is missing the agentic delivery model"
 fi
 
-if ! grep -q 'Tooling Boundary' docs/project-profile.md; then
-  fail "project profile is missing the tooling boundary"
+if ! grep -q 'Agent Decision Latitude' docs/project-profile.md; then
+  fail "project profile is missing agent decision latitude"
 fi
 
-if ! grep -q 'Tooling substrates do not define application layers' docs/architecture/stack-profile.md; then
-  fail "stack profile is missing the tooling boundary"
+if ! grep -q 'Substitution Principle' docs/architecture/stack-profile.md; then
+  fail "stack profile is missing the substitution principle"
 fi
 
 if ! grep -q 'Documentation Map' AGENTS.md; then
@@ -116,5 +113,12 @@ fi
 if ! grep -q 'Reporting Judgment' docs/engineering/agent-execution-protocol.md; then
   fail "agent execution protocol is missing reporting judgment guidance"
 fi
+
+if grep -RIn --exclude-dir='.git' --exclude='.copier-answers.yml' 'runtime-agent\|agentic-runtime\|llm-outputs\|ToolProposal\|prompt injection' AGENTS.md README.md docs >/tmp/agentic-template-runtime.$$ 2>/dev/null; then
+  cat /tmp/agentic-template-runtime.$$
+  rm -f /tmp/agentic-template-runtime.$$
+  fail "found removed application-agent guidance in generated docs"
+fi
+rm -f /tmp/agentic-template-runtime.$$
 
 printf 'doctor: ok\n'

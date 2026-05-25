@@ -1,39 +1,35 @@
-# Tool And Side-Effect Capability Registry
+# Integration And Side-Effect Capability Catalog
 
-Every runtime-agent-facing or automation-facing tool must be registered here
-before it is exposed to an LLM, agent runtime, workflow, MCP gateway, or other
-side-effect capability boundary.
+Use this catalog for shared integrations or side-effect capabilities.
 
-Broad tools require an ADR. Examples include arbitrary SQL, shell execution,
-arbitrary HTTP, arbitrary file write, and arbitrary email send.
+A capability is any reusable way to mutate the world or depend on an external
+system: email, payment, file write, external API, command execution, queue
+publish, notification, cloud mutation, or data export.
 
 ## Registry
 
-| Tool name | Purpose | Input type | Output type | Allowed actors | Policy rule | Approval | Side effect | Idempotency key | Timeout | Audit event | Failure states |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `searchAuthorizedDocuments` | Retrieve authorized context | `DocumentSearchInput` | `RetrievedContext[]` | workflow | `can_retrieve_document` | no | read only | request id | 10s | `document_retrieval_performed` | failed, denied |
-| `createDraftEmail` | Create draft content without sending | `DraftEmailInput` | `DraftEmail` | workflow | `can_create_draft` | no | draft only | draft id | 10s | `draft_email_created` | failed, denied |
+| Capability | Purpose | Input | Output | Owner | Side effect | Idempotency | Timeout | Observable event | Failure states |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `sendInvitationEmail` | Notify an invited user | `InvitationEmailInput` | delivery result | notifications worker | email send | invitation id | 10s | `invitation_email_sent` | failed, bounced |
+| `syncCustomerRecord` | Update CRM copy of customer data | `CustomerSyncInput` | sync result | integrations worker | external API write | customer id + version | 30s | `customer_sync_completed` | failed, skipped |
 
-## Required Tool Fields
+## Core Capability Fields
 
-For each tool, define:
+For each capability, define:
 
 - purpose
-- typed input
-- typed output
-- allowed actors
-- policy rule
-- approval requirement
+- typed or documented input
+- output or result state
+- owner
+- permission or policy expectation
 - side effect
 - idempotency behavior
 - timeout
-- audit event
+- observable event
 - failure states
 
-## Tool Rules
+## Capability Guidance
 
-- tools must be narrow capabilities
-- tool outputs are untrusted input
-- tool errors must have typed failure states
-- high-risk tools require approval or ADR-backed justification
-- critical-risk tools require a threat model
+Shared capabilities should be narrow enough to reason about and broad enough to
+replace repeated one-off integrations. When a capability is high impact, pair it
+with tests, operational notes, and a threat-model entry.

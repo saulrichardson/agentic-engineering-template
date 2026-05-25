@@ -29,9 +29,14 @@ copier copy "$SOURCE_DIR" "$GENERATED_DIR" \
   --quiet \
   --data project_name="Reference Project" \
   --data project_slug="reference-project" \
-  --data project_description="Reference rendering of the reusable high-integrity agentic engineering doctrine." \
+  --data project_description="Reference rendering of the reusable agentic engineering guidance." \
   --data adoption_date="2026-01-01" \
-  --data primary_domain="Reusable high-integrity software" \
+  --data primary_domain="Reusable agentic engineering guidance" \
+  --data frontend="Project choice" \
+  --data backend="Project choice" \
+  --data workflow_runtime="Project choice" \
+  --data database="Project choice" \
+  --data policy_engine="Project choice" \
   --data cloud_target="Undecided" >/dev/null
 
 append_file() {
@@ -81,14 +86,14 @@ append_readme_mechanics() {
 }
 
 {
-  printf '# High-Integrity Agentic Engineering Doctrine\n\n'
-  printf 'This is a single-file reader artifact assembled from the reusable high-integrity agentic engineering template.\n\n'
+  printf '# Agentic Engineering Guide\n\n'
+  printf 'This is a single-file reader artifact assembled from the reusable agentic engineering template.\n\n'
   printf 'It is meant to be passed to someone who needs one coherent artifact rather than a repository tree.\n\n'
   printf 'Generated from the current template repository contents.\n\n'
   printf 'Template repository: https://github.com/saulrichardson/agentic-engineering-template\n\n'
   printf 'Reference rendering notes:\n\n'
   printf '%s\n' '- Project name: Reference Project'
-  printf '%s\n' '- Primary domain: Reusable high-integrity software'
+  printf '%s\n' '- Primary domain: Reusable agentic engineering guidance'
   printf '%s\n' '- Cloud target: Undecided'
   printf '%s\n' '- The generated project sections use reference values where project-specific answers are required.'
   printf '%s\n' '- Technical setup and Copier mechanics are intentionally placed at the end.'
@@ -103,16 +108,14 @@ append_file "Generated Product Intent" "$GENERATED_DIR/docs/product-intent.md"
 append_file "Agent Execution Protocol" "$GENERATED_DIR/docs/engineering/agent-execution-protocol.md"
 append_file "Definition Of Done" "$GENERATED_DIR/docs/engineering/definition-of-done.md"
 append_file "Engineering Doctrine" "$GENERATED_DIR/docs/engineering/doctrine.md"
-append_file "Agentic Runtime Guidance" "$GENERATED_DIR/docs/engineering/agentic-runtime.md"
 append_file "System Map" "$GENERATED_DIR/docs/architecture/system-map.md"
 append_file "Stack Profile" "$GENERATED_DIR/docs/architecture/stack-profile.md"
 append_file "Feature Development Guide" "$GENERATED_DIR/docs/engineering/feature-development.md"
 append_file "Deployment Readiness" "$GENERATED_DIR/docs/engineering/deployment-readiness.md"
-append_file "Formal Methods Guidance" "$GENERATED_DIR/docs/engineering/formal-methods.md"
+append_file "Deep Verification Guidance" "$GENERATED_DIR/docs/engineering/formal-methods.md"
 append_file "Contract Catalog" "$GENERATED_DIR/docs/contracts/README.md"
 append_file "State Machine Contracts" "$GENERATED_DIR/docs/contracts/state-machines.md"
-append_file "Tool Capability Registry" "$GENERATED_DIR/docs/contracts/tool-registry.md"
-append_file "LLM Output Contracts" "$GENERATED_DIR/docs/contracts/llm-outputs.md"
+append_file "Integration And Side-Effect Capability Catalog" "$GENERATED_DIR/docs/contracts/tool-registry.md"
 append_file "Workflow Event Contracts" "$GENERATED_DIR/docs/contracts/workflow-events.md"
 append_file "Policy Input Contracts" "$GENERATED_DIR/docs/contracts/policy-inputs.md"
 append_file "Telemetry And Audit Event Contracts" "$GENERATED_DIR/docs/contracts/telemetry-events.md"
@@ -123,7 +126,6 @@ append_file "ADR Template" "$GENERATED_DIR/docs/templates/adr.md"
 append_file "Feature Brief Template" "$GENERATED_DIR/docs/templates/feature-brief.md"
 append_file "Agent Task Template" "$GENERATED_DIR/docs/templates/agent-task.md"
 append_file "Threat Model Template" "$GENERATED_DIR/docs/templates/threat-model.md"
-append_file "Tool Capability Template" "$GENERATED_DIR/docs/templates/tool-capability.md"
 append_file "State Machine Template" "$GENERATED_DIR/docs/templates/state-machine.md"
 append_file "Template Maintainer Guide" "$ROOT_DIR/AGENTS.md"
 

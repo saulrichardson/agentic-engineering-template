@@ -6,12 +6,12 @@ Project: {{ project_name }}
 
 ## Template Source
 
-This project was generated with Copier from the reusable high-integrity
-agentic engineering template.
+This project was generated with Copier from the reusable agentic engineering
+template.
 
-The durable template metadata is stored in `.copier-answers.yml`. Do not edit
-that file manually unless the template repository moves and `_src_path` must be
-updated.
+The durable template metadata is stored in `.copier-answers.yml`. Copier owns
+that file. Update it manually when the template repository moves and `_src_path`
+must change.
 
 ## Product Domain
 
@@ -21,17 +21,36 @@ updated.
 
 - <user or actor>
 
-## Tenant Model
+## Core Jobs
+
+- <job the system helps users or developers accomplish>
+
+## Agent Decision Latitude
+
+Coding agents may make local implementation decisions directly when they improve
+the goal and fit the surrounding code.
+
+Record decisions here or in an ADR when they affect:
+
+- public API
+- data model
+- deployment model
+- authorization or tenant model
+- major framework or language choice
+- long-lived operational workflow
+- broad ownership boundary
+
+## Tenant And Ownership Model
 
 - tenant boundary:
 - ownership model:
-- cross-tenant access rule:
+- sharing model:
 
 ## Data Sensitivity
 
 - sensitive data classes:
-- data that must never enter prompts:
 - retention constraints:
+- audit or review expectations:
 
 ## Selected Stack
 
@@ -39,10 +58,8 @@ updated.
 - backend domain core: {{ backend }}
 - workflow runtime: {{ workflow_runtime }}
 - durable database: {{ database }}
-- vector storage: {{ vector_store }}
 - policy engine: {{ policy_engine }}
 - cloud target: {{ cloud_target }}
-- formal methods: included for critical invariants and workflow specs
 
 ## Preferred Implementation Stack
 
@@ -54,53 +71,46 @@ profile for production code.
 - workflow code: {{ workflow_runtime }}
 - persistence and migrations: {{ database }} plus project-selected migration
   tools
-- retrieval/vector storage: {{ vector_store }}
 - policy code: {{ policy_engine }}
-- formal/specification work: Dafny; TLA+ or Lean where justified
-- repository automation: POSIX shell first
+- repository automation: POSIX shell first, with another scripting language when
+  it better serves maintainability
 
-## Tooling Boundary
+When the preferred stack fits poorly, choose the next best option that
+accomplishes the goal. Record the boundary it owns, build/test commands,
+deployment expectations, and maintenance owner when the choice matters beyond
+the local change.
+
+## Tooling
 
 Record local compiler, package-manager, formatter, editor, bundler, test-runner,
 and deployment CLIs here as they become real project dependencies.
 
-Tooling substrates do not automatically become product implementation languages.
-For example, a frontend language that compiles to JavaScript may use Node.js,
-npm, pnpm, or equivalent tools for compiler distribution, package management,
-editor support, bundling, or tests. That does not make JavaScript or TypeScript
-selected application languages.
-
-Do not place frontend application behavior, backend services, domain rules,
-policy decisions, workflow logic, runtime-agent logic, or business-critical
-scripts in a tooling language unless an ADR records the boundary, why the
-preferred stack was insufficient, and how the code is built, tested, deployed,
-and retired if it stops being necessary.
-
-If the preferred stack is insufficient, choose the next best option that
-accomplishes the goal while preserving the doctrine. Record the choice here or
-in an ADR, including the boundary it owns, why the preferred stack was not
-enough, test and deployment expectations, and the maintenance owner.
+| Tool | Purpose | Install command | Common command | Notes |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
 
 ## Local Doctrine Overrides
 
-None yet.
+Unspecified.
 
-When a project-specific decision intentionally overrides the reusable doctrine,
-record it here briefly and add an ADR under `docs/adr/`.
+When a project-specific decision intentionally changes the reusable guidance,
+record it here briefly and add an ADR under `docs/adr/` when future agents need
+the reasoning.
 
 ## Project-Specific Constraints
 
-None yet.
+Unspecified.
 
 Use this section for constraints such as regulatory requirements, data residency,
-tenant model, critical user workflows, third-party systems, or deployment limits.
+tenant model, critical user workflows, third-party systems, deployment limits,
+performance targets, or support commitments.
 
-## Approval Model
+## Approval And Coordination
 
-- actions requiring approval:
-- approval actor:
-- approval expiration:
-- denial behavior:
+- actions that deserve explicit coordination:
+- reviewer or decision owner:
+- expected response path:
+- operational handoff:
 
 ## External Systems
 
@@ -108,7 +118,7 @@ tenant model, critical user workflows, third-party systems, or deployment limits
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
-## Irreversible Actions
+## Irreversible Or High-Blast-Radius Actions
 
 - <action>
 
@@ -118,36 +128,29 @@ tenant model, critical user workflows, third-party systems, or deployment limits
 
 ## First Vertical Slice
 
-Define the first runnable product slice here before adding application code.
-For an ordinary feature, this may not involve an LLM:
+Define the first runnable product slice here before adding broad application
+structure.
+
+For an ordinary product feature:
 
 ```text
-frontend intent -> API command -> domain transition -> durable record -> observable result
+user intent -> interface -> application command -> domain behavior -> durable result -> visible feedback
 ```
 
-If the product contains a runtime agent, use this reference slice:
+For a developer tool:
 
 ```text
-user submits intent
-system creates UserIntent and AgentRun
-workflow starts
-LLM returns typed PlanProposal
-system validates plan
-policy allows or denies proposed action
-ToolProposal is recorded if allowed
-tool execution waits for capability and approval rules
-audit event and trace are emitted
-user sees result
+developer goal -> command or script -> project state change -> verification output -> documented usage
 ```
 
-## Known Non-Goals
+## Out Of Scope
 
-- <non-goal>
+- <out-of-scope item>
 
 ## Open Questions
 
-- What is the first user-facing workflow?
+- What is the first user-facing or developer-facing workflow?
 - What data is the durable source of truth?
-- What actions require human approval?
+- What actions deserve explicit coordination?
 - What external systems can the application touch?
-- What must be auditable from day one?
+- What should be observable from day one?

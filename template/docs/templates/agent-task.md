@@ -1,6 +1,7 @@
 # Agent Task Brief: <task name>
 
-Use this template when assigning work to an agent or future coding session.
+Use this template when assigning bounded work to an agent or future coding
+session.
 
 ## Goal
 
@@ -8,41 +9,34 @@ What should be true when the task is complete?
 
 ## Context
 
-Relevant files, docs, ADRs, or decisions:
+Relevant files, docs, ADRs, decisions, examples, or commands:
 
 - <path or note>
 
-## Boundaries
+## Decision Latitude
 
-What should the agent not change?
+What decisions can the agent make directly?
 
-- <boundary>
+- <decision>
 
-## Language And Tooling
+What decisions deserve an ADR, profile update, or user confirmation?
 
-What preferred language or toolchain should this work use? If a substitute is
-needed, record why it better serves the task while preserving the doctrine.
+- <decision>
 
-- implementation language:
-- package manager:
-- test command:
-- substitute tools or runtimes:
-- rationale for substitution:
-
-## System Map
+## System Area
 
 Where does this task sit?
 
-- frontend state:
-- API boundary:
-- domain model:
-- policy:
-- state transition:
-- persistence:
-- workflow:
-- side effects:
+- interface:
+- entry point:
+- domain behavior:
+- data or persistence:
+- policy or permission:
+- workflow or background work:
+- external side effect:
 - observability:
 - deployment:
+- docs:
 
 ## Expected Work
 
@@ -51,6 +45,10 @@ Where does this task sit?
 ## Verification
 
 - <command, test, review, or manual check>
+
+## Delivery Notes
+
+- <deployment, migration, config, or operational note>
 
 ## Open Questions
 

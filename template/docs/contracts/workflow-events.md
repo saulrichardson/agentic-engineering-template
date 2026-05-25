@@ -1,35 +1,33 @@
 # Workflow Event Contracts
 
-Durable workflows should expose meaningful events. These event names are part of
-the system contract because retries, idempotency, telemetry, and support tools
-depend on them.
+Use this file for durable workflow events.
 
-## Required Fields
+Workflow events help agents understand long-running work, retries,
+compensation, human coordination, and externally dependent steps.
 
-For each workflow event, record:
+## Registry
+
+| Workflow | Event | Payload | Idempotency key | Success behavior | Failure behavior |
+| --- | --- | --- | --- | --- | --- |
+| `InvitationWorkflow` | `InvitationCreated` | invitation id, team id, email | invitation id | enqueue notification | mark notification pending |
+| `InvitationWorkflow` | `InvitationEmailSent` | invitation id, provider id | invitation id + provider id | mark sent | retry or surface failure |
+| `BillingSyncWorkflow` | `CustomerSynced` | customer id, version | customer id + version | record sync point | retry with backoff |
+
+## Core Fields
+
+For each event, record:
 
 - workflow name
 - event name
-- payload type
+- payload shape
 - idempotency key
 - retry behavior
-- side effects triggered
-- audit or telemetry event
-- failure states
+- timeout or deadline
+- success behavior
+- failure behavior
+- emitted telemetry or audit event
 
-## Reference Workflow Events
+## Guidance
 
-| Workflow | Event | Payload | Idempotency key | Side effect | Failure behavior |
-| --- | --- | --- | --- | --- | --- |
-| `AgentRunWorkflow` | `UserIntentAccepted` | `UserIntent` | intent id | create run | reject duplicate |
-| `AgentRunWorkflow` | `PlanProposed` | `PlanProposal` | llm call id | none | reject malformed |
-| `AgentRunWorkflow` | `ToolProposalRecorded` | `ToolProposal` | proposal id | none | reject unauthorized |
-| `AgentRunWorkflow` | `ToolInvocationSucceeded` | `ToolResult` | invocation id | record result | retry-safe |
-
-## Rules
-
-- workflows should record decisions before side effects
-- external callbacks need idempotency keys
-- retries must not produce duplicate side effects
-- approval waiting states must be visible
-- cancellation behavior must be explicit
+Workflow history should explain what happened after a worker crash, retry,
+external outage, or manual intervention.

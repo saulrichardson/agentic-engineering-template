@@ -1,82 +1,39 @@
 # State Machine Contracts
 
-Use this file to record important lifecycles. Do not let important statuses
-become strings assigned from arbitrary code.
+Use this file for important lifecycle behavior.
 
-## Required Fields
+State machines help agents understand which states exist, which events move
+between them, and which rules protect the transition.
 
-For each state machine, record:
+## Registry
 
-- owner module
-- states
-- events
-- valid transitions
-- invalid transitions
-- guards
+| Machine | Entity | States | Events | Owner | Tests |
+| --- | --- | --- | --- | --- | --- |
+| Example invitation lifecycle | `Invitation` | `pending`, `accepted`, `expired`, `revoked` | `InviteSent`, `InviteAccepted`, `InviteExpired`, `InviteRevoked` | domain service | transition tests |
+
+## Core Details
+
+For each lifecycle, record:
+
+- entity or aggregate
+- allowed states
+- allowed events
+- transition owner
+- guards or permissions
 - terminal states
-- audit events
-- retry or cancellation behavior
+- retry or idempotency behavior
+- persistence representation
+- tests that prove the important transitions
 
-## Agent Run Reference
+## Transition Shape
 
-This is a reference shape. Rename or replace it when the project defines its
-real domain objects.
+Useful transition shape:
 
-States:
+```text
+current state + event + facts + policy = next state or rejection
+```
 
-- `created`
-- `context_gathering`
-- `planning`
-- `awaiting_approval`
-- `executing`
-- `waiting_external_result`
-- `completed`
-- `failed`
-- `cancelled`
+## Implementation Notes
 
-Events:
-
-- `UserIntentAccepted`
-- `ContextGathered`
-- `PlanProposed`
-- `ApprovalRequested`
-- `ApprovalGranted`
-- `ApprovalDenied`
-- `ToolInvocationStarted`
-- `ToolInvocationSucceeded`
-- `ToolInvocationFailed`
-- `ExternalResultReceived`
-- `AgentRunCompleted`
-- `AgentRunFailed`
-- `AgentRunCancelled`
-
-Rules:
-
-- no tool may execute directly from `planning`
-- approval-required actions must pass through `awaiting_approval`
-- terminal states are `completed`, `failed`, and `cancelled`
-- duplicate events must not create duplicate side effects
-
-## Tool Invocation Reference
-
-States:
-
-- `proposed`
-- `policy_checked`
-- `approval_required`
-- `approved`
-- `executing`
-- `succeeded`
-- `failed`
-- `rejected`
-- `compensated`
-
-Rules:
-
-- `proposed` cannot move to `executing` without policy check
-- approval-required tools cannot move to `executing` without approval
-- `succeeded`, `rejected`, and `compensated` are terminal unless an ADR says otherwise
-
-## Project State Machines
-
-Add project-specific state machines below.
+Keep lifecycle changes easy to find. A transition function, domain service, or
+workflow step should own each important state change.

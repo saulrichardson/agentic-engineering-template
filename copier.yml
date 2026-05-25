@@ -15,7 +15,7 @@ project_slug:
 project_description:
   type: str
   help: One-sentence project description.
-  default: "A high-integrity software project developed with autonomous coding agents."
+  default: "A software project developed with autonomous coding agents."
 
 adoption_date:
   type: str
@@ -25,39 +25,34 @@ adoption_date:
 primary_domain:
   type: str
   help: Product or problem domain.
-  default: "High-integrity software"
+  default: "Software"
 
 frontend:
   type: str
   help: Preferred frontend layer for this project, for example PureScript, Elm, TypeScript/React, or undecided.
-  default: PureScript
+  default: Project choice
 
 backend:
   type: str
   help: Preferred backend domain core for this project, for example Haskell, Rust, TypeScript, or undecided.
-  default: Haskell
+  default: Project choice
 
 workflow_runtime:
   type: str
-  help: Durable workflow runtime, for example Temporal, none yet, or undecided.
-  default: Temporal
+  help: Durable workflow runtime, for example Temporal, project code, unselected, or undecided.
+  default: Project choice
 
 database:
   type: str
   help: Durable source of truth, for example PostgreSQL or undecided.
-  default: PostgreSQL
-
-vector_store:
-  type: str
-  help: Retrieval/vector storage default, for example PostgreSQL + pgvector, Qdrant, none yet, or undecided.
-  default: PostgreSQL + pgvector
+  default: Project choice
 
 policy_engine:
   type: str
   help: Policy and authorization engine, for example OPA / Rego, application policy module, or undecided.
-  default: OPA / Rego
+  default: Project choice
 
 cloud_target:
   type: str
   help: Initial cloud/deployment target, for example AWS, Cloudflare, Vercel, GCP, Azure, or undecided.
-  default: Undecided
+  default: Project choice

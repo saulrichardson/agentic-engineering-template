@@ -4,13 +4,22 @@
 - owner: <name or role>
 - date: YYYY-MM-DD
 
-## User Intent
+## Goal
 
 As a <user or actor>, I want to <intent>, so that <outcome>.
 
-The system must not allow:
+## Context
 
-- <unsafe or invalid behavior>
+- relevant docs:
+- relevant code:
+- relevant ADRs:
+- examples:
+
+## Product Behavior
+
+What should happen?
+
+- <behavior>
 
 ## Domain Concepts
 
@@ -20,15 +29,14 @@ The system must not allow:
 ## First-Class Change
 
 Does this feature introduce a new durable concept, authority boundary, state,
-event, data flow, or side effect?
+event, data flow, side effect, command, or deployment behavior?
 
 If yes:
 
 - where is it represented first-class?
-- what old abstraction no longer matches?
-- what contracts must change?
+- what existing abstraction changes?
+- what contracts or docs change?
 - what tests prove the new model?
-- is any compatibility path required, or is a breaking change acceptable?
 
 ## State And Events
 
@@ -40,17 +48,16 @@ Events:
 
 - <event>
 
-Invalid transitions:
+Rejected or unavailable transitions:
 
-- <transition that must be rejected>
+- <transition>
 
 ## Authority
 
 - authenticated actor:
 - user permissions:
-- agent delegation:
-- tool capabilities:
-- approval required:
+- ownership or tenant boundary:
+- coordination or approval:
 
 ## Persistence
 
@@ -66,15 +73,7 @@ Audit records:
 
 - <audit event>
 
-## LLM Boundary
-
-- input type:
-- output type:
-- allowed variants:
-- validation:
-- fallback/refusal:
-
-## Tools And Side Effects
+## Side Effects And Integrations
 
 - side effect:
 - policy check:
@@ -92,9 +91,9 @@ Logs/traces/audit events:
 
 - <event>
 
-## Tests
+## Verification
 
-- <invariant or behavior to prove>
+- <test, command, property, or manual check>
 
 ## Deployment Notes
 

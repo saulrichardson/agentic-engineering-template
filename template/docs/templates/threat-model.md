@@ -1,66 +1,42 @@
-# Threat Model: <scope>
+# Threat Model: <feature or system>
 
-- status: draft
-- owner:
+- owner: <name or role>
 - date: YYYY-MM-DD
 
 ## Scope
 
-- feature or system:
-- users:
-- tenant boundary:
-- sensitive data:
+- system or feature:
+- users or actors:
+- data:
 - external systems:
-- side effects:
+- deployment targets:
 
-## Development-Time Agent Exposure
+## Assets
 
-- what can coding agents read?
-- what can coding agents write?
-- what credentials, commands, or automations can they access?
-- what change types require human review?
-- what deployment or data paths are off limits?
+- <asset>
 
-## Runtime Agent Or LLM Exposure
+## Trust Boundaries
 
-Use this section when the product contains runtime agents, LLMs, retrieval, or
-model-generated outputs.
+- <boundary>
 
-- what can the LLM see?
-- what can the LLM propose?
-- what is never sent to the LLM?
-- what output schemas are allowed?
+## High-Impact Actions
 
-## Retrieval
-
-- data sources:
-- authorization rule:
-- sensitive labels:
-- prompt-injection handling:
-- source traceability:
-
-## Tools
-
-| Tool | Capability | Side effect | Approval | Policy rule | Audit event |
-| --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  |  |
+- <action>
 
 ## Threats
 
-| Threat | Impact | Likelihood | Control | Detection | Residual risk |
+| Threat | Impact | Likelihood | Control | Owner | Status |
 | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  |
 
-## Worst Unauthorized Action
+## Controls
 
-Describe the worst plausible unauthorized action and how the system prevents,
-detects, and mitigates it.
+- <control>
 
-## Required Tests
+## Verification
 
-- denial path:
-- malformed runtime-agent or LLM output:
-- prompt injection:
-- unauthorized retrieval:
-- approval required:
-- idempotency or compensation:
+- <test, check, review, log, alert, or runbook>
+
+## Open Questions
+
+- <question>

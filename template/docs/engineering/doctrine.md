@@ -1,217 +1,154 @@
 # Engineering Doctrine
 
-We build software whose behavior remains explicit, constrained, testable,
-observable, and reviewable, even when much of the code is produced by
-autonomous coding agents.
+We build software with autonomous coding agents as high-agency collaborators.
+
+The doctrine:
+
+```text
+Autonomous coding agents inspect, decide, implement, test, document, and prepare
+delivery. Their work leaves evidence that future humans and agents can use:
+clear intent, coherent changes, useful checks, deployment context, and durable
+decisions.
+```
 
 This doctrine applies to ordinary web applications, APIs, databases,
-infrastructure, workflows, internal tools, and products that contain runtime
-agents or LLMs.
-
-The general rule:
-
-```text
-Autonomous agents may propose code, plans, and actions.
-The system may accept them only through explicit boundaries:
-typed inputs, domain rules, policy checks, review gates, state transitions,
-tests, durable persistence, controlled side effects, and observable execution.
-```
-
-When the application itself contains LLMs or agentic workflows, the same rule
-applies again at runtime:
-
-```text
-LLMs may propose actions.
-Only typed, verified, policy-checked, durable workflows may execute actions.
-```
-
-## Why This Exists
-
-Autonomous code generation amplifies existing software risks:
-
-- unclear requirements
-- scattered business rules
-- implicit state machines
-- uncontrolled side effects
-- weak authorization boundaries
-- unsafe data migrations
-- race conditions
-- invalid states
-- shallow tests
-- poor observability
-- unreviewable changes
-- untraceable production behavior
-- generated code that works locally but violates architecture
-
-If humans manually hold the architecture in their heads, loose conventions can
-survive for a while. When autonomous coding agents generate code, hidden
-conventions break quickly. The more autonomous the coding agent, the more
-explicit the system boundaries must be.
-
-This doctrine exists to make intent, invariants, authority, side effects, and
-verification visible enough that both humans and coding agents can safely extend
-the codebase.
-
-## General Software Principles
-
-- Make requirements explicit.
-- Make state explicit.
-- Make events explicit.
-- Make transitions explicit.
-- Make authority explicit.
-- Make side effects controlled.
-- Make durable facts constrained.
-- Make workflows recoverable.
-- Make behavior observable.
-- Make changes reviewable.
-- Make tests prove invariants.
-- Make deployments reproducible.
-
-These principles matter whether or not the product contains LLMs.
+infrastructure, workflows, internal tools, user interfaces, services, libraries,
+and developer tooling.
 
 ## Goal-First Engineering
 
-Coding agents must start from the project goal and the local source-of-truth
-artifacts, not from standard patterns, legacy conventions, or the most common
-library approach.
+Start from the goal. Read the local project profile, product intent, existing
+code, tests, docs, and recent decisions before choosing an approach.
 
-A common pattern is only a hypothesis. It becomes acceptable only when it fits
-the stated goal, the current codebase, the project profile, and the relevant
-contracts.
+Common patterns are useful hypotheses. The right solution is the one that serves
+the stated goal, fits the current codebase, and leaves the system easier to
+extend.
 
-When the goal conflicts with an existing abstraction, do not preserve the old
-abstraction by default. Surface the mismatch and either reshape the abstraction
-cleanly or record why a temporary compromise is necessary.
+When a goal exposes a weak abstraction, reshape the abstraction when the change
+is local and coherent. Record the decision when the new shape affects future
+work.
 
-Optimize for a system that becomes clearer, truer to the goal, and easier to
-reason about.
+## Agency With Evidence
+
+Coding agents are expected to make engineering decisions. Good decisions leave a
+trail:
+
+- the problem being solved
+- the code or docs changed
+- the verification performed
+- the operational or deployment consequence
+- the local decision that future agents should inherit
+
+Small choices belong in the implementation. Durable choices belong in
+`docs/project-profile.md` or an ADR.
 
 ## First-Class Change Rule
 
-When a requirement materially changes behavior, data flow, ownership,
-authority, persistence, or system boundaries, implement it as a first-class
-concept.
+When a requirement introduces an important concept, represent it directly.
 
-Do not bury important changes in one-off conditionals, compatibility shims,
-scattered flags, wrapper functions, or hidden exception paths.
-
-If something is now important to the system, reflect it in the appropriate
-artifacts:
+Important concepts often deserve names in one or more places:
 
 - domain model
-- types or schemas
-- API contracts
-- state machines
-- policy inputs
-- database constraints
-- workflow events
-- tool capabilities
-- tests
-- telemetry or audit events
-- docs or ADRs
+- type or schema
+- API boundary
+- state machine
+- policy input
+- database constraint
+- workflow event
+- integration capability
+- test
+- telemetry or audit event
+- docs or ADR
 
-A reader should be able to see that the behavior is supported by the system
-model, not accidentally patched around it.
+A future agent should be able to find the concept where the system actually
+uses it.
 
-## Development-Time Path
+## Coding-Agent Delivery Path
 
-Coding-agent work should follow this path:
+Coding-agent work follows this path:
 
 ```text
-task intent
+goal
   -> repository context
-  -> change classification
-  -> design boundary
-  -> implementation plan
-  -> code change
-  -> tests / verification
-  -> review evidence
-  -> documentation / ADR if needed
-  -> deployability check
+  -> working theory
+  -> implementation choice
+  -> code and documentation change
+  -> tests or checks
+  -> delivery notes
+  -> ADR or profile update when useful
 ```
 
-This path prevents an autonomous coding agent from treating a task as "write
-code until tests pass." Passing tests is not enough if the change violates
-authority, persistence, workflow, observability, or architectural boundaries.
+The path keeps work tied to outcome and evidence. It scales down to a one-line
+fix and up to architectural change.
 
-## Runtime Path
+## Product Behavior Path
 
-Application behavior should still be understood across the full stack:
+Application behavior should stay legible from intent to consequence:
 
 ```text
 user intent
-  -> frontend state
-  -> API boundary
+  -> interface or entry point
   -> domain model
-  -> policy / authorization
-  -> state transition
-  -> durable persistence
-  -> workflow orchestration
-  -> external side effects
-  -> observability
-  -> deployment / infrastructure
+  -> policy or permission decision
+  -> state or data change
+  -> side effect when needed
+  -> observable result
+  -> deployment path
 ```
 
 Every meaningful feature should know where it sits in this path.
 
-## Authority Model
+## Decision Model
 
-The system distinguishes:
+Agents may choose the local implementation path that best serves the goal.
 
-- authentication: who is the actor?
-- authorization: what may the actor do?
-- delegation: what may another actor or agent do on the actor's behalf?
-- capability: what exact tool, resource, or operation is available now?
-- approval: does this action require human confirmation?
+Use lightweight judgment:
 
-Users, services, workflows, coding agents, runtime agents, and tools may all
-have different authority boundaries. Prompts, UI visibility, and generated code
-do not define authority.
+- local, reversible choices can happen in code
+- shared behavior deserves tests and documentation
+- hard-to-reverse choices deserve an ADR
+- operationally sensitive choices deserve deployment notes
+- ambiguous product choices deserve a question or a small set of options
 
-## State Model
+The project should become easier for the next agent to understand.
 
-Important lifecycles should be modeled as state machines.
+## State And Data Model
 
-State should change through events and transition functions, not arbitrary status
-assignment.
+Important lifecycle changes should have explicit states, events, or data facts.
 
-Example:
+Useful shape:
 
 ```text
-current state + event + facts + policy = next state or rejection
+current facts + event + rules = next facts
 ```
 
-If a lifecycle matters to correctness, safety, policy, auditability, or user
-trust, it deserves explicit states and transitions.
+When correctness depends on a fact, put that fact where the system can enforce
+or observe it: type, schema, database constraint, transition function, test, or
+telemetry event.
 
-## Side-Effect Capability Model
+## Side Effects
 
-Side effects include database writes, LLM calls, emails, uploads, external API
-calls, payments, file writes, command execution, queue publishes, notifications,
-and cloud resource changes.
+Side effects include database writes, emails, uploads, external API calls,
+payments, file writes, command execution, queue publishes, notifications, and
+cloud resource changes.
 
-The preferred sequence is:
+Good side-effect work has:
 
-```text
-decide
-persist the decision
-record the event
-execute side effects through a workflow, outbox, or controlled capability
-observe the result
-```
+- clear owner
+- typed or documented input
+- expected output or state change
+- retry or failure behavior
+- idempotency where useful
+- audit or trace event for important effects
 
-Side effects should be visible, bounded, policy-checked, retryable where
-possible, idempotent where practical, and auditable.
+Use `docs/contracts/tool-registry.md` when an integration or side-effect
+capability becomes shared or operationally important.
 
-Tools are one kind of side-effect capability. They must be narrow, typed,
-capability-scoped, and registered before they are exposed to runtime agents or
-automation.
+## Persistence
 
-## Persistence Model
+The durable source of truth should match the domain facts the product relies on.
 
-The database is the durable source of truth.
-
-Use database constraints for durable invariants:
+Use database constraints and migrations to preserve facts that matter:
 
 - foreign keys
 - unique constraints
@@ -222,117 +159,77 @@ Use database constraints for durable invariants:
 - audit/event tables
 - ownership relationships
 
-If something must always be true, ask whether the database can enforce it.
+When data shape changes, include the migration, verification command, and
+rollback or mitigation story that fits the risk.
 
-## Workflow Model
+## Workflows
 
-Long-running, failure-prone, multi-step work belongs in durable workflows or an
-equivalent recoverable execution model.
+Long-running, failure-prone, multi-step work belongs in a recoverable execution
+model.
 
-Use workflows for processes such as:
+Use workflows or equivalent orchestration for:
 
 - approval flows
-- tool execution
-- document ingestion
+- document processing
 - external API orchestration
 - scheduled operations
+- retries and compensation
 - human-in-the-loop work
-- retryable side effects
-- runtime agent execution
+- multi-step deployment or data operations
 
-A worker crash should not erase the business process.
+The work should be explainable after an interruption.
 
-## Nondeterministic Component Model
+## Observability
 
-LLMs are one example of nondeterministic components. Others include autonomous
-coding agents, recommendation models, classifiers, external APIs, user-submitted
-documents, retrieved context, and tool outputs.
-
-The rule is:
-
-```text
-nondeterministic output is input, not authority
-```
-
-Any nondeterministic output that affects behavior must pass through the same
-software boundaries as other untrusted input: parsing, validation, domain rules,
-policy, state transitions, persistence, tests, and observability.
-
-LLM-specific runtime guidance lives in `docs/engineering/agentic-runtime.md`.
-
-## Observability Model
-
-Every important action should be reconstructable.
+Important behavior should be reconstructable.
 
 The system should be able to answer:
 
-- what task or user intent started this?
+- what goal or user intent started this?
 - what code, state, or context was involved?
-- what boundary was crossed?
-- what policy was evaluated?
-- what state changed?
+- what decision was made?
+- what state or data changed?
 - what side effect occurred?
 - what failed or retried?
 - what tests or checks support the change?
-- what was recorded for audit or review?
+- what was recorded for review or operation?
 
 Use structured logs, traces, metrics, audit events, and stable correlation IDs.
-Do not leak secrets or private data into telemetry.
+Keep telemetry useful, focused, and respectful of sensitive data.
 
-## Ordinary Feature Example
+## Documentation
 
-No product LLM is required for the doctrine to apply.
+Documentation is part of delivery when it preserves useful context.
 
-Example: user profile update.
+Use:
 
-```text
-user submits profile change
-API validates typed input
-domain rules decide allowed fields
-policy checks ownership
-database persists constrained facts
-audit records change
-telemetry records outcome
-```
+- `docs/product-intent.md` for rough product thinking
+- `docs/project-profile.md` for local facts and stack decisions
+- `docs/contracts/` for shared behavior surfaces
+- `docs/templates/feature-brief.md` for meaningful feature planning
+- `docs/adr/` for durable choices future agents may question
+- `docs/security/threat-model.md` for sensitive access, data, or operations
 
-## Migration Example
+Docs can be short. Accuracy and placement matter more than length.
 
-Example: database migration proposed by a coding agent.
+## Practical Example
 
-```text
-task is classified as persistence risk
-schema ownership and invariants are identified
-migration and rollback/mitigation are considered
-tests verify old and new behavior
-ADR is added if ownership or invariants changed
-deployability check is reported
-```
+A request says: "Add team invitations."
 
-## Workflow Example
+A high-agency implementation path:
 
-Example: background billing job.
+1. Read product intent, project profile, auth code, existing user/team models,
+   tests, and deployment scripts.
+2. Decide where invitations belong in the domain model.
+3. Add invitation states such as `pending`, `accepted`, and `expired` when they
+   matter to behavior.
+4. Add database constraints for team ownership and invitation uniqueness.
+5. Add API or command handling that matches existing conventions.
+6. Add side-effect handling for email or notification delivery when needed.
+7. Add tests for valid invite, expired invite, duplicate invite, and permission
+   behavior.
+8. Add telemetry or audit events if the project needs operational visibility.
+9. Record any new architecture, policy, or deployment decision in the right doc.
 
-```text
-workflow owns retries
-idempotency prevents duplicate charge
-database records durable state
-side effects are audited
-failure path is observable
-```
-
-## Final Test
-
-For any significant design, future maintainers and coding agents should be able
-to understand:
-
-- what state exists
-- how it can change
-- who can change it
-- what effects happen
-- what was recorded
-- what can be retried
-- what can be audited
-- what can fail
-- what verification supports it
-
-If those answers are unclear, the design is drifting.
+The exact technology is local. The enduring idea is that the feature becomes
+visible, testable, deployable, and understandable.

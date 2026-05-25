@@ -1,31 +1,33 @@
-# Contract Catalog
+# System Contracts
 
-This directory is the durable home for system contracts that should not be
-buried only in prompts, source comments, route handlers, or tribal knowledge.
+System contracts are durable notes for behavior that other code, agents,
+workflows, tools, policies, or operators depend on.
 
-Contracts are the named boundaries other code relies on:
+Use these files when a behavior becomes shared, risky, operationally important,
+or easy for future agents to misread.
 
-- state machines
-- runtime-agent and LLM output variants and schemas
-- tool and side-effect capabilities
-- workflow events
-- policy inputs
-- telemetry and audit events
-- database invariants
+## Contract Files
 
-When a change adds or changes a contract, update this catalog in the same change
-or explain why the contract is documented elsewhere.
+- `state-machines.md`: lifecycle states, events, guards, terminal states, and
+  transition ownership
+- `tool-registry.md`: external integrations and side-effect capabilities
+- `workflow-events.md`: durable workflow events, retries, idempotency, and
+  failure behavior
+- `policy-inputs.md`: policy inputs, authority dimensions, decisions, and audit
+  events
+- `telemetry-events.md`: traces, metrics, logs, audit events, and correlation
+  identifiers
 
-## Files
+## When To Add A Contract
 
-- `state-machines.md`: lifecycle states, events, guards, and terminal states
-- `tool-registry.md`: tool and side-effect capability registry
-- `llm-outputs.md`: runtime LLM output shapes and validation expectations
-- `workflow-events.md`: workflow events, retry semantics, and idempotency notes
-- `policy-inputs.md`: policy decision inputs and authority model
-- `telemetry-events.md`: trace, log, metric, and audit event names
+Add or update a contract when:
 
-## Contract Rule
+- several modules depend on the same behavior
+- a state change needs a clear lifecycle
+- an integration mutates external systems
+- a workflow crosses process or time boundaries
+- a permission decision affects user trust or data access
+- an operational event helps reconstruct production behavior
 
-If another module, workflow, tool, policy, prompt, or external integration must
-depend on a shape or lifecycle, it is a contract. Name it here.
+Contracts should be short and useful. They give future agents enough structure
+to make confident changes.

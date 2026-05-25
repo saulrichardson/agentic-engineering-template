@@ -1,30 +1,25 @@
 # Template Maintainer Guide
 
-This repository is a Copier template for seeding new projects with a reusable
-engineering doctrine for high-integrity software developed with autonomous
-coding agents.
+This repository is a Copier template for seeding new projects with reusable
+guidance for autonomous coding agents.
 
 Generated project files live under `template/`. Files outside `template/` are
-for maintaining this template repository and are not copied into generated
-projects.
+maintainer files for this template repository and stay local to this repository.
 
-## Core Boundary
+## Core Doctrine
 
 Preserve this doctrine across template changes:
 
 ```text
-Autonomous agents may propose code, plans, and actions.
-The system may accept them only through explicit boundaries:
-typed inputs, domain rules, policy checks, review gates, state transitions,
-tests, durable persistence, controlled side effects, and observable execution.
+Autonomous coding agents are collaborators with initiative.
+They inspect, decide, implement, test, document, and prepare delivery.
+Their work leaves evidence: clear intent, coherent changes, useful checks,
+deployment context, and decisions that future agents can understand.
 ```
 
-Runtime LLM guidance is a specialization of this broader doctrine, not the whole
-scope of the template.
-
-Do not turn the template into a framework scaffold unless a real boundary needs
-that code. This repository should seed principles, operating structure, decision
-records, and project-local customization points.
+Keep the template focused on principles, operating structure, decision records,
+and project-local customization points. Add framework code only when a reusable
+project boundary genuinely needs it.
 
 ## Maintainer Rules
 
@@ -33,11 +28,12 @@ records, and project-local customization points.
 - Keep `AGENTS.md.jinja` short enough that future agents read it.
 - Put reusable doctrine in `docs/engineering/`.
 - Put operational contracts in `docs/contracts/`.
-- Put threat-model guidance in `docs/security/` and templates in `docs/templates/`.
-- Put architectural maps and stack defaults in `docs/architecture/`.
+- Put threat-model guidance in `docs/security/` and templates in
+  `docs/templates/`.
+- Put architectural maps and stack guidance in `docs/architecture/`.
 - Put project-local specialization in `docs/project-profile.md`.
 - Use ADRs for decisions that future agents might reasonably question.
-- Do not require submodules for normal use.
+- Keep normal use free of submodule requirements.
 - Keep Copier update compatibility intact.
 
 ## Verification

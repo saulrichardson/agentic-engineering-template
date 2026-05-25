@@ -1,146 +1,107 @@
 # Stack Profile
 
-This is the stack profile for `{{ project_name }}`. It starts from the reusable
-high-integrity software defaults for projects developed with autonomous coding
-agents, then records this project's selected choices.
+This is the stack profile for `{{ project_name }}`. It records this project's
+selected tools and gives coding agents permission to choose better local tools
+when the work calls for them.
 
-The stack exists to enforce one boundary:
+## Project Choices
 
-```text
-Autonomous agents may propose code, plans, and actions.
-The system may accept them only through explicit boundaries:
-typed inputs, domain rules, policy checks, review gates, state transitions,
-tests, durable persistence, controlled side effects, and observable execution.
-```
-
-## Project Defaults
-
-| Concern | Project choice | Reference default | Why it fits |
-| --- | --- | --- | --- |
-| Frontend | {{ frontend }} | PureScript | Explicit UI state, controlled commands, strong compiler feedback |
-| Backend domain core | {{ backend }} | Haskell | Pure domain logic, strong types, clear effect boundaries |
-| Critical verification | Dafny where justified | Dafny | Machine-checked specs and invariants for high-risk logic |
-| System modeling | TLA+ or Lean where justified | TLA+ or Lean | Concurrency, workflow, and invariant reasoning before implementation |
-| Workflow runtime | {{ workflow_runtime }} | Temporal | Durable execution, retries, long-running processes, human-in-the-loop flows |
-| Durable database | {{ database }} | PostgreSQL | Transactions, constraints, locks, mature relational modeling |
-| Vector storage | {{ vector_store }} | PostgreSQL with pgvector first | Retrieval near metadata, permissions, and transactions |
-| Dedicated vector search | Qdrant when needed | Qdrant when needed | Use when vector search becomes a separate scaling domain |
-| Policy | {{ policy_engine }} | OPA / Rego | Explicit policy-as-code outside prompts and scattered conditionals |
-| Tool protocol | MCP behind a gateway | MCP behind a gateway | Useful integration protocol, not a trust boundary by itself |
-| Tool sandbox | WebAssembly / Wasmtime where possible | WebAssembly / Wasmtime | Capability-shaped execution boundary for plugins and tools |
-| Runtime LLM integration | Provider-agnostic gateway when needed | Provider-agnostic gateway | Keeps prompts, schemas, models, and vendors behind a typed boundary when the product contains LLMs |
-| Build and release | Nix plus provenance practices | Nix plus provenance practices | Reproducible builds and auditable artifacts |
-| Observability | OpenTelemetry | OpenTelemetry | Vendor-neutral traces, metrics, logs, and correlation |
-| Cloud | {{ cloud_target }} | AWS or equivalent | Use replaceable infrastructure with least privilege and reproducibility |
+| Concern | Project choice | What agents should consider |
+| --- | --- | --- |
+| Frontend | {{ frontend }} | UI state, accessibility, interaction model, build pipeline |
+| Backend domain core | {{ backend }} | domain clarity, tests, package ecosystem, deployment target |
+| Workflow runtime | {{ workflow_runtime }} | retries, scheduling, background work, recoverability |
+| Durable database | {{ database }} | constraints, migrations, transactions, local tooling |
+| Policy | {{ policy_engine }} | permissions, tenant ownership, auditability, testability |
+| Build and release | Project choice | reproducible commands, CI, artifacts, provenance |
+| Observability | Project choice | logs, traces, metrics, audit events, health checks |
+| Cloud | {{ cloud_target }} | operational fit, deployment ergonomics, cost, permissions |
 
 ## Implementation Language Guidance
 
-The selected stack is the preferred starting point for coding agents. It should
-guide implementation choices without blocking a better local decision when the
-preferred stack is insufficient for the task.
-
-Preferred implementation stack:
+The selected stack is the starting point for coding agents:
 
 - frontend and UI code: {{ frontend }}
 - backend/domain code: {{ backend }}
 - workflow code: {{ workflow_runtime }}
 - persistence and migrations: {{ database }} plus project-selected migration
   tools
-- retrieval/vector storage: {{ vector_store }}
 - policy code: {{ policy_engine }}
-- formal/specification work: Dafny; TLA+ or Lean where justified
-- repository automation: POSIX shell first, unless this profile or an ADR
-  selects another scripting language
+- repository automation: POSIX shell first, with another scripting language when
+  it makes the automation clearer
 
-Tooling substrates do not define application layers. A selected language may
-need a package manager, runtime, bundler, formatter, or language server written
-in another ecosystem. Use that tooling only for the boundary it serves.
-Application code in a tooling language is a stack substitution and requires a
-recorded boundary and rationale before use.
-
-If the preferred stack does not fit, choose the next best option that preserves
-the same project goals and engineering boundaries.
+Tooling serves delivery. A selected language may need a package manager,
+runtime, bundler, formatter, or language server written in another ecosystem.
+Use the tooling that makes the project easier to build, test, and maintain.
 
 When choosing a substitute language or major tool, record:
 
 - what boundary it owns
-- why the existing selected stack is insufficient
+- why it fits the task
 - package manager and dependency policy
 - test and CI commands
 - deployment path
-- security and maintenance owner
-- rollback or removal story
+- maintenance owner
+- replacement or rollback story when useful
 
-If a stack entry is `Other / undecided` or `None yet`, choose and record the
-local tool before writing implementation code for that layer.
+## Substitution Principle
 
-## Substitution Rule
+A technology choice is good when it improves the project properties that matter:
 
-A technology can be replaced when the replacement preserves the same system
-properties:
+- clear domain model
+- readable implementation
+- fast local feedback
+- strong tests or checks
+- simple deployment
+- understandable operations
+- maintainable dependencies
+- observable behavior
+- durable decision trail
 
-- typed boundaries
-- explicit authority
-- durable state
-- constrained side effects
-- recoverable workflows
-- reproducible builds
-- observable execution
-- auditable decisions
-
-If a replacement weakens one of these properties, write an ADR explaining the
-tradeoff and compensating control.
+Agents may choose a different tool when it better serves those properties.
+Record durable changes in `docs/project-profile.md` or an ADR.
 
 ## Backward Compatibility
 
-Backward compatibility is not assumed by default.
+Backward compatibility is a product decision.
 
-Preserve compatibility only when the project profile, an ADR, a contract, a
-public API commitment, a migration plan, or the current task explicitly requires
-it.
+Preserve compatibility when the project profile, an ADR, a public API
+commitment, a migration plan, or the current task requires it. When the cleanest
+design changes a contract, record the migration, rollout, or replacement path
+that fits the risk.
 
-When the cleanest design requires a breaking change, surface that fact and
-record the migration, rollout, or replacement path appropriate to the risk.
+## Stack Serves Architecture
 
-## Stack Is Not Architecture
-
-The architecture is not a specific language, framework, database, or cloud. The
-architecture is the boundary model:
+Architecture is the shape of the system more than the brand of the tools:
 
 ```text
-intent -> typed command -> policy -> state transition -> workflow -> side effect
+intent -> command -> domain behavior -> durable result -> observable outcome
 ```
 
-Keep this model even if the project uses different tools.
-
-Prefer project-selected components. Add a reference-stack component only when
-the current project has selected it or the feature needs the boundary that
-component protects.
+Keep that model visible even as the stack evolves.
 
 ## When To Add A Layer
 
-Add a layer when it protects a real boundary:
+Add a layer when it helps the product:
 
-- add policy when authority is nontrivial
+- add policy when permissions become meaningful
 - add workflows when work is long-running, retryable, or externally dependent
-- add verification when an invariant is critical and easy to get subtly wrong
-- add a sandbox when third-party or generated code may execute
-- add a dedicated vector database when retrieval has independent scale needs
-- add infrastructure automation when manual setup would become unreproducible
-
-Avoid adding tools only because the reference stack lists them.
+- add deep verification when an invariant is critical and subtle
+- add infrastructure automation when manual setup becomes repetitive
+- add shared integration boundaries when side effects spread
+- add observability when behavior needs operational reconstruction
 
 ## Early Vertical Slice
 
-The first runnable slice should usually be:
+The first runnable slice often looks like:
 
 ```text
-frontend intent
-  -> API command
-  -> domain transition
+user intent
+  -> interface or entry point
+  -> domain behavior
   -> {{ database }} record
-  -> trace/log/audit event
+  -> visible feedback
+  -> log, trace, or audit event
 ```
 
-After that, add policy, workflows, retrieval, runtime-agent planning, tools,
-and cloud deployment incrementally as the product surface requires them.
+Build that slice first, then add layers as the product surface proves the need.

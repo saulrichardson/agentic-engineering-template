@@ -1,9 +1,11 @@
 # Threat Model
 
-This project should maintain a live threat model for autonomous-agent,
-runtime-agent, and high-risk software changes. Start here before adding broad
-retrieval, new tool classes, approval changes, external side effects,
-tenant-sensitive data access, secret handling, or broad coding-agent authority.
+This project should maintain a live threat model for sensitive data, credentials,
+deployment access, external systems, destructive operations, tenant boundaries,
+and high-impact coding-agent work.
+
+Use this file as a working document. Keep it practical and specific to the
+project.
 
 ## Scope
 
@@ -13,67 +15,56 @@ tenant-sensitive data access, secret handling, or broad coding-agent authority.
 - sensitive data:
 - external systems:
 - irreversible actions:
+- deployment targets:
 
-## Development-Time Agent Questions
+## Coding-Agent Access Questions
 
 - What can coding agents read?
 - What can coding agents write?
 - What repository, cloud, database, or deployment credentials can they access?
 - What commands, tools, or automation can they run?
-- What changes require human review before merge or deployment?
-- What generated code paths are high risk?
-- What is the worst change a coding agent could make without detection?
-- How would that change be caught before production?
+- What changes deserve human review before merge or deployment?
+- What generated code paths are high impact?
+- What signal would reveal a harmful change before users feel it?
 
-## Runtime Agent Questions
+## Product And Operations Questions
 
-Use these when the product contains LLMs, retrieval, planning, runtime agents,
-or user-facing automation.
+- What data requires special handling?
+- What external systems can the product touch?
+- What actions have financial, legal, privacy, or trust impact?
+- What actions should be auditable?
+- What tenant or ownership boundaries exist?
+- What operational credentials exist?
+- What deployment path can affect production?
+- What rollback or mitigation path exists for high-impact changes?
 
-- What can the LLM see?
-- What can the LLM propose?
-- What can the LLM never see?
-- What tools exist?
-- What tools are broad or high risk?
-- What data can retrieval access?
-- What actions require approval?
-- What happens if retrieved text contains prompt injection?
-- What happens if a tool result is malicious?
-- What secrets exist?
-- What tenant boundary exists?
-- What is the worst unauthorized action?
-- How would that action be detected after the fact?
+## Core Controls
 
-## Required Controls
-
-- secrets are not exposed to prompts
-- tools are capability-scoped
-- retrieved documents are authorized before use
-- tool results are treated as untrusted input
-- approval-required actions cannot execute without approval
-- policy decisions are auditable
-- cross-tenant access is denied by default
-- high-risk side effects are idempotent or compensated where possible
-- coding-agent changes are reviewed according to risk before shipping
-- deployment credentials are least privilege and not available to prompts
+- secrets are stored in approved secret managers or environment systems
+- credentials use least privilege
+- high-impact actions have clear owners
+- sensitive data is excluded from casual logs and screenshots
+- cross-tenant access is denied by default in policy or data design
+- migrations and destructive operations have backups or mitigation plans
+- production changes leave deployment evidence
+- security-sensitive behavior has tests or review evidence
 
 ## Open Threats
 
 | Threat | Impact | Likelihood | Control | Owner | Status |
 | --- | --- | --- | --- | --- | --- |
-| Prompt injection in retrieved document | unauthorized proposal or exfiltration attempt | medium | treat context as untrusted; policy gate tools | project maintainers | open |
+| Unauthorized data export | privacy breach | medium | policy check, audit event, least privilege credentials | project maintainers | open |
 
 ## Review Triggers
 
 Review this threat model when adding or changing:
 
-- LLM boundaries
-- coding-agent permissions
-- retrieval scope
-- tool capabilities
-- policy rules
-- approval flows
-- tenant model
-- data sensitivity
-- external side effects
-- secrets handling
+- authentication or authorization
+- tenant ownership
+- sensitive data storage
+- external integrations
+- payment or financial actions
+- deployment credentials
+- destructive commands
+- migrations touching important data
+- broad coding-agent permissions

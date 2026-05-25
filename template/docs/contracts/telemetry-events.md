@@ -1,38 +1,38 @@
 # Telemetry And Audit Event Contracts
 
-Telemetry should make important behavior reconstructable without leaking secrets
-or private data.
+Use this file for events needed to understand production behavior.
 
-## Correlation IDs
+Telemetry should help future agents, operators, and reviewers reconstruct what
+happened while respecting private data and reducing reliance on memory.
 
-Carry these IDs when relevant:
+## Event Types
+
+- trace span
+- metric
+- structured log
+- audit event
+- deployment event
+- health check
+
+## Common Correlation IDs
 
 - request id
-- user id
+- actor id
 - tenant id
-- agent run id
+- resource id
 - workflow id
-- LLM call id
-- tool proposal id
-- tool invocation id
-- approval id
-- state transition id
-- audit event id
+- deployment id
+- idempotency key
 
-## Event Registry
+## Registry
 
-| Event | Type | Required fields | Sensitive fields excluded | Purpose |
+| Event | Type | Core fields | Sensitive fields | Purpose |
 | --- | --- | --- | --- | --- |
-| `user_intent_received` | audit | user id, tenant id, intent id | raw secrets | record user request |
-| `llm_call_completed` | trace | model, call id, output variant | prompt secrets | reconstruct model boundary |
-| `policy_decision_recorded` | audit | decision, actor, resource, result | secret values | explain allow/deny |
-| `tool_invocation_recorded` | audit | tool, invocation id, result | raw credentials | reconstruct side effect |
-| `state_transition_applied` | audit | object id, from, to, event | private payloads | explain lifecycle |
+| `team_invitation_created` | audit | actor id, team id, invitation id | email address | reconstruct invitation lifecycle |
+| `workflow_step_failed` | log | workflow id, step, reason, retry count | payload contents | operate background work |
+| `deployment_completed` | audit | deployment id, version, environment, actor | secret values | reconstruct release history |
 
-## Rules
+## Guidance
 
-- log structured facts, not prompt dumps by default
-- never log secrets
-- redact sensitive content intentionally
-- audit high-risk state changes and side effects
-- traces should connect user intent, LLM calls, policy, tools, workflows, and persistence
+Prefer stable event names and structured fields. Record enough context to connect
+user intent, data changes, workflows, side effects, and deployment behavior.

@@ -33,22 +33,26 @@ copier copy "$SOURCE_DIR" "$CHECK_DIR" \
   --data project_description="Temporary generated project for template validation." \
   --data primary_domain="Template validation" \
   --data frontend="PureScript" \
+  --data backend="Haskell" \
+  --data workflow_runtime="Temporal" \
+  --data database="PostgreSQL" \
+  --data policy_engine="Application policy module" \
   --data cloud_target="Undecided"
 
 "$CHECK_DIR/scripts/doctor.sh"
 
 if ! grep -q 'frontend: PureScript' "$CHECK_DIR/docs/project-profile.md"; then
-  printf 'generated project did not preserve PureScript frontend choice\n' >&2
+  printf 'generated project is missing the PureScript frontend choice\n' >&2
   exit 1
 fi
 
-if ! grep -q '| Frontend | PureScript | PureScript |' "$CHECK_DIR/docs/architecture/stack-profile.md"; then
-  printf 'generated stack profile did not use PureScript as the frontend reference default\n' >&2
+if ! grep -q '| Frontend | PureScript |' "$CHECK_DIR/docs/architecture/stack-profile.md"; then
+  printf 'generated stack profile is missing PureScript as the frontend reference default\n' >&2
   exit 1
 fi
 
 if ! grep -q 'output/' "$CHECK_DIR/.gitignore"; then
-  printf 'generated PureScript project did not ignore compiler output\n' >&2
+  printf 'generated PureScript project is missing compiler output ignores\n' >&2
   exit 1
 fi
 

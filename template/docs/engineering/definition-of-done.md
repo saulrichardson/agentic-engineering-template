@@ -1,95 +1,73 @@
 # Definition Of Done
 
-A change is done only when the implementation, contracts, verification, and
-documentation match the risk of the change.
+Done means the goal is satisfied and the project has enough evidence to trust
+the result.
 
-## Baseline
+Use this definition with judgment. A typo fix needs little ceremony. A schema,
+security, deployment, or public behavior change needs stronger proof.
 
-Every completed change should satisfy:
+## Core Completion Criteria
 
-- the intended user or domain behavior is implemented
-- affected boundaries are identified
-- unrelated scope is left alone
-- implementation languages and tools follow the project profile, or a
-  substitution is recorded with its boundary and rationale
-- generated or temporary artifacts are not committed accidentally
-- verification has been run or the reason it could not run is stated
-- the final response clearly names the change and verification, with
-  assumptions, risk, and follow-up only when they add useful signal
+A change is done when:
 
-## Manual Verification
+- the requested outcome works in the current repository
+- the implementation fits the surrounding code and project profile
+- relevant tests, builds, checks, or inspections have been run
+- docs or ADRs are updated when future agents need the context
+- deployment, migration, or operational consequences are known
+- the final report states what changed and how it was verified
 
-A change is not done until the relevant inputs and outputs have been inspected
-against the actual goal.
+## Behavior
 
-For nontrivial changes, verify:
+For behavior changes, confirm:
 
-- what input or state existed before the change
-- what the change inferred
-- what behavior, data, or contract changed
-- what was intentionally preserved
-- what output or system state now results
-- whether the result is substantively correct, not merely syntactically valid
+- the main success path works
+- important edge cases are handled
+- errors are explicit and useful
+- public interfaces match callers or documented contracts
+- state and data changes are represented in the natural system layer
 
-Heuristics, generated tests, type checks, and conventions are useful signals.
-They are not substitutes for checking the specific case in front of the agent.
+## Verification
 
-## Boundary Checks
+Verification can include:
 
-When relevant, a completed change should also satisfy:
+- automated tests
+- type checks
+- lint or format checks
+- build commands
+- migration dry runs
+- local browser or CLI smoke checks
+- manual inspection of generated output
+- logs, traces, or screenshots
+- small reproducible examples
 
-- frontend state represents loading, failure, stale, unauthorized, and success states
-- API boundaries parse and validate typed requests
-- domain rules live in domain code, not scattered handlers or prompts
-- state transitions are explicit and invalid transitions are rejected
-- policy checks exist before authority-sensitive actions
-- durable facts are persisted with constraints where practical
-- workflows own long-running, retryable, or externally dependent work
-- side effects are controlled, idempotent where possible, and auditable
-- runtime-agent or LLM outputs are typed, validated, and treated as untrusted data
-- tool capabilities are narrow and registered in `docs/contracts/tool-registry.md`
-- retrieval respects authorization and source traceability
-- telemetry or audit events can reconstruct important behavior
+The best verification exercises the path that matters to the task.
 
-## Documentation Done
+## Documentation
 
-Update docs when a change modifies:
+Update documentation when the change creates durable knowledge:
 
-- architecture or stack choices
-- implementation language or toolchain choices
-- state machines
-- policy inputs or authorization behavior
-- runtime-agent or LLM schemas
-- tool capabilities
-- workflow events
-- telemetry events
-- database invariants
-- threat model assumptions
-- deployment or operational risk
+- new product behavior
+- new command or workflow
+- new dependency or stack choice
+- new data shape or migration rule
+- new deployment requirement
+- new security or operational assumption
+- new decision future agents may question
 
-Use ADRs for decisions future agents might reasonably question.
+Keep docs concise and close to the decision.
 
-## Test Done
+## Delivery
 
-Tests should prove the important behavior, not only the happy path.
+For deployment-facing changes, include:
 
-For high-risk and critical-risk changes, include failure or denial tests. For
-critical-risk changes, include a rollback, mitigation, approval, or compensation
-story before calling the work done.
+- build command
+- test command
+- required environment variables
+- migration or data step
+- deploy command or pipeline
+- smoke check
+- rollback or mitigation path
 
-## Substantive Correctness
-
-Verification should prove that the result satisfies the actual goal, not only
-that the implementation is internally consistent.
-
-A change can pass tests and still be wrong if:
-
-- the tests encode the wrong requirement
-- the output is plausible but not grounded in the input
-- the implementation preserves an outdated abstraction
-- authorization is checked in the wrong layer
-- a side effect happens in the wrong order
-- edge cases are ignored because the common case works
-
-Review the full path from input to durable consequence when the risk justifies
-it.
+When credentials or production access are required, record the exact handoff and
+the evidence already gathered.

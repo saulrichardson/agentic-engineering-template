@@ -1,44 +1,47 @@
-# Formal Methods Guidance
+# Deep Verification
 
-Formal methods are not ceremony. They are a tool for making high-risk invariants
-harder to misunderstand.
+Use deep verification when ordinary tests leave important uncertainty.
 
-Use them where the cost of ambiguity is high:
+This file covers property tests, model-based tests, state-machine tests,
+lightweight specs, model checking, and proof-oriented tools. The project can use
+any technique that clarifies the invariant and gives future agents better
+feedback.
 
-- permission lattices
-- workflow state machines
-- approval invariants
-- quota or accounting logic
-- ledger or payment invariants
-- retry and idempotency behavior
-- concurrent tool execution
-- document access guarantees
+## When To Reach For It
 
-## Default Use
+Deep verification is useful for:
 
-Start with ordinary typed domain code and tests. Add formal methods when a rule
-is important enough that examples are not convincing.
+- money movement
+- authorization and ownership
+- concurrency
+- idempotency
+- migrations that preserve invariants
+- workflow retries and compensation
+- scheduling
+- distributed state
+- data transformations with subtle edge cases
 
-Recommended roles:
+## Useful Techniques
 
-- Dafny for implementation-adjacent verified modules
-- TLA+ for distributed workflow, retry, approval, and concurrency models
-- Lean only when proof depth is justified by the domain
+- table-driven tests for known cases
+- property tests for broad input spaces
+- state-machine tests for lifecycle behavior
+- model-based tests for implementation/spec agreement
+- lightweight written specs for algorithms or protocols
+- TLA+, Alloy, or similar model checking for concurrent workflows
+- Dafny, Lean, Coq, or similar tools for proof-worthy invariants
 
-## Good Candidate Questions
+Choose the smallest technique that makes the risk easier to reason about.
 
-- Can this action ever execute without required approval?
-- Can duplicate callbacks produce duplicate side effects?
-- Can a denied policy path still reach a tool gateway?
-- Can a workflow finish in an impossible state?
-- Can concurrent events violate ownership or quota?
+## How To Document A Deep Check
 
-## Documentation Rule
+Record:
 
-If formal methods are introduced, add an ADR that explains:
+- invariant being protected
+- model or property being tested
+- command to run it
+- relationship between the model and production code
+- known limits of the check
+- owner for keeping it useful
 
-- the invariant being protected
-- why ordinary tests are not enough
-- where the spec lives
-- how the spec is checked
-- what implementation code is covered by the spec
+Place durable notes in the relevant contract, feature brief, or ADR.
