@@ -48,20 +48,39 @@ Describe the current system shape at the level future agents need to act.
 
 ## Operating Model
 
-Describe how the main workflows move through the system.
+Describe how the product turns intent into completed value.
 
 ```text
 intent
-  -> interface or entry point
-  -> product behavior
-  -> state or durable data
-  -> side effects
-  -> observable result
-  -> delivery or operation
+  -> context or input
+  -> work performed
+  -> verification
+  -> delivery or action
+  -> observable outcome
+  -> durable state, memory, or record
 ```
 
-Keep this section focused on the project-level model. Feature details belong in
-code, tests, and records when the reasoning should persist.
+Keep this section focused on the product-level model. Do not describe only
+screens, endpoints, tools, or implementation steps unless those are the actual
+product model.
+
+If the product requires a broad work environment, describe the kinds of access
+or execution surfaces it needs. Avoid turning that environment into an
+exhaustive tool list too early.
+
+## Capability Boundaries
+
+Document what the system is intended to do directly, what it prepares for a
+human or external system, and what is out of scope.
+
+- direct execution:
+- generated or staged work:
+- human-reviewed work:
+- external-system handoff:
+- intentionally unsupported work:
+
+When safety, approval, cost, security, or reversibility matters, describe the
+boundary without shrinking the intended capability.
 
 ## Constraints And Invariants
 

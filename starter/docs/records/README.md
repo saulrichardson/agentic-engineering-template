@@ -9,6 +9,12 @@ tradeoffs.
 
 Create a record when the reasoning matters more than the current edit.
 
+Create a record when the user corrects the project's abstraction, scope, product
+shape, or success standard. These corrections are durable project knowledge.
+Capture what the project was being incorrectly reduced to, what the user
+clarified it should be, what future work should preserve, what future agents
+should avoid, and what evidence or examples support the correction.
+
 Use short dated filenames:
 
 ```text

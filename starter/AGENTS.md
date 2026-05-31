@@ -63,6 +63,47 @@ Prefer coherent, forward-looking designs over preserving old structures by defau
 
 When issues arise, do not write code merely to get the system to run. Identify the root cause, validate the logic, and report meaningful options when the right fix depends on a consequential choice.
 
+### Preserve The Product Shape
+
+Before choosing an implementation approach, identify the kind of product or capability the user is trying to create.
+
+Do not prematurely reduce the goal into a familiar smaller pattern, such as a dashboard, chatbot, CRUD app, report, script, wrapper, workflow, or recommendation tool. Those may be implementation surfaces, but they are not necessarily the product.
+
+Ask what the system should make possible end to end:
+
+* What work should it accomplish?
+* Who or what does it act for?
+* What inputs, context, or environment does it need?
+* What does a completed unit of value look like?
+* What should it verify before the work counts as done?
+* What should persist so future work compounds?
+
+Choose implementation details only after preserving that intended product shape.
+
+### Capability Before Mechanism
+
+Start from desired capabilities and outcomes before naming tools, APIs, screens, commands, models, libraries, or workflows.
+
+A mechanism is useful only insofar as it helps the product do the intended work. Do not let the available mechanism define the ambition of the product unless the user has made that constraint explicit.
+
+Prefer capability statements like:
+
+* users can diagnose and resolve account issues end to end
+* operators can design, test, and launch interventions
+* teams can turn raw data into decisions and monitored actions
+* developers can safely change and verify production behavior
+* analysts can move from question to evidence to recommendation to measured result
+
+over mechanism-first statements like:
+
+* the app has a metrics API
+* the system has a ticket integration
+* the dashboard shows charts
+* the workflow sends alerts
+* the script generates a report
+
+After the capability is clear, choose the smallest coherent mechanism that proves it.
+
 ### Functional Programming Posture
 
 This project may not use functional programming languages by default, but agents should develop it from a functional programmer’s perspective where feasible. The goal is to reduce avoidable bugs, hidden state, brittle control flow, and frustrating side effects that often accumulate in traditional software development.
@@ -121,6 +162,15 @@ Prefer instructions that name the desired action directly. Start with the behavi
 
 Preserve existing terminology, labels, headings, structure, and conceptual framing unless the user asks to change them or they are the problem being solved. Treat the user's transformation language as instruction, not candidate artifact text, unless the user explicitly wants that wording used.
 
+When the user reacts by saying the work is conceptually off, do not continue polishing the current frame. Stop and identify the abstraction mismatch:
+
+* Did the work reduce the product to the wrong familiar category?
+* Did it optimize for artifacts instead of completed value?
+* Did it focus on mechanisms before capabilities?
+* Did it preserve the intended ambition and operating model?
+
+Restate the corrected product shape before continuing, then adjust the implementation and docs to match it.
+
 Fix the indicated problem before adjacent problems. Do not introduce unrelated structural, naming, tonal, or conceptual changes unless they are required to resolve the stated issue. If an adjacent change is necessary, say so before making it.
 
 For non-trivial revisions, make the delta apparent: what stays fixed and what changes. Afterward, describe the result in terms of the original concern, not as a generic changelog.
@@ -140,13 +190,14 @@ Use abstractions that fit the future direction of the system. Breaking changes a
 For meaningful work:
 
 1. Restate the goal, mode, and important assumptions.
-2. Inspect product intent, project approach, relevant records, and nearby source-of-truth artifacts.
-3. Determine where the behavior belongs and what evidence will prove it works.
-4. Compare reasonable approaches when the choice materially affects the system.
-5. Implement the smallest coherent version that makes the concept real.
-6. Verify the actual path through code, tests, data, UI, deployment, docs, logs, or sample outputs.
-7. Update `docs/product-intent.md`, `docs/approach.md`, or `docs/records/` when the work changes durable project understanding.
-8. Report what changed, what was verified, what remains uncertain, and any blocked checks.
+2. Identify the intended product shape, completed unit of value, and mechanisms that should not prematurely constrain it.
+3. Inspect product intent, project approach, relevant records, and nearby source-of-truth artifacts.
+4. Determine where the behavior belongs and what evidence will prove the completed value works.
+5. Compare reasonable approaches when the choice materially affects the system.
+6. Implement the smallest coherent version that makes the concept real.
+7. Verify the actual path through code, tests, data, UI, deployment, docs, logs, or sample outputs.
+8. Update `docs/product-intent.md`, `docs/approach.md`, or `docs/records/` when the work changes durable project understanding, especially when the user corrects the product framing, scope, or success standard.
+9. Report what changed, what was verified, what remains uncertain, and any blocked checks.
 
 ## Placement
 

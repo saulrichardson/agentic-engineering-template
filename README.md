@@ -7,6 +7,10 @@ The useful thing is the agent operating context under `starter/`. Copy that
 context into a project, make it local, and let it become the shared operating
 model for humans and coding agents working in that repository.
 
+The docs should preserve not only what the project does, but what kind of
+product it is trying to become, so future agents do not collapse an ambitious
+product direction into a smaller familiar implementation pattern.
+
 ## Core Idea
 
 Coding agents work best when the repository gives them a small amount of stable
