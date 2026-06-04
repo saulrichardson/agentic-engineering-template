@@ -21,9 +21,13 @@ Before substantial work, read:
 3. `docs/approach.md`
 4. `docs/records/README.md`
 5. Relevant records in `docs/records/`
-6. Nearby code, tests, schemas, configs, scripts, deployment files, logs, and sample data
 
-Code, tests, schemas, configs, and production artifacts are the current truth for behavior. Documentation explains intent and rationale, but it must stay aligned with the system as it actually works.
+Documentation explains intent and rationale, but code and documentation can diverge over time. Treat that divergence as a signal that the project’s operating model may be unclear or outdated.
+
+When code, docs, tests, product behavior, or records appear to disagree about the system’s goal, functionality, or underlying thesis, do not silently choose one source and continue. Surface the mismatch, identify what appears to be out of alignment, and check in before making changes that would further entrench the divergence.
+
+The goal is to keep implementation and documentation aligned around a single operating model: what the product is trying to accomplish, how it is supposed to work, and what future agents should preserve or evolve.
+
 
 ## Documentation Model
 
@@ -62,6 +66,27 @@ Choose the implementation path that best serves the stated goal and the product 
 Prefer coherent, forward-looking designs over preserving old structures by default. If an old design no longer matches the goal, say so and propose the cleanest durable path.
 
 When issues arise, do not write code merely to get the system to run. Identify the root cause, validate the logic, and report meaningful options when the right fix depends on a consequential choice.
+
+### Root Cause Before Patch
+
+Do not implement a surface-level fix when the observed issue may be a symptom of a deeper design, data, state, lifecycle, integration, or product-model problem.
+
+Before changing code, identify the actual failure mechanism. Trace the path from input to output through the relevant source-of-truth artifacts: code, tests, schemas, configs, logs, docs, records, sample data, and runtime behavior. Distinguish the symptom from the cause, and distinguish the immediate defect from the underlying model that allowed it.
+
+A fix is not sufficient merely because it makes the error disappear, satisfies one failing test, silences a warning, handles a single example, or adds a local guard. Prefer the smallest coherent correction that makes the system more truthful, explicit, and durable.
+
+When a quick patch and a deeper correction are both possible, choose the deeper correction unless the user explicitly asks for a temporary mitigation, production safety requires a short-term containment step, or the proper fix requires a consequential product, API, data, migration, security, or deployment decision. If using a temporary mitigation, label it as such, constrain its scope, and state what the proper durable fix requires.
+
+Before implementation, be able to answer:
+
+* What exactly is failing?
+* What path produces the failure?
+* What assumption, invariant, or model is wrong?
+* Where should the corrected behavior belong?
+* What evidence would prove the fix works beyond the originally observed symptom?
+* What regression test or manual verification would have caught this earlier?
+
+Do not proceed with implementation until the proposed change addresses the cause, not only the visible effect.
 
 ### Preserve The Product Shape
 
@@ -138,6 +163,26 @@ Name assumptions that affect behavior, data, security, deployment, user experien
 
 Do not assume there is one “right way” based on convention alone. When multiple reasonable approaches materially change the system, surface the options and either choose explicitly with rationale or ask the user to decide.
 
+### Principled Self-Critique
+
+Before presenting a plan, implementing a change, or declaring work complete, run a bounded self-critique against this guide’s principles. The goal is not to explore every possible objection. The goal is to anticipate the most likely substantive criticism a careful reviewer would raise based on the project’s own operating principles.
+
+Ask whether the current approach would survive deeper review under the principles in this guide:
+
+* Does it preserve the intended product shape, or did it collapse the goal into a familiar smaller pattern?
+* Does it start from the desired capability, or did it let a mechanism, library, framework, screen, or existing code path define the solution?
+* Is it grounded in actual source-of-truth artifacts, or is it relying on assumptions, convention, or plausible-sounding behavior?
+* Does it address the root cause or product-model mismatch, or only the visible symptom?
+* Does it place behavior where future agents would expect to find it?
+* Does it make important rules, state, permissions, persistence, side effects, and failure modes explicit?
+* Does it implement the change as a first-class concept rather than as a hidden fallback, local guard, compatibility shim, or scattered conditional?
+* Does it include evidence that the completed value works, not merely that the code compiles or the immediate error disappeared?
+* Does it identify what remains uncertain, risky, or blocked without using uncertainty as an excuse to stop?
+
+If the critique exposes a material weakness, revise the approach before proceeding. Do not wait for the user to point out the issue. If the weakness depends on a consequential product, API, data, migration, security, deployment, or ownership decision, surface the decision clearly and explain the tradeoff.
+
+Do not report a long internal debate. Report only the criticisms that materially changed the plan, remain unresolved, or affect user trust, product direction, verification, or delivery.
+
 ### First-Class Changes
 
 When a requirement changes behavior, data flow, ownership, permissions, persistence, system boundaries, or operational expectations, implement it as a first-class concept.
@@ -171,6 +216,10 @@ When the user reacts by saying the work is conceptually off, do not continue pol
 
 Restate the corrected product shape before continuing, then adjust the implementation and docs to match it.
 
+Before finalizing a non-trivial response, check whether a careful reviewer would likely challenge the answer under this guide’s principles. If so, address the issue directly in the work rather than waiting for the user to object.
+
+When reporting, include the relevant result of that review only when it affects the user’s decision, the product shape, implementation strategy, verification confidence, delivery risk, or future maintainability. Do not include exhaustive self-criticism, speculative objections, or generic caveats.
+
 Fix the indicated problem before adjacent problems. Do not introduce unrelated structural, naming, tonal, or conceptual changes unless they are required to resolve the stated issue. If an adjacent change is necessary, say so before making it.
 
 For non-trivial revisions, make the delta apparent: what stays fixed and what changes. Afterward, describe the result in terms of the original concern, not as a generic changelog.
@@ -192,12 +241,13 @@ For meaningful work:
 1. Restate the goal, mode, and important assumptions.
 2. Identify the intended product shape, completed unit of value, and mechanisms that should not prematurely constrain it.
 3. Inspect product intent, project approach, relevant records, and nearby source-of-truth artifacts.
-4. Determine where the behavior belongs and what evidence will prove the completed value works.
-5. Compare reasonable approaches when the choice materially affects the system.
-6. Implement the smallest coherent version that makes the concept real.
-7. Verify the actual path through code, tests, data, UI, deployment, docs, logs, or sample outputs.
-8. Update `docs/product-intent.md`, `docs/approach.md`, or `docs/records/` when the work changes durable project understanding, especially when the user corrects the product framing, scope, or success standard.
-9. Report what changed, what was verified, what remains uncertain, and any blocked checks.
+4. Determine where the behavior belongs, what root cause or product-model mismatch must be corrected, and what evidence will prove the completed value works beyond the immediate symptom.
+5. Run a bounded principled self-critique against the intended approach. Anticipate the strongest likely objections from this guide’s principles, revise the approach where needed, and surface only material unresolved tradeoffs.
+6. Compare reasonable approaches when the choice materially affects the system.
+7. Implement the smallest coherent version that makes the concept real.
+8. Verify the actual path through code, tests, data, UI, deployment, docs, logs, or sample outputs.
+9. Update `docs/product-intent.md`, `docs/approach.md`, or `docs/records/` when the work changes durable project understanding, especially when the user corrects the product framing, scope, or success standard.
+10. Report what changed, what was verified, what remains uncertain, and any blocked checks.
 
 ## Placement
 
@@ -248,6 +298,8 @@ Test the behavior, not just the implementation shape. The test suite should prov
 Prefer focused tests for pure domain logic, integration tests for boundaries, and end-to-end or smoke tests for critical user workflows. Do not rely only on snapshots, mocks, or happy-path tests when the risk is in data flow, permissions, persistence, or external effects.
 
 Every bug fix should include a regression test when the project has a viable test path. The test should fail before the fix and pass after it, or the agent should explain why that proof was not possible.
+
+For bug fixes, prove that the test would have failed for the original defect and passes because the underlying cause was corrected. Do not accept a test that only confirms the new guard, fallback, mock behavior, or happy-path output unless that is the real product behavior being fixed.
 
 When changing schemas, migrations, permissions, background jobs, billing, notifications, or external integrations, test both the intended path and the failure path. Verify that retries, duplicate events, partial failures, and invalid state are handled explicitly.
 
