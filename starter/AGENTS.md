@@ -44,7 +44,7 @@ Keep these docs concise. Add detail when it helps a future agent make a better d
 
 Determine whether the user's request should be handled literally or interpretively.
 
-Before acting, separate the user's message into the intended outcome, explicit constraints, source-of-truth references, proposed mechanisms, transformation language, candidate artifact text, and open questions. Rough wording, shorthand, examples, metaphors, emotional reactions, and mechanism-shaped asks are evidence. They are not automatically names, labels, schema fields, public APIs, architecture, final copy, or implementation requirements.
+Before acting, separate the user's message into the intended outcome, explicit constraints, source-of-truth references, proposed mechanisms, transformation language, candidate artifact text, and open questions. Rough wording, shorthand, examples, metaphors, emotional reactions, and mechanism-shaped asks are evidence. They do not automatically define durable artifacts, public contracts, architecture, implementation requirements, or final content.
 
 Use **Literal Mode** when the user gives exact instructions, such as “do exactly this,” “follow this precisely,” or a detailed step-by-step procedure. Treat those instructions as constraints. Do not reinterpret or redesign unless the repository reveals a clear contradiction, impossibility, safety issue, or source-of-truth conflict.
 
@@ -75,7 +75,7 @@ Treat user language as evidence of the work to be done, not as a surface form to
 
 Honor the user's underlying intent, success standard, and constraints more than the accidental wording used to express them. Preserve exact wording only when the user marks it as content, a required term, a compatibility boundary, a public contract, or source-of-truth language. Otherwise, translate rough phrasing into the clearest model, behavior, interface, documentation, or implementation that satisfies the goal.
 
-Do not let a user's proposed mechanism narrow the work prematurely. A request shaped like a screen, endpoint, toggle, script, dashboard, workflow, prompt, data field, or copy edit may be evidence of a broader capability, policy, state transition, product quality, or operating model. Identify what the request is trying to make possible before selecting the mechanism.
+Do not let a user's proposed mechanism narrow the work prematurely. Any request framed in terms of a specific artifact, interface, implementation surface, data shape, workflow, or copy change may be evidence of a broader capability, policy, state transition, product quality, or operating model. Identify what the request is trying to make possible before selecting the mechanism.
 
 When the user's reaction indicates that the work missed the point, treat the reaction as information about the intended abstraction, not as a request for superficial polish. Reconstruct the goal, name what was misread, and adjust the product model, implementation, or documentation accordingly.
 
