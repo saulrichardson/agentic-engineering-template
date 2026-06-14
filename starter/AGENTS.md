@@ -44,6 +44,8 @@ Keep these docs concise. Add detail when it helps a future agent make a better d
 
 Determine whether the user's request should be handled literally or interpretively.
 
+Before acting, separate the user's message into the intended outcome, explicit constraints, source-of-truth references, proposed mechanisms, transformation language, candidate artifact text, and open questions. Rough wording, shorthand, examples, metaphors, emotional reactions, and mechanism-shaped asks are evidence. They are not automatically names, labels, schema fields, public APIs, architecture, final copy, or implementation requirements.
+
 Use **Literal Mode** when the user gives exact instructions, such as “do exactly this,” “follow this precisely,” or a detailed step-by-step procedure. Treat those instructions as constraints. Do not reinterpret or redesign unless the repository reveals a clear contradiction, impossibility, safety issue, or source-of-truth conflict.
 
 Use **Interpretive Mode** when the user gives a high-level goal, incomplete direction, or suggestive language. Translate the goal into a real technical approach. Make ordinary implementation decisions directly: choose internal names, shape modules, add tests, update docs, refactor nearby code, select fitting dependencies, and run the checks needed to prove the work.
@@ -53,7 +55,7 @@ For substantial work, briefly state which mode you are using and why. For high-j
 * what role the result should play after the change
 * what remains fixed
 * what changes
-* which parts of the user's phrasing are instructions rather than artifact content
+* which parts of the user's message are intent, constraints, mechanism suggestions, or artifact content
 
 Ask for user input when a choice would materially affect product direction, public API, persistence, security, ownership, deployment, cost, data migration, or another hard-to-reverse commitment. Otherwise, continue with reversible assumptions and make those assumptions visible.
 
@@ -66,6 +68,16 @@ Choose the implementation path that best serves the stated goal and the product 
 Prefer coherent, forward-looking designs over preserving old structures by default. If an old design no longer matches the goal, say so and propose the cleanest durable path.
 
 When issues arise, do not write code merely to get the system to run. Identify the root cause, validate the logic, and report meaningful options when the right fix depends on a consequential choice.
+
+### Intent Before Surface Form
+
+Treat user language as evidence of the work to be done, not as a surface form to preserve mechanically. The user's words may contain goals, constraints, examples, emotions, references, implementation suggestions, desired tone, artifact text, or guesses about the mechanism. Separate those layers before deciding what to build, edit, rename, remove, preserve, or verify.
+
+Honor the user's underlying intent, success standard, and constraints more than the accidental wording used to express them. Preserve exact wording only when the user marks it as content, a required term, a compatibility boundary, a public contract, or source-of-truth language. Otherwise, translate rough phrasing into the clearest model, behavior, interface, documentation, or implementation that satisfies the goal.
+
+Do not let a user's proposed mechanism narrow the work prematurely. A request shaped like a screen, endpoint, toggle, script, dashboard, workflow, prompt, data field, or copy edit may be evidence of a broader capability, policy, state transition, product quality, or operating model. Identify what the request is trying to make possible before selecting the mechanism.
+
+When the user's reaction indicates that the work missed the point, treat the reaction as information about the intended abstraction, not as a request for superficial polish. Reconstruct the goal, name what was misread, and adjust the product model, implementation, or documentation accordingly.
 
 ### Root Cause Before Patch
 
@@ -169,6 +181,7 @@ Before presenting a plan, implementing a change, or declaring work complete, run
 
 Ask whether the current approach would survive deeper review under the principles in this guide:
 
+* Did it preserve the user's intended outcome and constraints, or did it overfit to wording, examples, artifact shapes, or proposed mechanisms?
 * Does it preserve the intended product shape, or did it collapse the goal into a familiar smaller pattern?
 * Does it start from the desired capability, or did it let a mechanism, library, framework, screen, or existing code path define the solution?
 * Is it grounded in actual source-of-truth artifacts, or is it relying on assumptions, convention, or plausible-sounding behavior?
@@ -205,7 +218,7 @@ For non-trivial work, summarize the goal and important assumptions before commit
 
 Prefer instructions that name the desired action directly. Start with the behavior agents should perform, the decision rule they should apply, or the default path they should take. Add exceptions only when they materially change that path or protect an important constraint. A good guide makes the next constructive step obvious.
 
-Preserve existing terminology, labels, headings, structure, and conceptual framing unless the user asks to change them or they are the problem being solved. Treat the user's transformation language as instruction, not candidate artifact text, unless the user explicitly wants that wording used.
+Preserve existing terminology, labels, headings, structure, and conceptual framing unless the user asks to change them or they are the problem being solved. When revising or drafting, distinguish instruction language from artifact text. Transformation language, taste descriptions, rough labels, and provisional mechanisms should guide the result without being copied unless the user explicitly wants that wording used.
 
 When the user reacts by saying the work is conceptually off, do not continue polishing the current frame. Stop and identify the abstraction mismatch:
 
@@ -238,7 +251,7 @@ Use abstractions that fit the future direction of the system. Breaking changes a
 
 For meaningful work:
 
-1. Restate the goal, mode, and important assumptions.
+1. Restate the goal, mode, important assumptions, and which parts of the user's message are constraints versus interpretive evidence.
 2. Identify the intended product shape, completed unit of value, and mechanisms that should not prematurely constrain it.
 3. Inspect product intent, project approach, relevant records, and nearby source-of-truth artifacts.
 4. Determine where the behavior belongs, what root cause or product-model mismatch must be corrected, and what evidence will prove the completed value works beyond the immediate symptom.
@@ -323,7 +336,7 @@ Update `docs/product-intent.md` when user goals, product direction, outcomes, or
 
 Update `docs/approach.md` when the current stack, architecture, operating model, constraints, verification path, or delivery model changes.
 
-Add a record in `docs/records/` when future agents should inherit the reason behind a decision, caveat, risk, lesson, invariant, stack choice, or operating note.
+Add a record in `docs/records/` when future agents should inherit the reason behind a decision, caveat, risk, lesson, invariant, stack choice, operating note, or corrected interpretation of user intent.
 
 Keep documentation direct and current. The best docs help the next agent act with confidence.
 
@@ -334,6 +347,7 @@ Do not optimize for:
 * backward compatibility unless it is explicitly required
 * shortest possible code or smallest possible diff
 * blind adherence to generic best practices
+* mechanically preserving rough phrasing when it conflicts with the user's intended outcome
 * preserving legacy architecture when it no longer serves the goal
 * getting code to run without understanding why it works
 * plausible-looking output that has not been checked against the real input and execution path
