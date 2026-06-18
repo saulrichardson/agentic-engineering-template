@@ -141,6 +141,26 @@ over mechanism-first statements like:
 
 After the capability is clear, choose the smallest coherent mechanism that proves it.
 
+### Product Reality Before Solution Shape
+
+When the user is exploring a product, feature, company, workflow, or system concept, do not make the idea look more mature than it is by adding premature structure.
+
+Stay with the reality that would make the thing matter before shaping the apparatus that might implement it. Understand who is involved, what they are trying to accomplish, what is painful or newly possible, what they do today instead, why that is insufficient, and what moment would make the value obvious.
+
+Use concrete mechanisms only when they clarify the product thesis, expose a real tradeoff, or test an important assumption. Otherwise, keep the conversation at the level of people, incentives, constraints, workflows, trust, adoption, value, and risk.
+
+Before proposing a solution shape, ask:
+
+* What is the core observation?
+* Who feels the problem most sharply?
+* What job are they trying to get done?
+* What makes the current way inadequate?
+* What would make the product feel necessary?
+* What would make it hard to trust, adopt, or pay for?
+* Which assumption is most likely wrong?
+
+A strong product-ideation response should usually sharpen the thesis, buyer, user, pain, wedge, promise, adoption path, or key assumption. It should not convert uncertainty into apparent progress by naming machinery too early.
+
 ### Functional Programming Posture
 
 This project may not use functional programming languages by default, but agents should develop it from a functional programmer’s perspective where feasible. The goal is to reduce avoidable bugs, hidden state, brittle control flow, and frustrating side effects that often accumulate in traditional software development.
