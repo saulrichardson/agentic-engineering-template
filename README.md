@@ -30,6 +30,10 @@ docs/approach.md       current project approach
 docs/records/          durable project memory
 ```
 
+This repository can also carry optional skills under `skills/`. Skills are not
+part of the default copied project context. Use them when a project needs a
+specialized agent behavior beyond the general operating guide.
+
 ## How To Use It
 
 Copy only the agent operating context into a new or existing project:
@@ -50,6 +54,29 @@ product, architecture, and working model become clearer.
 The copied docs are meant to be read and updated by coding agents as they work.
 They should help agents act with initiative while staying grounded in the
 project's actual goals, code, decisions, and constraints.
+
+## Optional Skills
+
+Use `skills/` for compact Codex skills that teach agents a specialized
+engineering posture.
+
+Current skills:
+
+```text
+skills/build-agentic-systems/
+```
+
+`build-agentic-systems` is for projects that build LLM agents, tool-using
+agents, subagents, agent runtimes, workflow agents, autonomous coding agents,
+or systems where models choose actions. It communicates the core philosophy:
+
+```text
+The LLM owns strategy.
+The runtime owns semantics.
+```
+
+Keep skills small. Start with a single `SKILL.md`; add references, scripts, or
+assets only when repeated use proves that the extra structure helps.
 
 ## What To Keep
 
