@@ -57,7 +57,7 @@ project's actual goals, code, decisions, and constraints.
 
 ## Optional Skills
 
-Use `skills/` for compact Codex skills that teach agents a specialized
+Use `skills/` for compact skill files that teach agents a specialized
 engineering posture.
 
 Current skills:
