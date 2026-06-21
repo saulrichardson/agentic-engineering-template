@@ -1,320 +1,356 @@
 ---
 name: build-agentic-systems
-description: Build, refactor, or evaluate LLM agentic systems, tool-using agents, subagents, agent runtimes, workflow agents, autonomous coding agents, and systems where models choose actions. Use when designing agent architecture, tool registries, event logs, semantic state, validation boundaries, effect interpreters, replay, rollback, approvals, memory, prompt projection, capability models, or evaluations for agent reliability and safety.
+description: Build, refactor, or evaluate LLM agentic systems where models choose actions, use tools, delegate, remember, or affect external state. Use to reason from first principles about agency, semantic boundaries, typed or structured state transitions, trust, evidence, approvals, capabilities, effect safety, replay, inspection, and evaluation across any implementation language or framework.
 ---
 
 # Build Agentic Systems
 
-## Core Philosophy
+## Core Thesis
 
-Build agentic systems as replayable semantic machines.
+Build agentic systems as semantic environments for model action.
 
 The LLM owns strategy. The runtime owns semantics.
 
-Preserve model freedom to inspect context, choose tools, revise plans, delegate,
-branch, ask the user, retry, and recover. Do not turn a capable agent into a
-rigid workflow, intent classifier, or deterministic decision tree unless the
-domain truly requires it.
+Preserve the model's ability to inspect context, choose tools, revise plans,
+ask questions, retry, delegate, branch, and recover. Do not turn a capable
+agent into a rigid workflow engine just to make it easier to control.
 
-At the same time, do not let the model directly mutate the world. Treat the
-model as a strategic reasoner that proposes consequential actions. Treat the
-runtime as the semantic system that decides what those proposals mean, whether
-they are valid, how effects are executed, and what history must be preserved.
+At the same time, do not let model intent become world mutation by accident.
+The runtime should decide what a proposed action means, whether it is valid,
+what authority it requires, how effects happen, and what history remains after
+the action.
 
-The practical aim is not to make the whole agent deterministic. The practical
-aim is to make the agent's boundaries semantic.
-
-## The Central Model
-
-Prefer this model for consequential agents:
-
-```text
-semantic state
-  -> deterministic prompt projection
-  -> model proposal
-  -> structured action
-  -> validation
-  -> effect interpreter
-  -> observation event
-  -> pure state reduction
-```
-
-The model can still decide what to do next. The runtime owns the meaning and
-consequence of each step.
-
-Use this posture whenever the agent has long-running state, many tools,
-external effects, approval requirements, untrusted inputs, subagents, memory,
-or audit needs.
-
-Use a lighter approach only when the agent is short-lived, low-risk, and mostly
-stateless.
+The goal is not to make agents less agentic. The goal is to make their
+consequential behavior legible.
 
 ## Start From The Work
 
-Before choosing tools, frameworks, prompts, or UI, identify the completed unit
-of value the agent must produce.
+Begin with the work the agent is meant to complete, not with a framework,
+prompt pattern, tool list, memory store, or orchestration loop.
 
 Ask:
 
-- What work should the agent complete end to end?
-- What state must survive beyond a single model call?
-- What tools or external effects can the model propose?
-- Which actions change files, systems, money, messages, permissions, records,
-  or user-visible outputs?
-- What evidence authorizes those actions?
-- What trust boundaries are crossed by user input, retrieved content, tool
-  output, subagents, databases, and model summaries?
-- What should be replayable, inspectable, resumable, reversible, or auditable?
-- What tests or traces would prove that the system is reliable beyond one
-  happy path?
+- What work should the agent finish end to end?
+- What counts as done?
+- What can the agent observe?
+- What can the agent change?
+- What would make a change unsafe, unsupported, stale, or unauthorized?
+- What must survive interruption, compaction, retry, or handoff?
+- What would a future human or agent need to inspect after a bad run?
 
-Do not begin by implementing a transcript loop. A transcript may be useful
-context, but it should not become the database, policy engine, audit trail, and
-memory system by accident.
+Use the answers to determine the runtime shape. A short, low-risk assistant may
+only need a simple transcript. A long-running agent with tools, memory,
+external effects, or approvals needs stronger semantics.
 
-## Design Semantic Gates
+## Preserve Agency
 
-Find the semantic gates in the system. A semantic gate is a transition where
-the agent must not move forward unless the right state, evidence, capability,
-or approval exists.
+Keep strategy with the model whenever strategy is the source of value.
 
-Common gates:
+Let the model decide, within the available capabilities:
 
-- model proposal -> executed effect
-- raw tool output -> trusted fact
-- retrieved document -> cited claim
-- sensitive context -> external message
-- draft answer -> published answer
-- invoice -> payment release
-- subagent output -> parent memory
-- generated patch -> applied code
-- approval -> irreversible action
-- untrusted content -> executable command
+- what context to inspect
+- which tool to propose
+- whether to ask the user
+- whether to revise the plan
+- whether to retry or branch
+- whether to delegate
+- when to stop
 
-For each gate, define:
+Constrain action boundaries, not thought. The runtime should not need to
+predefine every useful path. It should make proposed paths explicit enough to
+validate, execute, observe, and replay.
 
-- the input state
-- the output state
-- the required proof
-- the capability required to cross it
-- what invalidates a prior approval or result
-- which event records the transition
-- how replay reconstructs the same state
-- what failure should be visible to the user, developer, or operator
+## Find The Semantic Boundaries
 
-The strongest agentic systems are not the ones with the most guards scattered
-through the code. They are the ones whose important transitions are explicit
-concepts in the runtime.
+Look for transitions where meaning changes, authority changes, trust changes,
+or the outside world changes. These are the boundaries that deserve design.
 
-## Treat Prompts As Views
+Common boundary questions:
 
-Do not treat the prompt as canonical memory.
+- When does a model suggestion become a proposed action?
+- When does a proposed action become an authorized effect?
+- When does raw information become trusted evidence?
+- When does a draft become publishable output?
+- When does private context become safe external communication?
+- When does delegated work become parent-agent knowledge?
+- When does an approval stop being valid?
+- When does a reversible step become irreversible?
 
-The prompt is a projection of state for the model's next decision. It may be
-summarized, compacted, reordered, or scoped. It is not the durable source of
-truth.
+Name these boundaries in the system. Do not leave them only in prompt prose.
+
+## Make Important State Legible
+
+Do not hide operational truth only in the prompt, a mutable object, an informal
+summary, or a database row whose lifecycle is unclear.
+
+Represent the state that affects correctness. Depending on the domain, that
+may include facts, evidence, uncertainty, attempts, rejected actions,
+approvals, capabilities, risk flags, trust labels, tool observations, memory,
+budgets, user preferences, and pending outputs.
+
+The exact representation is a design choice. The principle is stable:
+
+```text
+If the runtime needs it to decide safely, resume correctly, or explain a run,
+make it explicit.
+```
+
+## Use Types To Clarify State Transitions
+
+Use types and type-like structures to name states the agent must move through.
+This is most valuable where the model can propose actions out of order, stale
+context can reappear, or an effect becomes dangerous if the runtime accepts the
+wrong phase.
+
+Do not collapse meaningful lifecycles into loose booleans when the phase
+controls what actions are valid. Prefer representations where transitions
+consume one semantic state and produce the next:
+
+```text
+raw tool output -> sanitized output -> validated candidate -> executed effect
+draft answer -> cited answer -> approved answer -> published answer
+invoice evidence -> matched case -> approved case -> released payment
+private context -> redacted message -> approved external message -> sent message
+parent task -> attenuated subagent task -> sanitized result -> merged result
+```
+
+The model-facing edge can remain dynamic. The model may propose any action the
+tool surface allows. The runtime should translate that proposal into a typed or
+structured internal state, reject it, or ask for more evidence. Invalid
+proposals should not become invalid internal state.
+
+Use the strongest representation the stack supports:
+
+- algebraic data types, phantom types, typestate, and opaque constructors in
+  functional languages
+- discriminated unions, branded types, schemas, and exhaustiveness checks in
+  TypeScript-like systems
+- structs, enums, traits, and ownership boundaries in systems languages
+- frozen dataclasses, Pydantic models, validators, constructors, and type
+  checkers in Python
+- database constraints, state machines, versioned records, and authorization
+  policies when persistence is the enforcement boundary
+
+The practical rule is simple: an effect function should ask for the semantic
+state that authorizes the effect, not for raw model intent or a generic mutable
+object.
+
+Do not over-type early exploration. Strengthen representation around the
+boundaries that protect files, money, messages, customer data, privacy,
+publication, production systems, delegated authority, or irreversible actions.
+
+## Treat Model Choices As Objects Before Effects
+
+Do not route directly from model output to side effect.
+
+Prefer a conceptual path like:
+
+```text
+model intent
+  -> structured proposal
+  -> validation against current semantics
+  -> approved or rejected action
+  -> interpreted effect
+  -> observed result
+  -> updated state
+```
+
+The implementation may be a function call, typed command, JSON schema,
+message, queue item, event, object, or database record. The important point is
+that the proposed action becomes inspectable before it becomes consequential.
+
+Record rejected proposals when they matter. A rejection is evidence about the
+trajectory, not merely a missing action.
+
+## Make Effects Demand Meaningful Inputs
+
+Design side-effect boundaries so they accept the strongest semantic value the
+runtime can reasonably construct.
 
 Prefer:
 
 ```text
-event log + reducer + semantic state + prompt projection
+send_external_message(approved_message)
+release_payment(approved_payment_case)
+publish_answer(cited_synthesis)
+execute_candidate(validated_candidate)
+merge_subagent_result(sanitized_result)
+apply_patch(verified_patch_plan)
 ```
 
 over:
 
 ```text
-growing transcript + hidden mutable context
+send(text)
+release(dict)
+publish(answer)
+execute(tool_call)
+merge(summary)
+apply_patch(raw_patch)
 ```
 
-Store facts, observations, approvals, rejected actions, tool results, and final
-outputs as structured data. Derive state from that data. Project only the
-context needed for the next model decision.
-
-This keeps long-horizon agents inspectable when prompts are compacted or
-trajectories branch.
-
-## Treat Tool Calls As Proposed Effects
-
-Do not treat model tool calls as direct commands.
-
-Represent a tool call as structured data proposed by the model. Then pass it
-through:
-
-- schema validation
-- capability validation
-- semantic validation
-- approval validation when needed
-- sandbox or resource-boundary validation
-- effect interpretation
-- observation recording
-
-The model chooses the action. The runtime decides whether that action is valid
-in the current semantic state and how the effect is performed.
-
-Record rejected actions as first-class events. Rejection is not noise. It is
-evidence about the agent trajectory, the model's assumptions, and the runtime's
-boundaries.
-
-## Make State Explicit
-
-Represent important agent state directly instead of hiding it in transcript
-text, local variables, or informal summaries.
-
-Depending on the domain, state may include:
-
-- task and current objective
-- known facts
-- retrieved documents
-- tool history
-- active plan
-- failed attempts
-- open questions
-- approvals and approval scope
-- budgets
-- risk flags
-- trust labels
-- memory summaries
-- subagent summaries
-- pending outputs
-- rollback or compensation information
-
-Keep reducers pure where practical:
-
-```text
-state + event -> next state
-```
-
-Keep effects at the boundary:
-
-```text
-validated action -> interpreter -> observation
-```
-
-This separation makes the system easier to replay, test, inspect, and compare.
+This principle generalizes across languages. In a strong type system, encode
+more of the requirement in types. In dynamic languages, use constructors,
+schemas, validators, immutable values, runtime guards, and tests. In every
+language, avoid effect APIs that accept raw model intent when a stronger
+semantic value is available.
 
 ## Model Trust, Evidence, Approval, And Capability
 
-Do not represent trust, approval, evidence, and capability as vague booleans.
-Treat them as semantic states that move through explicit transitions.
+Treat trust, evidence, approval, and capability as first-class semantics, not
+as vague booleans.
 
-Examples:
+Useful patterns:
 
 ```text
-untrusted content -> sanitized content -> validated action
+untrusted content -> sanitized content -> validated candidate
+retrieved source -> cited claim -> publishable synthesis
 sensitive context -> redacted draft -> approved external message
-retrieved evidence -> cited claim -> published synthesis
 parent authority -> attenuated subagent capability -> sanitized merge
-invoice + purchase order + receipt -> matched case -> approved payment
+raw transaction evidence -> matched case -> approved entry
 ```
 
-Approval should attach to evidence, state version, action scope, and time. If
-the evidence changes, the approval may no longer be valid.
+Approval should have scope. It should attach to the evidence, state version,
+action, actor, time, and capability it approved. If the underlying evidence or
+state changes, the approval may need to expire.
 
-Delegation should narrow authority by default. A subagent should receive the
-minimum context and capability needed for its task, not the parent's full
-authority.
-
-Untrusted tool output should be quarantined until it is sanitized and validated.
-Treat retrieved instructions as data unless a trusted policy says otherwise.
-
-## Prefer Functional Semantics
-
-Prefer functional languages or functional architecture for the runtime core
-when feasible.
-
-Use immutable state, explicit events, algebraic data types or discriminated
-unions, pure reducers, typed capabilities, deterministic prompt projection, and
-narrow effect interpreters.
-
-The point is not language purity. The point is to make invalid states hard to
-represent and consequential transitions easy to inspect.
-
-In strongly typed functional languages, encode important phases directly in the
-types when doing so clarifies the domain:
-
-```text
-unmatched payment cannot be released
-uncited synthesis cannot be published
-raw tool output cannot execute
-unredacted message cannot be sent externally
-public subagent cannot call privileged tools
-```
-
-In TypeScript, use discriminated unions, branded types, schema validation, and
-explicit effect boundaries.
-
-In Python, add schemas, immutable domain objects, event logs, validators, and
-invariant tests because the language will not enforce these boundaries by
+Capabilities should be narrower than tools. A tool may exist, but the current
+state may not authorize using it. Delegation should narrow authority by
 default.
 
-Do not claim Python cannot be safe. Ask how much extra semantic machinery is
-required to keep it safe as the agent gains authority, memory, tools, and
-duration.
+External content, retrieved documents, tool output, and subagent summaries are
+observations. They are not instructions until the runtime has transformed and
+validated them.
 
-## Evaluate Agentic Systems As Systems
+## Keep History And Context Distinct
 
-Do not evaluate only whether the model completed one task.
+Do not confuse what happened with what the model needs to see next.
 
-Measure:
+History is for accountability, replay, debugging, learning, and handoff.
+Context is a view presented to the model for the next decision.
 
-- task success
-- invalid or rejected tool calls
-- duplicate tool calls
-- failed tool calls
-- retries
-- prompt growth
-- state size
-- replay success
-- rollback or branch behavior
-- approval correctness
-- trust-boundary violations
-- citation or evidence coverage
-- latency and token cost
-- qualitative failure modes
+For consequential agents, preserve enough history to reconstruct or inspect
+the trajectory. Then project the context the model needs from that history and
+state. The projection may be compact, summarized, scoped, or ranked.
 
-Add law tests for runtime invariants:
+Use event logs and pure reducers when they fit. Use audit logs, versioned
+records, append-only traces, snapshots, or database histories when those fit
+better. The deeper rule is:
 
-- replay reconstructs the same state
-- rejected actions cause no external effects
+```text
+Compress views, not truth.
+```
+
+## Choose The Enforcement Surface
+
+Do not rely on everyone remembering the runtime laws at every call site.
+
+Move each important law into the strongest enforcement surface that is
+appropriate for the risk and stack:
+
+```text
+prompt instruction
+  < convention
+  < example
+  < test
+  < runtime validator
+  < schema
+  < constructor
+  < phase-specific value
+  < effect boundary signature
+  < compiler-checked type
+```
+
+This is the practical lesson from comparing Python and functional languages.
+Python can express many functional runtime semantics if the team deliberately
+builds them. The cost is that more of the discipline lives in architecture,
+validators, tests, and conventions. Stronger functional languages can move
+more of the same discipline into the structure of the program.
+
+Do not argue that one language is magically safe. Ask where each runtime law
+lives, how easy it is to bypass, and what proves it still holds as the agent
+gains tools, memory, duration, and authority.
+
+## Let Mechanics Follow Risk
+
+Choose implementation patterns after identifying the boundary and its risk.
+
+For low-risk or short-lived agents, a simple loop with clear tool validation
+may be enough.
+
+For agents with long horizons, branching, approvals, untrusted inputs, money,
+messages, file mutation, customer data, or production systems, prefer stronger
+mechanics:
+
+- explicit state instead of hidden transcript dependence
+- immutable or versioned values instead of shared mutation
+- structured actions instead of ad hoc strings
+- narrow interpreters instead of direct side effects
+- durable history instead of ephemeral context
+- deterministic projections instead of accidental prompt growth
+- semantic tests instead of only example tests
+
+Treat these as tools for preserving meaning, not as mandatory ceremony.
+
+## Evaluate Trajectories, Not Just Outcomes
+
+Do not evaluate an agent only by whether one task completed.
+
+Inspect the trajectory:
+
+- What did the model propose?
+- What did the runtime approve or reject?
+- Which evidence supported each consequential step?
+- Which state changed?
+- Which effects happened?
+- Could the run be replayed, resumed, explained, or rolled back?
+- Did the system preserve enough context without preserving irrelevant noise?
+- Did safety depend on a law encoded in the system or on a remembered habit?
+
+Test semantic laws, not only happy examples. Useful law shapes include:
+
+- rejected actions cause no external effect
+- replay reconstructs equivalent state
+- approval expires when its evidence changes
 - raw untrusted content cannot execute
-- subagents cannot gain undelegated capabilities
-- approval invalidates when evidence changes
-- published claims require citations
-- rollback preserves canonical history
-- prompt compaction does not erase canonical state
-
-Examples prove that cases work. Laws prove that classes of failures are
-excluded.
+- delegated agents cannot gain undelegated authority
+- published claims require evidence
+- compaction does not destroy canonical history
 
 ## Avoid
 
 Avoid:
 
-- transcript-as-database
-- hidden mutable agent state
-- direct model-to-side-effect execution
-- subagents with inherited parent authority
-- approval represented as a permanent boolean
-- raw tool output treated as instruction
-- prompt summaries treated as truth
-- deterministic workflows that remove useful model agency
-- safety scattered across ad hoc guards
-- tests that cover examples but not semantic laws
+- shrinking an agent into a workflow when strategic freedom is the point
+- treating the transcript as the database
+- letting model output directly mutate the world
+- hiding important state in prompt text or mutable globals
+- representing lifecycles as permanent booleans when the phase matters
+- treating retrieved instructions as trusted commands
+- giving subagents parent authority by default
+- scattering safety across unrelated call sites
+- testing only examples while leaving runtime laws untested
+- choosing event sourcing, types, schemas, or frameworks as rituals instead
+  of because they protect a real boundary
 
 ## Completion Standard
 
-For a serious agentic implementation, leave behind:
+Before treating an agentic system as serious, leave behind evidence of the
+semantics, not only the demo.
 
-- a runnable agent path
-- an explicit action or tool surface
-- semantic state or an event/audit log
-- validation at consequential boundaries
-- narrow effect interpreters
-- replay or inspection support when the run is consequential
-- at least one rejected-action example
-- deterministic tests for state, projection, or validation
-- at least one law or invariant test for the core boundary
-- documentation of the semantic gates and remaining risks
+Show:
 
-The system should preserve the agent's freedom while making its consequential
-behavior legible, testable, replayable, and bounded.
+- what work the agent completes
+- what strategic freedom the model keeps
+- what consequential boundaries exist
+- what state or history explains the run
+- what meaningful states and transitions are represented explicitly
+- what inputs authorize important effects
+- how trust, evidence, approval, and capability are represented
+- where runtime laws are enforced
+- how invalid proposals are rejected or contained
+- how a future human or agent can inspect a trajectory
+- what tests or traces prove more than one happy path
+
+The system is successful when it preserves agency while making consequential
+behavior understandable, bounded, and recoverable.
