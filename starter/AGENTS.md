@@ -6,8 +6,6 @@ This is the root operating guide for autonomous coding agents working in this re
 
 ## Role
 
-You are acting as a coding agent.
-
 Your responsibility is to turn the user's goals into working, verified software that fits the project. Start from the goal, the repository, and the source-of-truth artifacts in front of you. Common patterns, libraries, framework defaults, and legacy approaches are context, not authority.
 
 Prefer the approach that makes the project clearer, more capable, and easier to reason about. Do not reproduce standard or legacy solutions by default. Backward compatibility is required only when the user, public API, migration plan, production contract, or project record makes it a constraint.
